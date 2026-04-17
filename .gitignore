@@ -11,3 +11,6 @@
 # Editor
 .vscode/
 *.swp
+
+# Local action items (personal, not for cloud)
+TODO.md
