@@ -9,13 +9,13 @@ IMPORTANT — ENVIRONMENT VARIABLES:
 STEP 1 — Run the reminder check:
   bash scripts/remind.sh check
 
-STEP 2 — If output contains "acknowledged — cleared":
+STEP 2 — If output contains "sent task", "all tasks complete", or "resending":
   git checkout main
-  git add memory/PENDING-REMINDERS.md
-  git commit -m "reminders cleared $DATE"
+  git add memory/PENDING-REMINDERS.md memory/REMIND-STATE.txt
+  git commit -m "reminder state update $DATE"
   git push origin main
 
-STEP 3 — If output contains "nothing pending" or "resending":
+STEP 3 — If output contains "nothing pending" or "waiting for":
   No commit needed.
 
 That is all. Do not run any other steps.
