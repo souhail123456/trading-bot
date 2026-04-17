@@ -26,11 +26,13 @@ tg_send() {
   [[ -z "${TELEGRAM_BOT_TOKEN:-}" || -z "${TELEGRAM_CHAT_ID:-}" ]] && {
     echo "[remind] Telegram not configured — skipping" >&2; return 0
   }
+  local payload
+  payload=$(python3 -c 'import json,sys; print(json.dumps({"chat_id":sys.argv[1],"text":sys.argv[2]}))' \
+            "$TELEGRAM_CHAT_ID" "$text")
   curl -fsS -X POST \
     "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
     -H "Content-Type: application/json" \
-    -d "$(python3 -c "import json,sys; print(json.dumps({'chat_id':sys.argv[1],'text':sys.argv[2]}))" \
-         "$TELEGRAM_CHAT_ID" "$text")"
+    -d "$payload"
   echo
 }
 
