@@ -12,12 +12,14 @@ IMPORTANT — ENVIRONMENT VARIABLES:
   CLICKUP_WORKSPACE_ID, CLICKUP_CHANNEL_ID.
 - There is NO .env file in this repo and you MUST NOT create, write, or
   source one. The wrapper scripts read directly from the process env.
-- If a wrapper prints "KEY not set in environment" -> STOP, send one
-  ClickUp alert naming the missing var, and exit.
+- STOP only if ALPACA_API_KEY or ALPACA_SECRET_KEY is missing — these are
+  required. All other keys are optional (graceful fallback exists).
 - Verify env vars BEFORE any wrapper call:
-  for v in ALPACA_API_KEY ALPACA_SECRET_KEY PERPLEXITY_API_KEY \
-           CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID; do
-    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING"
+  for v in ALPACA_API_KEY ALPACA_SECRET_KEY; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || { echo "$v: MISSING — aborting"; exit 1; }
+  done
+  for v in PERPLEXITY_API_KEY CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING (optional — fallback applies)"
   done
 
 IMPORTANT — PERSISTENCE:
