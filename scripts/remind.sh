@@ -35,23 +35,19 @@ tg_send() {
 }
 
 check_reaction() {
-  local target_id="$1"
+  # Returns 0 if user replied "done" in the last 4 hours
   [[ -z "${TELEGRAM_BOT_TOKEN:-}" ]] && return 1
-  local since=$(( $(date +%s) - 86400 ))
+  local since=$(( $(date +%s) - 14400 ))
   local result
-  result=$(curl -fsS \
-    "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100&allowed_updates=%5B%22message%22%2C%22message_reaction%22%5D")
-  python3 - "$result" "$target_id" "$since" <<'EOF'
+  result=$(curl -fsS "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/getUpdates?limit=100")
+  python3 - "$result" "$since" <<'EOF'
 import json, sys
 data = json.loads(sys.argv[1])
-target = int(sys.argv[2])
-since = int(sys.argv[3])
+since = int(sys.argv[2])
 for u in data.get("result", []):
-    mr = u.get("message_reaction", {})
-    if mr.get("message_id") == target and mr.get("date", 0) >= since:
-        for r in mr.get("new_reaction", []):
-            if r.get("emoji") == "\U0001f44d":
-                sys.exit(0)
+    msg = u.get("message", {})
+    if msg.get("date", 0) >= since and "done" in msg.get("text", "").lower():
+        sys.exit(0)
 sys.exit(1)
 EOF
 }
@@ -64,7 +60,7 @@ send_current_task() {
   local suffix=""
   [[ "$remaining" -gt 1 ]] && suffix=" ($((remaining - 1)) more after this)"
   local msg_id
-  msg_id=$(tg_send "$(printf 'TO DO%s:\n\n%s\n\n👍 when done.' "$suffix" "$task")")
+  msg_id=$(tg_send "$(printf 'TO DO%s:\n\n%s\n\nReply DONE when finished.' "$suffix" "$task")")
   printf '%s\n%s\n' "$msg_id" "$(date +%s)" > "$STATE"
   echo "[remind] sent task (msg_id=$msg_id): $task"
 }
