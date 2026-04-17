@@ -1,0 +1,13 @@
+# Credentials — never commit
+.env
+*.local
+
+# ClickUp fallback notification file (root-level only)
+/DAILY-SUMMARY.md
+
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+*.swp
