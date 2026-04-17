@@ -55,6 +55,7 @@ STEP 7 — Notification: only if action was taken.
   bash scripts/clickup.sh "<action summary>"
 
 STEP 8 — COMMIT AND PUSH (if any memory files changed):
+  git checkout main
   git add memory/TRADE-LOG.md memory/RESEARCH-LOG.md
   git commit -m "midday scan $DATE"
   git push origin main

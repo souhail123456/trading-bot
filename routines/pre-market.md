@@ -59,6 +59,7 @@ STEP 5 — Notification: silent unless urgent.
   bash scripts/clickup.sh "<one line>"
 
 STEP 6 — COMMIT AND PUSH (mandatory):
+  git checkout main
   git add memory/RESEARCH-LOG.md
   git commit -m "pre-market research $DATE"
   git push origin main
