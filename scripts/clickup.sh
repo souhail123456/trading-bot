@@ -41,10 +41,13 @@ import json, sys
 print(json.dumps({'type': 'message', 'content': sys.argv[1], 'content_format': 'text/md'}))
 " "$msg")"
 
-curl -fsS -X POST \
+if curl -fsS -X POST \
   "https://api.clickup.com/api/v3/workspaces/$CLICKUP_WORKSPACE_ID/chat/channels/$CLICKUP_CHANNEL_ID/messages" \
   -H "Authorization: $CLICKUP_API_KEY" \
   -H "Content-Type: application/json" \
-  -d "$payload"
-
-echo
+  -d "$payload"; then
+  echo
+else
+  echo "[clickup] failed — falling back to Telegram" >&2
+  bash "$(dirname "$0")/telegram.sh" "$msg" || true
+fi
