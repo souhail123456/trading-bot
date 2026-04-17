@@ -53,6 +53,8 @@ Append afternoon addendum to RESEARCH-LOG.
 
 STEP 7 — Notification: only if action was taken.
   bash scripts/clickup.sh "<action summary>"
+  If a position was cut or stop was tightened:
+  bash scripts/remind.sh set "Midday: <action taken> — review TRADE-LOG and confirm"
 
 STEP 8 — COMMIT AND PUSH (if any memory files changed):
   git checkout main

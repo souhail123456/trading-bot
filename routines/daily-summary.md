@@ -54,6 +54,7 @@ STEP 5 — Send ONE ClickUp message (always, even on no-trade days). <= 15 lines
   Open positions:
     SYM ±X.X% (stop \$X.XX)
   Tomorrow: <one-line plan>"
+  bash scripts/remind.sh set "EOD MMM DD — Portfolio \$X (±X% day). Tomorrow: <one-line plan>"
 
 STEP 6 — COMMIT AND PUSH (mandatory — tomorrow's Day P&L depends on this):
   git checkout main

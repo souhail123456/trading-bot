@@ -57,6 +57,7 @@ STEP 6 — Append each trade to memory/TRADE-LOG.md (matching existing format):
 
 STEP 7 — Notification: only if a trade was placed.
   bash scripts/clickup.sh "<tickers, shares, fill prices, one-line why>"
+  bash scripts/remind.sh set "Market open: <tickers> filled — verify fills and stops are placed"
 
 STEP 8 — COMMIT AND PUSH (mandatory if any trades executed):
   git checkout main

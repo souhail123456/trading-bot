@@ -57,8 +57,11 @@ STEP 4 — Write a dated entry to memory/RESEARCH-LOG.md:
 - Risk factors for the day
 - Decision: trade or HOLD (default HOLD — patience > activity)
 
-STEP 5 — Notification: silent unless urgent.
+STEP 5 — Notification and reminder:
   bash scripts/clickup.sh "<one line>"
+  If decision is TRADE (not HOLD), also queue a reminder:
+  bash scripts/remind.sh set "Pre-market: <ticker> trade planned — run /market-open at open to execute"
+  If HOLD, skip remind.sh.
 
 STEP 6 — COMMIT AND PUSH (mandatory):
   git checkout main
