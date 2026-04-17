@@ -40,29 +40,30 @@ TRADE or HOLD (default HOLD if no edge)
 - Cash: $10,000
 - Buying power: $10,000
 - Daytrade count: 0
-- NOTE: Alpaca API returned "Host not in allowlist" (IP restriction); values from TRADE-LOG baseline
+- NOTE: Alpaca API returning 403 (IP allowlist restriction); values from TRADE-LOG baseline
 
 ### Market Context
-- WTI / Brent: WTI ~$91–93 (-10% session on Hormuz news), Brent $95.86 (prev close $94.93)
-- S&P 500 futures: +0.11% premarket; S&P crossed 7,100 intraday (new ATH); Dow +1,005 pts (+2.1%); Nasdaq 13th consecutive gain (longest streak since 1992)
-- VIX: 17.94–18.18 (moderate, declining — fear fading)
-- Today's catalysts: Iran declared Strait of Hormuz "completely open" → ceasefire with Israel/Lebanon holding; Trump: Iran war "ending pretty soon" — major geopolitical de-escalation; Oracle +32% this week on 1.2GW AI data center deal with Bloom Energy; AMD hit all-time high
-- Earnings before open: Netflix (NFLX) reported after close 4/16 — revenue beat ($12.25B vs $12.18B est, +16% YoY) but Q2 guidance missed → stock -9–10% premarket; PG, TFC (Truist), FITB (Fifth Third) reporting today
-- Economic calendar: No major releases confirmed for 4/17; light Friday calendar
-- Sector momentum YTD: Energy (surprise leader), Healthcare (flight-to-safety), Materials, Industrials, Staples leading; Tech, Comms, Consumer Discretionary, Financials lagging. NOTE: Energy sector falling HARD today on oil drop despite YTD leadership — potential sector rotation
+- WTI / Brent: WTI $83.20 (-12% session), Brent $88.96 (-10.5%) — Iran declared Strait of Hormuz "completely open"; U.S.-Iran talks scheduled Sunday in Islamabad
+- S&P 500 futures: +0.11% premarket; cash +0.62% session; S&P closed above 7,100 (3rd consecutive ATH); Dow +1,005 pts (+2.1%); Nasdaq 13th consecutive gain (longest streak since 1992)
+- VIX: ~17.28–17.38 (down ~3–4% today; moderate and declining — fear fading)
+- Today's catalysts: Iran/Hormuz de-escalation drives oil -12%; Oracle +32% this week on 2.8GW AI data center deal with Bloom Energy (1.2GW contracted); AMD all-time high (longest win streak 20+ years); NFLX -9% on Q2 guidance miss (after-hours 4/16); Eli Lilly CEO cautioned GLP-1 drugs reach only ~50% of eligible patients
+- Earnings before open: PG, TFC (Truist Financial), FITB (Fifth Third Bancorp) + ~22 others; NFLX reported after close 4/16 (beat revenue, missed Q2 guide)
+- Economic calendar: New Residential Construction at 8:30 AM ET; NY Fed Nowcast 12:45 PM; otherwise light Friday
+- Sector momentum YTD: Staples (XLP), Industrials (XLI), Materials (XLB) leading — Materials +22% YTD best sector; Energy (XLE) YTD leader but falling hard today on oil drop; Tech, Comms, Discretionary, Financials lagging; Real Estate + Utilities improving
 
 ### Trade Ideas
-1. DAL (Delta Air Lines) — direct oil-cost beneficiary: WTI -10% slashes fuel costs (~25–30% of COGS); Hormuz opening + ceasefire boosts leisure/biz travel demand; entry ~$55–57 at open confirmation, stop $50 (-8%), target $68 (+20%), R:R ~2.4:1
-2. BE (Bloom Energy) — Oracle signed 1.2GW AI data center power deal with BE directly; AI infrastructure demand secular tailwind; pullback from Oracle's run creates laggard entry; entry ~$22–24, stop $19.50 (-13% from $22), target $30 (+36%), R:R ~2.5:1. NOTE: high volatility name, size conservatively (≤10% of equity)
-3. UNH or HUM (Healthcare) — sector in momentum as flight-to-safety + tariff/geopolitical hedge; boring but consistent; entry on any AM dip, stop 7% below entry, target +18–20%, R:R ~2.5:1
+1. DAL (Delta Air Lines) — WTI -12% directly cuts fuel (~25–30% of COGS); Hormuz open + ceasefire boosts leisure/biz travel; Q1 EPS $0.64 beat $0.61 est (reported 4/8); TD Cowen Buy, PT $84; current price ~$65.32; entry $65–67 on Monday AM confirmation, stop $58.50 (-10%), target $84 (+25–29%), R:R ~2.5:1
+2. XLB or MDU/NUE (Materials) — sector YTD leader +22%; defensive momentum; catalyst-agnostic; entry on any AM dip, stop 7% below entry, target +18%, R:R ~2.5:1
+3. BE (Bloom Energy) — SKIP for now: surged 23% to ~$206 on Oracle 2.8GW deal (4/13–14); fully extended; Q1 earnings 4/28 creates binary risk; revisit after earnings if beat + guided up
 
 ### Risk Factors
-- Market at ALL-TIME HIGHS after Nasdaq 13-day streak — extended, pullback risk elevated
-- It is Friday — opening new positions over a weekend with active ceasefire talks adds gap-risk if talks collapse
-- Iran ceasefire could unravel; any re-escalation reverses oil drop and slams travel/airline stocks
-- NFLX -10% premarket could weigh on Nasdaq sentiment today
-- Alpaca API inaccessible (IP allowlist) — cannot confirm live account state or place orders through bot; manual intervention required if trading
-- Perplexity API key missing — used WebSearch fallback for all research
+- Market at consecutive ATHs after 13-day Nasdaq streak — historically elevated pullback risk
+- Friday open: weekend gap risk with fluid ceasefire talks (Sunday Islamabad meeting could surprise either way)
+- Oil -12% reversal risk if Iran re-escalates; would flip DAL trade thesis
+- NFLX -9% premarket may weigh on Nasdaq sentiment at open
+- Alpaca API inaccessible (IP 403) — cannot place automated orders; manual execution required
+- Perplexity API key missing — WebSearch fallback used for all research (noted)
+- No positions yet — 0% deployed vs. 75–85% target; need to start deploying but patience > rushing
 
 ### Decision
-HOLD — market at ATH after a 13-day Nasdaq streak on a Friday; no positions to defend; gap risk over weekend with fluid geopolitics. Watch DAL and BE for Monday open with confirmed ceasefire holding. Deploy capital Monday if S&P holds 7,050+ and VIX stays below 20.
+HOLD today — Friday + ATH + 13-day extended streak + weekend gap risk = no new entries. Best setup: DAL for Monday AM if S&P holds 7,050+, VIX stays below 20, and oil remains weak (ceasefire holds). Target 2–3 positions by end of next week to move toward 75% deployed.
