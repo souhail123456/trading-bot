@@ -107,3 +107,9 @@ HOLD — market at ATH after a 13-day Nasdaq streak on a Friday; no positions to
 
 ### Decision
 HOLD — two core reasons: (1) Alpaca API inaccessible, cannot execute trades; (2) Hormuz re-escalation directly invalidates Friday's oil-drop thesis; market is fragile at overbought levels with oil spiking. No edge worth fighting. Watch STLD earnings and UNH for entries later this week if API access is restored and geopolitical situation clarifies.
+
+### Midday Addendum (2026-04-20)
+- Alpaca API: still 403 (IP allowlist block) — no positions retrievable, no orders executable
+- TRADE-LOG: zero open positions confirmed — no losers to cut, no stops to tighten, no thesis checks required
+- No intraday action taken; no ClickUp notification sent (no-op scan)
+- Watchlist unchanged: STLD (post-earnings follow-through), UNH (defensive entry dip)
