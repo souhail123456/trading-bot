@@ -18,7 +18,7 @@ IMPORTANT — ENVIRONMENT VARIABLES:
   for v in ALPACA_API_KEY ALPACA_SECRET_KEY; do
     [[ -n "${!v:-}" ]] && echo "$v: set" || { echo "$v: MISSING — aborting"; exit 1; }
   done
-  for v in PERPLEXITY_API_KEY CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID; do
+  for v in PERPLEXITY_API_KEY CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID; do
     [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING (optional — fallback applies)"
   done
 
@@ -57,11 +57,15 @@ STEP 4 — Write a dated entry to memory/RESEARCH-LOG.md:
 - Risk factors for the day
 - Decision: trade or HOLD (default HOLD — patience > activity)
 
-STEP 5 — Notification and reminder:
-  bash scripts/clickup.sh "<one line>"
-  If decision is TRADE (not HOLD), also queue a reminder:
-  bash scripts/remind.sh set "Pre-market: <ticker> trade planned — run /market-open at open to execute"
-  If HOLD, skip remind.sh.
+STEP 5 — Notification (ALWAYS — even on HOLD days):
+  Send a summary to Telegram directly:
+  bash scripts/telegram.sh "Pre-market $DATE: <HOLD or TRADE — ticker>
+  <one line market context>
+  <top idea or 'no edge today'>"
+  Also send to ClickUp as backup:
+  bash scripts/clickup.sh "<same one line>"
+  If decision is TRADE, also queue reminder:
+  bash scripts/remind.sh set "Pre-market: <ticker> trade planned — run /market-open locally to execute"
 
 STEP 6 — COMMIT AND PUSH (mandatory):
   git checkout main

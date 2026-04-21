@@ -46,15 +46,15 @@ STEP 4 — Append EOD snapshot to memory/TRADE-LOG.md:
   | Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
   **Notes:** one-paragraph plain-english summary.
 
-STEP 5 — Send ONE ClickUp message (always, even on no-trade days). <= 15 lines:
-  bash scripts/clickup.sh "EOD MMM DD
+STEP 5 — Send summary to Telegram (always, even on no-trade days):
+  bash scripts/telegram.sh "EOD $DATE
   Portfolio: \$X (±X% day, ±X% phase)
   Cash: \$X
   Trades today: <list or none>
   Open positions:
     SYM ±X.X% (stop \$X.XX)
   Tomorrow: <one-line plan>"
-  bash scripts/remind.sh set "EOD MMM DD — Portfolio \$X (±X% day). Tomorrow: <one-line plan>"
+  bash scripts/remind.sh set "EOD $DATE — Portfolio \$X (±X% day). Tomorrow: <one-line plan>"
 
 STEP 6 — COMMIT AND PUSH (mandatory — tomorrow's Day P&L depends on this):
   git checkout main

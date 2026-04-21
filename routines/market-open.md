@@ -55,8 +55,11 @@ STEP 5 — Immediately place 10% trailing stop GTC for each new position:
 STEP 6 — Append each trade to memory/TRADE-LOG.md (matching existing format):
   Date, ticker, side, shares, entry price, stop level, thesis, target, R:R.
 
-STEP 7 — Notification: only if a trade was placed.
-  bash scripts/clickup.sh "<tickers, shares, fill prices, one-line why>"
+STEP 7 — Notification (ALWAYS):
+  bash scripts/telegram.sh "Market Open $DATE: <TRADES PLACED or NO TRADES>
+  <tickers, shares, prices or 'held cash'>
+  <one-line reason>"
+  If trades placed, also:
   bash scripts/remind.sh set "Market open: <tickers> filled — verify fills and stops are placed"
 
 STEP 8 — COMMIT AND PUSH (mandatory if any trades executed):
