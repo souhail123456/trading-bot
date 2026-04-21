@@ -107,3 +107,35 @@ HOLD — market at ATH after a 13-day Nasdaq streak on a Friday; no positions to
 
 ### Decision
 HOLD — two core reasons: (1) Alpaca API inaccessible, cannot execute trades; (2) Hormuz re-escalation directly invalidates Friday's oil-drop thesis; market is fragile at overbought levels with oil spiking. No edge worth fighting. Watch STLD earnings and UNH for entries later this week if API access is restored and geopolitical situation clarifies.
+
+---
+
+## 2026-04-21 — Midday Scan
+
+### Account
+- Equity: $10,000 (baseline — no positions)
+- Cash: $10,000
+- Alpaca API: 403 (IP allowlist restriction) — cannot pull live data or execute orders
+- Open positions: 0 | Open orders: 0
+
+### Actions Taken
+- NONE — no positions to cut or tighten
+
+### Market Midday (via WebSearch; Perplexity key missing)
+- S&P 500: +0.19% (near ATH)
+- Nasdaq: +0.25%
+- VIX: ~19.08 (elevated, +9.15% yesterday on oil spike)
+- Brent crude: $96.32 (+session; Hormuz tensions ongoing)
+
+### Notable Moves
+- **UNH +9.4%** — beat Q1 profit, raised 2026 forecast; healthcare thesis confirmed but gapped too far past clean entry — SKIP; too extended
+- Apple -0.8% (CEO Tim Cook departure)
+- Amazon +2% ($25B Anthropic AI investment announced)
+
+### Thesis Check
+- No open positions — nothing to defend or cut
+- DAL thesis (fuel savings) still broken; Hormuz unresolved; SKIP
+- UNH ran away; next entry only on a pullback to prior support
+
+### Status
+No action taken. Alpaca API inaccessible (persistent 403). Perplexity key missing. Both systemic blockers remain — cannot deploy capital until API access is restored.
