@@ -107,3 +107,45 @@ HOLD — market at ATH after a 13-day Nasdaq streak on a Friday; no positions to
 
 ### Decision
 HOLD — two core reasons: (1) Alpaca API inaccessible, cannot execute trades; (2) Hormuz re-escalation directly invalidates Friday's oil-drop thesis; market is fragile at overbought levels with oil spiking. No edge worth fighting. Watch STLD earnings and UNH for entries later this week if API access is restored and geopolitical situation clarifies.
+
+---
+
+## 2026-04-21 — Pre-market Research
+
+### Account
+- Equity: $10,000 (baseline — no positions)
+- Cash: $10,000
+- Buying power: $10,000
+- Daytrade count: 0
+- NOTE: Alpaca API returning 403 (IP allowlist restriction) — values from TRADE-LOG baseline; cannot place orders through bot
+
+### Market Context
+- WTI / Brent: WTI ~$86 (range $86.01–$86.35, slipping from Monday's $89 spike); Brent ~$95 — oil pulling back slightly as Iran peace talks round 2 progressing (Tehran sending delegation to Islamabad)
+- S&P 500 futures: ES +0.2% — edging higher on Iran ceasefire optimism; Apple CEO news (Cook → Ternus) keeping a lid on enthusiasm; AAPL -0.5% premarket
+- VIX: ~18.0–19.2 (prev close 17.48; elevated but manageable; market cautious not panicked)
+- Today's catalysts: (1) Iran peace talks round 2 — Tehran may send delegation; Trump says won't extend ceasefire without deal — binary tail risk; (2) Apple CEO transition: Tim Cook stepping down, John Ternus (hardware chief) taking over — AAPL -0.5%; (3) Heavy earnings before open: UNH (BEAT), RTX (before open), HAL (before open), ISRG, DHR, MMM, NOC, COF, MMM
+- Earnings before open: UNH — Q1 2026 beat ($7.23 adj EPS vs $6.59 est, +9.7%; revenue $111.72B vs $109.5B est; medical benefit ratio 83.9%, better than expected; raised 2026 guidance to >$18.25 from >$17.75); RTX — beat track record 100% over 2 years, avg surprise 10.59%, $268B backlog, defense spending tailwind; HAL — expected 18% YoY EPS decline, C&P segment headwinds
+- Economic calendar: No major macro release today (light Tuesday); FOMC decision April 29 (expected unchanged — rate hold consensus)
+- Sector momentum: Energy leading YTD (~+34% Q1); April rotation: Tech, Industrials, Comm Services leading month; Healthcare on recovery (UNH, HUM beaten down 54% from highs); Defense secular bid on geopolitical tension
+
+### Previous Ideas — Status Update
+- STLD (Steel Dynamics): Earnings passed (April 21 week) — need to check results; watchlist
+- UNH: REPORTING TODAY — beat significantly; premarket muted (+0.02%, $324.70 vs $323.48 close) — muted reaction on big beat is yellow flag; still interesting entry if dip holds
+- XOM/CVX: Oil pulling back toward $86 — energy thesis weakening vs Monday; not actionable
+
+### Trade Ideas
+1. RTX (Raytheon Technologies) — Defense aerospace: earnings today BMO; 100% beat rate last 2 years, avg 10.59% surprise; $268B backlog ($107B defense + $161B commercial); Iran tensions + Ukraine → defense spending secular tailwind; SM-6, Tomahawk production ramp. Entry on confirmed beat + post-open pullback to confirm, stop 8% below entry, target +20%. GATING: need Alpaca API access. R:R ~2.5:1
+2. UNH (UnitedHealth Group) — Healthcare: Strong Q1 beat today; guidance raised; medical cost ratio improving; stock down 54% from highs at $323 — deep value if thesis holds. Muted premarket reaction ($324.70) is concerning — watch open for direction. If opens flat or higher and holds, consider entry ~$325–335, stop 7% below ($300–312), target $390 (+20%). R:R ~2.5:1. GATING: need Alpaca API access AND confirmation that premarket flatness doesn't become opening weakness
+3. ISRG (Intuitive Surgical) — Medical robotics, reporting today; secular AI-driven robotics surgery adoption; if beats on margin expansion, strong entry. Entry on confirmed strength, stop 8% below, target +18%. Watchlist only until Alpaca access restored.
+
+### Risk Factors
+- Alpaca API inaccessible (403) — cannot execute any trades; all three ideas require API access
+- UNH premarket barely moved (+0.02%) on a ~10% EPS beat + guidance raise — implies sell-the-news or deep skepticism about long-term cost trends; max expected options move was 6.16%, could go negative
+- Iran ceasefire: Trump explicitly said won't extend without deal → if talks fail, oil spikes, market drops hard
+- Apple CEO change (Cook → Ternus) adds Big Tech leadership uncertainty; AAPL ~$3T market cap
+- HAL reporting 18% EPS decline — oil services sector soft even with WTI at $86
+- FOMC April 29 creates near-term policy overhang; no cuts expected
+- Perplexity API key missing — used WebSearch fallback (noted)
+
+### Decision
+HOLD — same primary blocker: Alpaca API inaccessible (403). Even with clear catalysts (UNH beat, RTX beat likely), zero ability to execute. Secondary concern: UNH's muted premarket reaction on a 10% EPS beat is a yellow flag — watch open closely. RTX is strongest candidate for first trade if API access is restored: 100% beat rate, defense secular bid, massive backlog. Monitor Iran peace talks closely — failed talks = oil spike = market drop = potential buying opportunity on quality names.
