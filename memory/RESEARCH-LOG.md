@@ -107,3 +107,44 @@ HOLD — market at ATH after a 13-day Nasdaq streak on a Friday; no positions to
 
 ### Decision
 HOLD — two core reasons: (1) Alpaca API inaccessible, cannot execute trades; (2) Hormuz re-escalation directly invalidates Friday's oil-drop thesis; market is fragile at overbought levels with oil spiking. No edge worth fighting. Watch STLD earnings and UNH for entries later this week if API access is restored and geopolitical situation clarifies.
+
+---
+
+## 2026-04-21 — Pre-market Research
+
+### Account
+- Equity: $10,000 (baseline — no positions)
+- Cash: $10,000
+- Buying power: $10,000
+- Daytrade count: 0
+- NOTE: Alpaca API returning 403 (IP allowlist restriction) — values from TRADE-LOG baseline; cannot place orders through bot
+
+### Market Context
+- WTI: ~$86.16 (+0.31%) — pulling back from Monday's $89 spike; Hormuz tension easing slightly
+- Brent: ~$95.22 (-0.21%) — modest pullback, still elevated
+- S&P 500 futures: +0.17% (7,160, +12pts) — slight bid after Monday's -0.24% session
+- VIX: ~19.18 open / 20.53 futures — still elevated; market cautious
+- Today's catalysts: US-Iran round 2 peace talks; Iranian delegation reportedly heading to Islamabad — de-escalation narrative returning; UNH earnings BEAT premarket (see below)
+- Earnings before open: UNH (BEAT), GE, RTX, MMM, HAL, NOC, DHR, DHI, MAS — heavy earnings morning
+- Sector momentum: Healthcare confirmed in momentum — UNH beat validates the thesis
+
+### Previous Ideas — Status Update
+- DAL: Skip — thesis was oil-cost savings; WTI still $86 (too high), stock ran to $71+; no edge
+- BE: Skip — missed entirely, +150% YTD; past entry
+- STLD: No report data found; watchlist only
+- UNH: LIVE CATALYST — Q1 2026 beat: EPS $7.23 vs $6.76 est (+7%), Rev $111.65B vs $109.84B est; raised FY2026 guidance to >$18.25/share (from >$17.75); medical benefit ratio 83.9% vs 85.5% est (better cost control). Stock soaring premarket.
+
+### Trade Ideas
+1. UNH (UnitedHealth Group) — earnings beat + raised guidance + better-than-expected medical cost ratio; defensive healthcare in momentum sector; geopolitical hedge; stock soaring premarket; entry ~$600–620 on open confirmation, stop 8% below entry (~$553–570), target $730 (+18–22%), R:R ~2.3:1. NOTE: wait for open price stabilization before entry; avoid chasing a gap-up spike
+2. RTX (Raytheon Technologies) — defense name; earnings this AM; Hormuz tension + Iran peace talks keeps defense spending elevated; entry contingent on earnings result; stop 8% below, target +18%, R:R ~2.25:1
+
+### Risk Factors
+- Alpaca API inaccessible (403 IP allowlist) — cannot execute any orders; all trades require manual action or API fix
+- UNH may gap up substantially at open — chasing a huge gap is against strategy rules (wait for pullback/stabilization)
+- Earnings binary risk for RTX — unknown result at time of this writing
+- VIX ~20 still elevated; market fragile at overbought P/E (forward P/E ~21)
+- Iran peace talks are second round — could collapse; oil could re-spike
+- PERPLEXITY_API_KEY missing — WebSearch fallback used
+
+### Decision
+HOLD — Alpaca API still returning 403; cannot execute orders. UNH is the best setup we've seen (earnings beat + raised guidance + sector momentum) but requires API access to execute. If API restored: target UNH entry near $600–620 on post-gap stabilization with 8% stop. No trade today without API access.
