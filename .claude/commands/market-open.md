@@ -36,4 +36,4 @@ STEP 6 — Append each trade to memory/TRADE-LOG.md (matching existing format):
   Date, ticker, side, shares, entry price, stop level, thesis, target, R:R.
 
 STEP 7 — Notification: only if a trade was placed.
-  bash scripts/clickup.sh "<tickers, shares, fill prices, one-line why>"
+  bash scripts/telegram.sh "<tickers, shares, fill prices, one-line why>"

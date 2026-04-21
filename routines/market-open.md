@@ -14,9 +14,11 @@ IMPORTANT — ENVIRONMENT VARIABLES:
 - If a wrapper prints "KEY not set in environment" -> STOP, send one
   ClickUp alert naming the missing var, and exit.
 - Verify env vars BEFORE any wrapper call:
-  for v in ALPACA_API_KEY ALPACA_SECRET_KEY \
-           CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID; do
-    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING"
+  for v in ALPACA_API_KEY ALPACA_SECRET_KEY; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || { echo "$v: MISSING — aborting"; exit 1; }
+  done
+  for v in TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING (optional — fallback applies)"
   done
 
 IMPORTANT — PERSISTENCE:
@@ -31,6 +33,10 @@ STEP 1 — Read memory for today's plan:
 
 STEP 2 — Re-validate with live data:
   bash scripts/alpaca.sh account
+  If the account call fails with a 403 / "allowlist" error, Alpaca is
+  blocking this cloud IP. STOP trade execution immediately and send:
+    bash scripts/telegram.sh "Market Open $DATE: Alpaca API blocked (cloud IP). Run /market-open locally on Mac to execute."
+  Then exit — do NOT attempt any order placement.
   bash scripts/alpaca.sh positions
   bash scripts/alpaca.sh quote <each planned ticker>
 

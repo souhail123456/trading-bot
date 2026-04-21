@@ -13,9 +13,11 @@ IMPORTANT — ENVIRONMENT VARIABLES:
 - If a wrapper prints "KEY not set in environment" -> STOP, send one
   ClickUp alert naming the missing var, and exit.
 - Verify env vars BEFORE any wrapper call:
-  for v in ALPACA_API_KEY ALPACA_SECRET_KEY \
-           CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID; do
-    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING"
+  for v in ALPACA_API_KEY ALPACA_SECRET_KEY; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || { echo "$v: MISSING — aborting"; exit 1; }
+  done
+  for v in TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING (optional — fallback applies)"
   done
 
 IMPORTANT — PERSISTENCE:
