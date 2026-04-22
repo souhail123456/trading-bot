@@ -222,3 +222,44 @@ No action taken. Alpaca API inaccessible (persistent 403). Perplexity key missin
 
 ### Decision
 **HOLD** — Ceasefire extended is positive, but Hormuz incidents today show real danger remains. PM and GEV both missed — prior watchlist ideas invalidated. No clean entry signals in materials sector yet. TSLA print tonight will color tomorrow's open. API execution blocked (403). Best posture: monitor TSLA results, watch for FCX/NUE pullback setups, wait for Hormuz resolution before deploying $100k.
+
+---
+
+## 2026-04-22 — Midday Scan
+
+### Account
+- Equity: $100,000 (baseline — no positions)
+- Cash: $100,000
+- Alpaca API: 403 (IP allowlist restriction) — cannot pull live data or execute orders
+- Telegram: 403 (cloud IP blocked) — notification not delivered
+- Open positions: 0 | Open orders: 0
+
+### Actions Taken
+- NONE — no positions to cut or tighten; Alpaca API blocked
+
+### Market Midday (via WebSearch; Perplexity key missing)
+- S&P 500: +0.68% (~+48 pts)
+- Nasdaq: +0.87% (~+233 pts)
+- Dow: +0.66% (~+327 pts)
+- VIX: ~19 (down ~2.5% — fear subsiding)
+- Driver: Trump ceasefire extension lifting risk appetite broadly
+
+### Notable Moves / Watchlist
+- **FCX** — Earnings today (Q1); Deutsche Bank PT $72, Wells Fargo PT $77 (both Buy/OW); ATH $70.71 hit Apr 17; copper demand thesis intact (AI buildout + onshoring); RSI may be stretched — need pullback to clean entry, NOT a gap chase
+- **NUE** — RSI already overbought; avoid
+- **TSLA** — Reports after close; Q1 deliveries missed 358K vs 365K est.; CA registrations -24%; consensus EPS $0.37 non-GAAP; high probability of negative reaction tomorrow AM → Nasdaq drag
+- **BA** — Expected EPS loss -$0.59; watch for guidance on order book recovery; NOT a trade idea
+- **IBM / NOW / LRCX** — All reporting after close; NOW is cleanest read on enterprise IT spend; LRCX on semiconductor capex; monitoring only
+
+### Thesis Check
+- No open positions — nothing to defend or cut
+- FCX still highest-conviction idea for tomorrow IF: (1) Q1 beats today, (2) pullback to 20-day MA creates clean entry, (3) Alpaca API access restores
+- Materials sector (#1 YTD +22%) still in momentum; copper directly tied to AI data center buildout secular theme
+
+### Blockers
+- Alpaca API 403 (persistent cloud IP block) — execution impossible
+- Telegram 403 — notifications not reaching mobile
+- Perplexity key missing — WebSearch fallback for all research
+
+### Status
+No action taken. Two persistent systemic blockers (Alpaca + Telegram 403). No positions to defend. Watch TSLA print after close and FCX Q1 results; reassess tomorrow pre-market.
