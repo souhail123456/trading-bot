@@ -1,6 +1,6 @@
 # Trade Log
 
-## Day 0 — EOD Snapshot (pre-launch baseline)
-**Portfolio:** $10,000.00 | **Cash:** $10,000.00 (100%) | **Day P&L:** $0 | **Phase P&L:** $0
+## Day 0 — EOD Snapshot (pre-launch baseline, account reset)
+**Portfolio:** $100,000.00 | **Cash:** $100,000.00 (100%) | **Day P&L:** $0 | **Phase P&L:** $0
 
-No positions yet. Bot launches tomorrow.
+New API keys generated Apr 22. Account reset to $100k default paper balance. No positions.
