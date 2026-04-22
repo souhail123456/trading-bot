@@ -178,3 +178,47 @@ No action taken. Alpaca API inaccessible (persistent 403). Perplexity key missin
 
 ### Decision
 **HOLD** — Three reasons: (1) ceasefire expires today — binary macro event, no edge deploying capital into this; (2) Alpaca API 403 — cannot execute; (3) S&P softening, VIX still elevated at ~19. Watch GEV and PM results this morning. If ceasefire extends/resolves positively and API access restores, GEV pullback entry is highest-conviction idea for tomorrow.
+
+---
+
+## 2026-04-22 — Pre-market Research (REVISED — actual outcomes)
+
+### Account
+- Equity: $100,000 (TRADE-LOG baseline — paper account reset Apr 22; no positions)
+- Cash: $100,000
+- Buying power: $100,000
+- Daytrade count: 0
+- NOTE: Alpaca API still 403 (IP allowlist) — cannot pull live data or execute
+
+### Market Context
+- WTI / Brent: WTI ~$88.80–$90.70 (range today); Brent ~$96–98 (elevated; EIA projects Q2 2026 peak ~$115/b as production shut-ins linger)
+- S&P 500 futures: ES ~7,136.50, +0.51% premarket — positive reversal on ceasefire extension
+- VIX: ~18.87–19.12 (elevated; uncertainty premium persisting)
+- Ceasefire: Trump EXTENDED ceasefire past original deadline — positive surprise; BUT US naval blockade of Iranian ports continues; Iran calls blockade "act of war"; two Hormuz shipping incidents reported this morning (vessels fired upon per UKMTO); JD Vance Pakistan talks still canceled; deal not done — binary risk remains
+- Earnings before open (actuals): **PM MISSED** — stock -4.7 to -5.7%; revenue/EPS miss; GEV reported 4/21 close, stock -1.25% to ~$990 — disappointingly soft despite trailing EPS of $17.65 vs. prior crush ($13.39 in Jan)
+- Earnings after close today: **TSLA** — Q1 deliveries 358K (miss vs. 365K est.); 50K inventory overhang; analysts expect $21.9B rev / $0.37 EPS; likely negative reaction tomorrow AM; will weigh on Nasdaq
+- Other reporters today: AT&T (T), Boeing (BA), IBM, Lam Research (LRCX), ServiceNow (NOW), Vertiv (VRT), CSX
+- Economic calendar: No high-impact macro (no CPI/PPI/FOMC/NFP today); Fed blackout period likely active
+- Sector momentum YTD: Materials +22% (#1); Energy (surprise leader, data-center power re-rating); Healthcare; Industrials leading. Tech, Comms, Consumer Discretionary, Financials LAGGING. Tech up 11% MTD but still lagging YTD vs. defensives/commodities.
+- WebSearch fallback used (Perplexity key missing)
+
+### Prior Ideas — Outcome Check
+- **GEV** — Reported weak; stock -1.25%; not the clean beat needed. Skip.
+- **PM** — Missed estimates; stock -5%. Good to have stayed out.
+- **XOM/CVX** — Ceasefire extended → oil spike thesis weakens. Still watchlist-only.
+
+### Trade Ideas
+1. **Materials leaders (FCX / NUE)** — Materials #1 sector YTD (+22%); copper (FCX) benefits from AI data center buildout + onshoring; steel (NUE) benefits from tariffs + infrastructure. No binary event today. Entry on pullback to 20-day MA, stop 8% below entry, target +20%, R:R ~2.5:1. GATING: need Alpaca API access.
+2. **INTC (Intel)** — HSBC upgraded to Buy; "CPU server demand near-term catalyst"; foundry restructuring ongoing; deep value + potential inflection. Volatile name — size ≤10%. Stop 9% below entry, target +20%, R:R ~2.2:1. WATCHLIST.
+3. **UNH pullback** — Gapped up 9.4% yesterday on strong Q1; now extended; wait for pullback to $620–640 for clean entry; thesis intact (healthcare sector momentum, geopolitical hedge). R:R ~2.5:1 on a clean dip entry.
+
+### Risk Factors
+- Ceasefire extended but NOT resolved; Hormuz ships attacked this morning — binary risk unchanged
+- TSLA earnings after close today — likely miss → Nasdaq drag tomorrow
+- PM and GEV both disappointing — signal that expectations ran ahead of reality; earnings quality risk elevated
+- Alpaca API 403 blocks all execution
+- Perplexity key missing — WebSearch fallback for all research (noted)
+- Market breadth: tech lagging despite strong futures; leadership narrow
+
+### Decision
+**HOLD** — Ceasefire extended is positive, but Hormuz incidents today show real danger remains. PM and GEV both missed — prior watchlist ideas invalidated. No clean entry signals in materials sector yet. TSLA print tonight will color tomorrow's open. API execution blocked (403). Best posture: monitor TSLA results, watch for FCX/NUE pullback setups, wait for Hormuz resolution before deploying $100k.
