@@ -139,3 +139,42 @@ HOLD — two core reasons: (1) Alpaca API inaccessible, cannot execute trades; (
 
 ### Status
 No action taken. Alpaca API inaccessible (persistent 403). Perplexity key missing. Both systemic blockers remain — cannot deploy capital until API access is restored.
+
+---
+
+## 2026-04-22 — Pre-market Research
+
+### Account
+- Equity: $10,000 (baseline — no positions)
+- Cash: $10,000
+- Buying power: $10,000
+- Daytrade count: 0
+- NOTE: Alpaca API still returning 403 (IP allowlist restriction) — baseline values from TRADE-LOG; cannot place orders through bot
+
+### Market Context
+- WTI / Brent: WTI ~$86/barrel (range $86.01–$86.35, easing from Monday's $89 spike); Brent ~$98.13 (prev close $95.48) — still elevated
+- S&P 500 futures: ES ~7,109.50 (off from Monday's 7,160.75 open; range today 7,096–7,183) — slight softening, market cautious
+- VIX: ~18.87 (close 4/21) — elevated, not extreme; uncertainty premium persisting
+- Today's macro: **TWO-WEEK US-IRAN CEASEFIRE EXPIRES TODAY (April 22)** — Iran spokesperson says "no plans for new talks"; JD Vance canceled Pakistan trip; Strait of Hormuz still functionally blocked; binary event — deal or escalation
+- Earnings before open: Philip Morris (PM) — Q1 rev ~$9.85B expected (+6% YoY), EPS $1.82; smoke-free 41.5% of sales; GE Vernova (GEV) — 7:30 AM ET, Q1 rev ~$9.26B (+15.8% YoY), EPS $1.67; data center demand accelerating; Mizuho raised PT
+- Earnings after close: Tesla (TSLA) — Q1 deliveries 358K (miss vs. 372K est.); 50K unit inventory overhang; energy storage nearly halved (14.2→8.8 GWh); stock -12% YTD; high miss risk → likely negative reaction overnight
+- Also reporting today: AT&T (T), Boeing (BA), IBM, Lam Research (LRCX), ServiceNow (NOW), Vertiv (VRT), CSX
+- Economic calendar: Heavy (81 events); no confirmed high-impact macro (no CPI/NFP/FOMC today); IMF warned global growth hit even if ceasefire holds
+- Sector momentum YTD: Energy #1 (power/infrastructure re-rated as utility-growth hybrid); Industrials #2; Healthcare #3; Tech/Comm/Discretionary weak; small-caps leading cap rotation
+- WebSearch fallback used (Perplexity key missing)
+
+### Trade Ideas
+1. **GEV (GE Vernova)** — IF Q1 beats today: AI/data center power infrastructure play, gas turbine ramp, strong backlog, Mizuho PT raise; sector momentum (Energy/Industrials crossover). BUT stock up ~200% in 1 year — extremely extended. Only consider on post-earnings pullback, not gap chase. Entry zone: dip to prior support after initial move settles. Stop 8% below entry, target +20%, R:R ~2.5:1. GATING: need API access + confirmed beat + clean entry.
+2. **PM (Philip Morris)** — Defensive income stock, smoke-free growth (IQOS), geopolitical hedge; reports before open today. If beats + raises guidance: strong setup in a shaky tape. Entry on breakout above Q4 resistance, stop 7% below, target +15%, R:R ~2:1. Lower volatility suits current risk-off backdrop. WATCHLIST.
+3. **XOM / CVX (Energy)** — Ceasefire expiry today is binary; if talks collapse → oil spike; Brent already ~$98. Already extended 34–42% YTD. Only consider on confirmed escalation with fresh entry signal — not chasing. WATCHLIST ONLY.
+
+### Risk Factors
+- **Ceasefire expiry today** — single largest tail risk; if Hormuz stays blocked oil could spike to $100+ and equities reprice quickly
+- Tesla TSLA reports after close — likely miss → Nasdaq drag tomorrow AM
+- ES at 7,109 weakening; breadth fragile after 13-day streak
+- Alpaca API inaccessible (403) — execution impossible until resolved
+- Heavy earnings day (12+ major names) — sector volatility elevated
+- IMF warning on global growth drag from Hormuz uncertainty
+
+### Decision
+**HOLD** — Three reasons: (1) ceasefire expires today — binary macro event, no edge deploying capital into this; (2) Alpaca API 403 — cannot execute; (3) S&P softening, VIX still elevated at ~19. Watch GEV and PM results this morning. If ceasefire extends/resolves positively and API access restores, GEV pullback entry is highest-conviction idea for tomorrow.
