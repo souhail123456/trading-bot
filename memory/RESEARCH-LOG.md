@@ -263,3 +263,36 @@ No action taken. Alpaca API inaccessible (persistent 403). Perplexity key missin
 
 ### Status
 No action taken. Two persistent systemic blockers (Alpaca + Telegram 403). No positions to defend. Watch TSLA print after close and FCX Q1 results; reassess tomorrow pre-market.
+
+---
+
+## 2026-04-24 — Pre-market Research (inline, market-open execution)
+
+### Account
+- Equity: $100,000 (confirmed live via Alpaca API)
+- Cash: $100,000
+- Buying power: $200,000 (2x margin)
+- Daytrade count: 0
+- Open positions: 0 | Open orders: 0
+- NOTE: Proxy connectivity confirmed working ✓
+
+### Market Context
+- S&P 500 (SPY): ~$709.70 — market healthy, near recent highs (~7,097 equivalent)
+- VIX: Elevated ~19 (from prior day) — uncertainty premium
+- NVDA: $201.21–$201.73 — ultra-tight spread at open ($0.04) — LIQUID ✓
+- TSLA: Reported Q1 after close Apr 22; stock in opening auction (wide spread); 358K deliveries miss vs 365K est.
+- MSFT & GOOGL: Report after close today (Apr 23) — positive asymmetry for AI names
+- AMZN: $25B Anthropic AI investment → AI capex acceleration confirmation
+- Materials sector (#1 YTD +22%) names (FCX, NUE) still in wide-spread opening rotation at market open
+
+### Trade Ideas Evaluated
+1. **NVDA** ✓ EXECUTED — see TRADE-LOG for details
+2. FCX — Still in opening auction (wide spread $61.80/$65.60); SKIP until settled; re-evaluate midday
+3. GOOGL — Reports earnings tonight; binary risk; SKIP
+4. MSFT — Reports tonight; binary risk; wide spread at open; SKIP
+5. TSLA — Delivery miss, in opening auction; direction unclear; SKIP
+6. LRCX — Wide spread ($250/$274); post-earnings rotation; SKIP
+
+### Decision
+**TRADE** — Executed NVDA BUY (99 shares @ $201.73). AI infrastructure momentum with MSFT/GOOGL earnings tonight as catalyst read-through. All gates passed. 10% trailing stop placed (GTC, initial level $181.48). Remaining cash ~$80k. Hold capacity for 1-2 more trades this week if setups materialize.
+

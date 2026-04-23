@@ -28,3 +28,35 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 **Notes:** Proxy connectivity confirmed working for first time — Alpaca API returned live data successfully (equity $100,000, cash $100,000, zero positions, zero orders). No trades executed today; account remains at the $100k paper baseline with full cash. Zero positions open. Trades today: 0. Trades this week: 0/3. Tomorrow (Day 3, Friday): initiate first position scan — screen for momentum setups with tight stops, target 1–2 entries each ≤$10k, manage 3-trade weekly cap.
 
 ---
+
+## Apr 24 — Market-Open Trades (Day 3, Thursday — first live trades)
+
+### Trade #1 — NVDA BUY
+| Field | Value |
+|-------|-------|
+| Date | 2026-04-24 |
+| Ticker | NVDA |
+| Side | BUY |
+| Shares | 99 |
+| Entry Price | $201.73 |
+| Position Cost | $19,971.27 (19.9% of equity) |
+| Stop Type | 10% trailing stop GTC |
+| Initial Stop Level | $181.48 (trail from HWM $201.64) |
+| Stop Order ID | f93dcc04-fb1f-44aa-a164-f576fe46161f |
+| Target | $242.08 (+20%) |
+| Risk per Share | $20.17 |
+| Total Risk | $1,997 |
+| Total Reward | $4,005 |
+| R:R | 2.0:1 |
+| Thesis | AI infrastructure secular momentum: Amazon's $25B Anthropic investment confirms hyperscaler AI capex acceleration; MSFT and GOOGL report after close today — positive asymmetry for NVDA (beats raise AI spend guidance, lifting NVDA; misses only clip wings not the secular trend). Materials sector #1 YTD but in opening auction; NVDA cleanest liquid entry at open with $0.04 spread. Semiconductor AI cycle intact. |
+| Sector | Technology / Semiconductors |
+| Catalyst | Amazon $25B Anthropic AI deal; MSFT/GOOGL earnings tonight as AI capex read-through |
+
+### Apr 24 — Portfolio Snapshot (market open)
+**Portfolio:** ~$99,987 | **Cash:** ~$80,029 | **Positions:** 1 | **Trades this week:** 1/3 | **daytrade_count:** 0
+
+| Ticker | Shares | Entry | Current | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|---------|---------|----------------|------|
+| NVDA | 99 | $201.73 | $201.60 | -0.44% | -$12.87 | 10% trail (~$181.48) |
+
+---
