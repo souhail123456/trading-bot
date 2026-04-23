@@ -296,3 +296,53 @@ No action taken. Two persistent systemic blockers (Alpaca + Telegram 403). No po
 ### Decision
 **TRADE** — Executed NVDA BUY (99 shares @ $201.73). AI infrastructure momentum with MSFT/GOOGL earnings tonight as catalyst read-through. All gates passed. 10% trailing stop placed (GTC, initial level $181.48). Remaining cash ~$80k. Hold capacity for 1-2 more trades this week if setups materialize.
 
+
+---
+
+## 2026-04-23 — Midday Scan
+
+### Account
+- Equity: $99,981.20 | Cash: $80,028.73 | Buying Power: $180,009.93
+- Daytrade count: 1 (1/3 PDT rolling window used)
+- Open positions: 1 (NVDA) | Open orders: 1 (trailing stop GTC on NVDA)
+
+### NVDA Position Status
+| Field | Value |
+|-------|-------|
+| Shares | 99 |
+| Entry | $201.73 |
+| Current | $201.52 (bid $201.53 / ask $201.56, spread $0.03) |
+| Unrealized P&L | -$20.79 (-0.104%) |
+| Trailing Stop HWM | $203.829 |
+| Current Stop Level | ~$183.45 (10% trail) |
+| Stop Order ID | f93dcc04-fb1f-44aa-a164-f576fe46161f — ACTIVE GTC |
+
+### Threshold Checks
+- **Cut at -7%**: threshold $187.61 → NOT triggered (current $201.52 is $13.91 above threshold) ✓
+- **Tighten at +15%**: threshold $231.99 → NOT triggered ✓
+- **Tighten at +20%**: threshold $242.08 → NOT triggered ✓
+
+### Actions Taken
+- **NONE** — no cuts, no stop tightening required
+
+### Thesis Check — NVDA
+- Thesis: AI infrastructure secular momentum; MSFT/GOOGL earnings tonight as AI capex read-through catalyst
+- Status: **INTACT** — MSFT/GOOGL have NOT yet reported (catalyst event is tonight post-close)
+- NVDA -0.1% intraday is noise; SPY $711.04 shows healthy market tape
+- 10% trailing stop (HWM $203.829, floor $183.45) remains appropriate for pre-earnings hold
+- No thesis breakage observed; no action warranted
+
+### Market Context (midday)
+- SPY: $711.04 — market healthy, near highs
+- NVDA: $201.52 (bid/ask $201.53/$201.56 — ultra-tight, liquid)
+- MSFT + GOOGL earnings post-close tonight — key catalyst for NVDA read-through
+- Perplexity key missing; no intraday news research conducted (no sharp unexplained moves)
+
+### FCX Follow-up (from pre-market watchlist)
+- Was in wide-spread opening auction at market open; skipped then
+- Would need current quote and spread check before any entry consideration
+- Remaining cash: $80,028 → capacity for 1 more trade ≤$20k (20% of equity rule)
+- Trades this week: 1/3 used
+
+### Status
+**HOLD all.** No action taken. NVDA thesis intact, stop active, price well above -7% threshold. Await MSFT/GOOGL earnings tonight — positive results would strengthen AI capex thesis and could push NVDA toward +5–10% gains. Trailing stop protects against adverse outcome.

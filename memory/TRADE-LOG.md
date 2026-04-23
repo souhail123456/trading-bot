@@ -60,3 +60,20 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 | NVDA | 99 | $201.73 | $201.60 | -0.44% | -$12.87 | 10% trail (~$181.48) |
 
 ---
+
+---
+
+### Apr 23 — Midday Scan
+**Portfolio:** $99,981.20 | **Cash:** $80,028.73 | **Positions:** 1 | **Daytrades used:** 1/3
+
+| Ticker | Shares | Entry | Current | Unrealized P&L | Stop | Action |
+|--------|--------|-------|---------|----------------|------|--------|
+| NVDA | 99 | $201.73 | $201.52 | -$20.79 (-0.10%) | 10% trail HWM $203.83 (floor $183.45) | HOLD |
+
+**Midday Actions:** NONE
+- Cut check: -0.10% vs -7.00% threshold → no cut
+- Tighten check: -0.10% vs +15%/+20% thresholds → no tighten
+- Thesis check: MSFT/GOOGL earnings post-close tonight — catalyst INTACT
+- Trailing stop f93dcc04-fb1f-44aa-a164-f576fe46161f confirmed ACTIVE GTC
+
+**Notes:** Position healthy, stop in place, thesis live. Awaiting MSFT/GOOGL post-close earnings as AI capex read-through catalyst. No action warranted at midday.
