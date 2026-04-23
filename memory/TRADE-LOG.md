@@ -95,3 +95,14 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 - Proxy 403 blocks live confirmation; stop order assumed active (confirmed at morning scan)
 
 **Notes:** Proxy blocked (cloud IP rotation). All threshold checks clear by wide margin. Thesis strengthening — NVDA on 11-day streak. No action warranted. MSFT/GOOGL post-close tonight remains key catalyst.
+
+---
+
+### Apr 23 — EOD Snapshot (Day 3, Thursday)
+**Portfolio:** $99,791.15 | **Cash:** $80,028.73 (80.2%) | **Day P&L:** -$208.85 (-0.21%) | **Phase P&L:** -$208.85 (-0.21%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| NVDA | 99 | $201.73 | $199.62 | -1.42% | -$208.85 (-1.05%) | $183.45 (10% trail, HWM $203.83) |
+
+**Notes:** First full trading day with an open position. NVDA was entered this morning at $201.73 (99 shares, ~$19,971 / 20% of equity) on AI infrastructure momentum thesis — Amazon's $25B Anthropic deal + MSFT/GOOGL earnings as AI capex catalysts. NVDA closed at $199.62, down -1.42% on the day, leaving unrealized P&L at -$208.85 (-1.05% on position). The 10% trailing stop remains active GTC with HWM $203.83 and current stop floor $183.45 — position is well inside safe zone (-1.05% vs -10% stop). daytrade_count: 1. Trades today: 1 (NVDA BUY). Trades this week: 1/3. Tomorrow (Day 4, Friday): monitor NVDA at open — MSFT/GOOGL results will set the tone; if AI capex guidance strong, look for NVDA recovery. No new entries unless NVDA closes back above $201.73; hold stop. Weekly cap: 2 more trades available.
