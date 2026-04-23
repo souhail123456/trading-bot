@@ -19,10 +19,12 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 ---
 
 ### Apr 23 — EOD Snapshot (Day 2, Thursday)
-**Portfolio:** N/A | **Cash:** N/A | **Day P&L:** N/A | **Phase P&L:** N/A
+**Portfolio:** $100,000.00 | **Cash:** $100,000.00 (100%) | **Day P&L:** +$0.00 (+0.00%) | **Phase P&L:** +$0.00 (+0.00%)
 
 | Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
 |--------|--------|-------|-------|---------|----------------|------|
 | — | — | — | — | — | — | — |
 
-**Notes:** PROXY_URL and PROXY_TOKEN are now set, but Anthropic sandbox egress proxy blocks outbound calls to both trading-bot-proxy-production.up.railway.app and api.telegram.org ("Host not in allowlist"). Live portfolio data unavailable. No trades executed; account remains at $100k paper baseline. Zero positions open. Trades this week: 0/3. Telegram notification skipped (same block). Resolution requires either whitelisting Railway/Telegram in sandbox egress, or switching to a network context where outbound access is unrestricted.
+**Notes:** Proxy connectivity confirmed working for first time — Alpaca API returned live data successfully (equity $100,000, cash $100,000, zero positions, zero orders). No trades executed today; account remains at the $100k paper baseline with full cash. Zero positions open. Trades today: 0. Trades this week: 0/3. Tomorrow (Day 3, Friday): initiate first position scan — screen for momentum setups with tight stops, target 1–2 entries each ≤$10k, manage 3-trade weekly cap.
+
+---
