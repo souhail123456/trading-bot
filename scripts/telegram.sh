@@ -31,14 +31,28 @@ if [[ -z "${TELEGRAM_BOT_TOKEN:-}" || -z "${TELEGRAM_CHAT_ID:-}" ]]; then
   exit 2
 fi
 
-payload="$(python3 -c "
+# --- Proxy support ---
+if [[ -n "${PROXY_URL:-}" && -n "${PROXY_TOKEN:-}" ]]; then
+  payload="$(python3 -c "
+import json, sys
+print(json.dumps({'bot_token': sys.argv[1], 'chat_id': sys.argv[2], 'text': sys.argv[3], 'parse_mode': 'Markdown'}))
+" "$TELEGRAM_BOT_TOKEN" "$TELEGRAM_CHAT_ID" "$msg")"
+
+  curl -fsS -X POST \
+    "${PROXY_URL%/}/telegram" \
+    -H "Content-Type: application/json" \
+    -H "x-proxy-token: $PROXY_TOKEN" \
+    -d "$payload"
+else
+  payload="$(python3 -c "
 import json, sys
 print(json.dumps({'chat_id': sys.argv[1], 'text': sys.argv[2], 'parse_mode': 'Markdown'}))
 " "$TELEGRAM_CHAT_ID" "$msg")"
 
-curl -fsS -X POST \
-  "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-  -H "Content-Type: application/json" \
-  -d "$payload"
+  curl -fsS -X POST \
+    "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+    -H "Content-Type: application/json" \
+    -d "$payload"
+fi
 
 echo

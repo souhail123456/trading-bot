@@ -7,16 +7,19 @@ DATE=$(date +%Y-%m-%d).
 IMPORTANT — ENVIRONMENT VARIABLES:
 - Every API key is ALREADY exported as a process env var: ALPACA_API_KEY,
   ALPACA_SECRET_KEY, ALPACA_ENDPOINT, ALPACA_DATA_ENDPOINT,
-  PERPLEXITY_API_KEY, PERPLEXITY_MODEL, CLICKUP_API_KEY,
-  CLICKUP_WORKSPACE_ID, CLICKUP_CHANNEL_ID.
+  PROXY_URL, PROXY_TOKEN, TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID,
+  PERPLEXITY_API_KEY, PERPLEXITY_MODEL.
+- PROXY_URL and PROXY_TOKEN route Alpaca + Telegram calls through a Railway
+  proxy to bypass cloud IP blocks. The wrapper scripts handle this automatically.
 - There is NO .env file in this repo and you MUST NOT create, write, or
   source one. The wrapper scripts read directly from the process env.
-- If a wrapper prints "KEY not set in environment" -> STOP, send one
-  ClickUp alert naming the missing var, and exit.
+- STOP only if ALPACA_API_KEY or ALPACA_SECRET_KEY is missing.
 - Verify env vars BEFORE any wrapper call:
-  for v in ALPACA_API_KEY ALPACA_SECRET_KEY PERPLEXITY_API_KEY \
-           CLICKUP_API_KEY CLICKUP_WORKSPACE_ID CLICKUP_CHANNEL_ID; do
-    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING"
+  for v in ALPACA_API_KEY ALPACA_SECRET_KEY; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || { echo "$v: MISSING — aborting"; exit 1; }
+  done
+  for v in PROXY_URL PROXY_TOKEN TELEGRAM_BOT_TOKEN TELEGRAM_CHAT_ID PERPLEXITY_API_KEY; do
+    [[ -n "${!v:-}" ]] && echo "$v: set" || echo "$v: MISSING (optional — fallback applies)"
   done
 
 IMPORTANT — PERSISTENCE:
