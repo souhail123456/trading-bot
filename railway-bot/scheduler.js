@@ -10,14 +10,26 @@ const { runAgent } = require("./agent");
 // Daily Summary: 20:00 UTC (4:00 AM+1 Shanghai)
 // Weekly Review: 21:00 UTC Friday (5:00 AM+1 Saturday Shanghai)
 
-const RAW_BASE =
-  "https://raw.githubusercontent.com/souhail123456/trading-bot/main/routines";
-
 async function fetchRoutine(name) {
-  const url = `${RAW_BASE}/${name}.md`;
-  const res = await fetch(url);
-  if (!res.ok) throw new Error(`Failed to fetch ${url}: ${res.status}`);
-  return res.text();
+  // Clone repo (with auth) and read the routine file
+  const { execSync } = require("child_process");
+  const GH_TOKEN = process.env.GH_TOKEN || "";
+  const repoUrl = GH_TOKEN
+    ? `https://x-access-token:${GH_TOKEN}@github.com/souhail123456/trading-bot.git`
+    : "https://github.com/souhail123456/trading-bot.git";
+  const tmpDir = `/tmp/routines-${Date.now()}`;
+  try {
+    execSync(`git clone --depth 1 ${repoUrl} ${tmpDir}`, {
+      timeout: 30000, encoding: "utf-8",
+      env: { ...process.env, HOME: process.env.HOME || "/root" },
+    });
+    const content = require("fs").readFileSync(`${tmpDir}/routines/${name}.md`, "utf-8");
+    execSync(`rm -rf ${tmpDir}`, { timeout: 5000 });
+    return content;
+  } catch (err) {
+    try { execSync(`rm -rf ${tmpDir}`, { timeout: 5000 }); } catch {}
+    throw new Error(`Failed to load routine ${name}: ${err.message}`);
+  }
 }
 
 async function runRoutine(name) {
