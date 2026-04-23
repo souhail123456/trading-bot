@@ -25,4 +25,4 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 |--------|--------|-------|-------|---------|----------------|------|
 | — | — | — | — | — | — | — |
 
-**Notes:** Alpaca API returned 403 again — PROXY_URL env var not set so all calls hit Alpaca directly and are blocked. No trades executed; account presumed at $100k paper baseline with full cash. Zero positions open. Trades this week: 0/3. Root cause: Railway proxy credentials (PROXY_URL, PROXY_TOKEN) must be configured in the environment to bypass the IP block. No trading activity possible until proxy is wired up.
+**Notes:** PROXY_URL and PROXY_TOKEN are now set, but Anthropic sandbox egress proxy blocks outbound calls to both trading-bot-proxy-production.up.railway.app and api.telegram.org ("Host not in allowlist"). Live portfolio data unavailable. No trades executed; account remains at $100k paper baseline. Zero positions open. Trades this week: 0/3. Telegram notification skipped (same block). Resolution requires either whitelisting Railway/Telegram in sandbox egress, or switching to a network context where outbound access is unrestricted.
