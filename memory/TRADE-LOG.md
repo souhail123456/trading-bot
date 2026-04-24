@@ -133,3 +133,21 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 - Stop well-placed — 10% trail from HWM $210.95 provides $21.09/share protection
 
 **Notes:** Best day of the position. MSFT/GOOGL AI capex beat confirmed read-through to NVDA. Equity back above $100k baseline for first time since open. Phase P&L +$796 on 1 position. No new trade signals observed — 2/3 weekly trades remaining, $80k cash deployed-ready. Continue holding with active 10% trailing stop.
+
+---
+
+### Apr 24 — Afternoon Update (proxy blocked; WebSearch)
+**Est. NVDA price:** ~$209–210 | **Est. Unrealized P&L:** ~+$720–810 (~+3.6–4.0%)
+
+| Ticker | Shares | Entry | Est. Current | Est. Unrealized P&L | Stop | Action |
+|--------|--------|-------|--------------|---------------------|------|--------|
+| NVDA | 99 | $201.73 | ~$209–210 | ~+$720–810 (+3.6–4.0%) | 10% trail, HWM $210.95, floor $189.86 | HOLD |
+
+**Afternoon Actions:** NONE
+- Cut check: ~+3.8% vs -7.00% threshold → no cut ✓
+- Tighten check: ~+3.8% vs +15%/+20% → no tighten ✓
+- Thesis check: Intel Q1 blowout ($0.29 EPS vs $0.01 est.) amplifies semiconductor cycle thesis → INTACT ✓
+- Two sequential catalyst confirmations: MSFT/GOOGL (Apr 23) + Intel (Apr 24)
+- Trailing stop f93dcc04-fb1f-44aa-a164-f576fe46161f assumed ACTIVE GTC
+
+**Notes:** Semiconductor sector on fire — QCOM +8%, NVDA +5%. Thesis confirmed twice in two days. No new trades (no fresh setup; patience > activity). Weekly trade count: 1/3. EOD summary to follow.
