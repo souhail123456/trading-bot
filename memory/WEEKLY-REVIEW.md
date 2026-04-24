@@ -50,14 +50,14 @@ Template for each entry:
 | Metric | Value |
 |--------|-------|
 | Starting portfolio | $100,000.00 (account reset baseline) |
-| Ending portfolio | $100,629.64 |
-| Week return | +$629.64 (+0.63%) |
-| S&P 500 week | +0.54% (SPY $710.14 → $713.94) |
-| Bot vs S&P | +0.09% |
+| Ending portfolio | $100,637.56 |
+| Week return | +$637.56 (+0.64%) |
+| S&P 500 week | +0.45% (SPY $710.14 → $713.33) |
+| Bot vs S&P | +0.19% |
 | Trades | 1 (W:0 / L:0 / open:1) |
 | Win rate | N/A (no closed trades) |
-| Best trade | NVDA +3.15% (open) |
-| Worst trade | NVDA +3.15% (only trade, open) |
+| Best trade | NVDA +3.19% (open) |
+| Worst trade | NVDA +3.19% (only trade, open) |
 | Profit factor | N/A (no closed trades) |
 
 ### Closed Trades
@@ -68,7 +68,7 @@ Template for each entry:
 ### Open Positions at Week End
 | Ticker | Entry | Close | Unrealized | Stop |
 |--------|-------|-------|------------|------|
-| NVDA | $201.73 | $208.09 | +$629.64 (+3.15%) | $189.86 (10% trail, HWM $210.95) |
+| NVDA | $201.73 | $208.17 | +$637.56 (+3.19%) | $189.86 (10% trail, HWM $210.95) |
 
 ### What Worked
 - **NVDA catalyst thesis executed cleanly**: Amazon $25B Anthropic deal + MSFT/GOOGL AI capex guidance (Apr 23 post-close) + Intel Q1 blowout ($0.29 EPS vs $0.01 est., Apr 24) — three sequential catalyst confirmations within 48 hours of entry
@@ -82,7 +82,7 @@ Template for each entry:
 - **Early week total paralysis (Mon–Wed)**: API 403 blocked all execution Mon–Wed (Apr 20–22); entire Mon–Wed window was lost; zero trades placed even when setups (FCX, GEV) were identified — execution infrastructure dependency is a single point of failure
 - **Proxy reliability**: Intermittent 403 blocks (at least 3 separate sessions this week) meant live price data was unavailable repeatedly; had to rely on estimated WebSearch prices for afternoon checks
 - **No second position entered**: Even after NVDA confirmed +3.99% on Friday AM with $80k cash available, no second position was initiated — two more trade slots were available; could have added AMD or a materials play for broader exposure
-- **Phase performance barely beats S&P (+0.09%)**: Portfolio outperformed by just 9 basis points this week; the large cash drag (79.5% uninvested) suppressed returns that a more deployed book would have captured
+- **Phase performance barely beats S&P (+0.19%)**: Portfolio outperformed by just 19 basis points this week; the large cash drag (79.5% uninvested) suppressed returns that a more deployed book would have captured
 
 ### Key Lessons
 - **Infrastructure first**: The API/proxy blockers (403) cost 3 trading days of deployment (Mon–Wed). Without execution access, even correct thesis generates zero return. Need proxy reliability as a first-order concern next week.
@@ -101,4 +101,4 @@ Template for each entry:
 
 ### Overall Grade: C+
 
-**Rationale**: Portfolio edged the S&P by 9 bps on the strength of one well-executed trade (NVDA, catalyst confirmed). However, the massive cash drag (79.5% uninvested), lost Mon–Wed window due to API issues, and failure to add 2nd/3rd positions despite ample cash and opportunity significantly underperformed the strategy's 75-85% deployment target. The individual trade selection and discipline (stops, skipping bad setups) were excellent (would grade A on trade quality alone), but portfolio-level execution earns a C+.
+**Rationale**: Portfolio edged the S&P by 19 bps on the strength of one well-executed trade (NVDA, catalyst confirmed). However, the massive cash drag (79.5% uninvested), lost Mon–Wed window due to API issues, and failure to add 2nd/3rd positions despite ample cash and opportunity significantly underperformed the strategy's 75-85% deployment target. The individual trade selection and discipline (stops, skipping bad setups) were excellent (would grade A on trade quality alone), but portfolio-level execution earns a C+.
