@@ -1,0 +1,45 @@
+name: Test Alpaca API
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Test Alpaca account endpoint
+        env:
+          ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+          ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+        run: |
+          echo "Testing Alpaca paper API from GitHub Actions..."
+          HTTP_CODE=$(curl -s -o /tmp/response.json -w "%{http_code}" \
+            -H "APCA-API-KEY-ID: $ALPACA_API_KEY" \
+            -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" \
+            https://paper-api.alpaca.markets/v2/account)
+          echo "HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "SUCCESS - Alpaca API works from GitHub Actions"
+            cat /tmp/response.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(f'Equity: \${d[\"equity\"]}, Cash: \${d[\"cash\"]}, Status: {d[\"status\"]}')"
+          else
+            echo "FAILED - HTTP $HTTP_CODE"
+            cat /tmp/response.json
+          fi
+
+      - name: Test Telegram send
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "Testing Telegram Bot API from GitHub Actions..."
+          HTTP_CODE=$(curl -s -o /tmp/tg_response.json -w "%{http_code}" \
+            -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -H "Content-Type: application/json" \
+            -d "{\"chat_id\": \"${TELEGRAM_CHAT_ID}\", \"text\": \"GitHub Actions test - connectivity OK\"}")
+          echo "HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "SUCCESS - Telegram works from GitHub Actions"
+          else
+            echo "FAILED - HTTP $HTTP_CODE"
+            cat /tmp/tg_response.json
+          fi
