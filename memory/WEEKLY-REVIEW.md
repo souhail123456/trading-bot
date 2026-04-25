@@ -102,3 +102,59 @@ Template for each entry:
 ### Overall Grade: C+
 
 **Rationale**: Portfolio edged the S&P by 19 bps on the strength of one well-executed trade (NVDA, catalyst confirmed). However, the massive cash drag (79.5% uninvested), lost Mon–Wed window due to API issues, and failure to add 2nd/3rd positions despite ample cash and opportunity significantly underperformed the strategy's 75-85% deployment target. The individual trade selection and discipline (stops, skipping bad setups) were excellent (would grade A on trade quality alone), but portfolio-level execution earns a C+.
+
+## Week ending 2026-04-25
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100,000.00 |
+| Ending portfolio | $100,647.46 |
+| Week return | +$647.46 (+0.65%) |
+| S&P 500 week | +0.45% |
+| Bot vs S&P | +0.20% |
+| Trades | 1 (W:0 / L:0 / open:1) |
+| Win rate | N/A |
+| Best trade | NVDA +3.25% (open) |
+| Worst trade | NVDA +3.25% (only trade, open) |
+| Profit factor | N/A |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+| — | — | — | — | No closed trades this week |
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+| NVDA | $201.73 | $208.27 | +$647.46 (+3.25%) | $189.86 (10% trail, HWM $210.95) |
+
+### What Worked
+- NVDA catalyst thesis executed cleanly
+- Patient deployment and trailing stop placement
+- Proxy / API blockers handled gracefully
+- Sector alignment with Technology / Semiconductors
+
+### What Didn't Work
+- Deployed only 1 of 3 weekly trade slots
+- Early week total paralysis due to API access issues
+- Proxy reliability issues
+- No second position entered
+- Phase performance barely beats S&P
+
+### Key Lessons
+- Infrastructure reliability is crucial
+- Catalyst stacking amplifies confidence
+- Cash drag suppresses returns
+- Good skips have value
+- Stop trail working as designed
+
+### Adjustments for Next Week
+- Target 3-4 positions (40-60% deployed)
+- NVDA threshold watch for tightening stops
+- Monday pre-market scan is critical
+- AMD as next entry candidate
+- Maintain 3-trade weekly cap discipline
+- Exit NVDA if thesis breaks
+
+### Overall Grade: C+
