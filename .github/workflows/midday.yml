@@ -1,0 +1,67 @@
+name: Midday Scan
+
+"on":
+  schedule:
+    # 1:00 AM GMT+8 = 5:00 PM UTC (previous day), Tue-Sat
+    - cron: '0 17 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Alpaca data
+        run: |
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/account > /tmp/account.json
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
+          echo "Positions:" && python3 -c "import json; [print(f'{p[\"symbol\"]}: {p[\"unrealized_plpc\"]}') for p in json.load(open('/tmp/positions.json'))]"
+
+      - name: Build prompt and call Groq
+        run: |
+          python3 scripts/build_midday_prompt.py
+          HTTP=$(curl -s -o /tmp/groq_response.json -w "%{http_code}" -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer $GROQ_API_KEY" -H "Content-Type: application/json" -d @/tmp/prompt.json)
+          echo "Groq HTTP: $HTTP"
+          test "$HTTP" = "200" || { cat /tmp/groq_response.json; exit 1; }
+
+      - name: Execute midday actions
+        run: python3 scripts/execute_midday.py
+
+      - name: Update TRADE-LOG
+        run: |
+          ENTRY=$(cat /tmp/trade_log_entry.md)
+          test -z "$ENTRY" && echo "No trade log entry" && exit 0
+          echo "" >> memory/TRADE-LOG.md
+          cat /tmp/trade_log_entry.md >> memory/TRADE-LOG.md
+          echo "" >> memory/TRADE-LOG.md
+
+      - name: Send Telegram (only if action taken)
+        run: |
+          MSG=$(cat /tmp/telegram_msg.txt)
+          echo "$MSG" | grep -qi "no action" && echo "No action — skipping Telegram" && exit 0
+          python3 -c "
+          import json, urllib.request
+          msg = open('/tmp/telegram_msg.txt').read()
+          data = json.dumps({'chat_id': '${{ secrets.TELEGRAM_CHAT_ID }}', 'text': msg}).encode()
+          req = urllib.request.Request('https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage', data=data, headers={'Content-Type': 'application/json'})
+          urllib.request.urlopen(req)
+          print('Telegram sent')
+          "
+
+      - name: Commit and push
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "bot@trading-bot"
+          git add memory/TRADE-LOG.md
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Midday scan $(date -u +%Y-%m-%d)"
+          git push

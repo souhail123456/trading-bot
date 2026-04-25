@@ -1,0 +1,82 @@
+name: Weekly Review
+
+"on":
+  schedule:
+    # 5:00 AM GMT+8 Saturday = 9:00 PM UTC Friday
+    - cron: '0 21 * * 5'
+  workflow_dispatch:
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Fetch Alpaca data
+        run: |
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/account > /tmp/account.json
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
+
+      - name: Get S&P 500 weekly performance
+        run: |
+          DATE=$(date -u +%Y-%m-%d)
+          python3 -c "
+          import json
+          payload = {
+              'model': 'llama-3.3-70b-versatile',
+              'messages': [{'role': 'user', 'content': 'What was the S&P 500 weekly return for the week ending $DATE? Give me the Monday open, Friday close, and weekly % change. Plain text, concise.'}],
+              'max_tokens': 300,
+              'temperature': 0.3
+          }
+          with open('/tmp/sp500_query.json', 'w') as f:
+              json.dump(payload, f)
+          "
+          sed -i "s/\$DATE/$DATE/g" /tmp/sp500_query.json
+          HTTP=$(curl -s -o /tmp/sp500_resp.json -w "%{http_code}" -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer $GROQ_API_KEY" -H "Content-Type: application/json" -d @/tmp/sp500_query.json)
+          if [ "$HTTP" = "200" ]; then
+            python3 -c "import json; print(json.load(open('/tmp/sp500_resp.json'))['choices'][0]['message']['content'])" > /tmp/sp500.txt
+          else
+            echo "S&P 500 data unavailable" > /tmp/sp500.txt
+          fi
+          cat /tmp/sp500.txt
+
+      - name: Build prompt and call Groq
+        run: |
+          python3 scripts/build_weekly_review_prompt.py
+          HTTP=$(curl -s -o /tmp/groq_response.json -w "%{http_code}" -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer $GROQ_API_KEY" -H "Content-Type: application/json" -d @/tmp/prompt.json)
+          echo "Groq HTTP: $HTTP"
+          test "$HTTP" = "200" || { cat /tmp/groq_response.json; exit 1; }
+          python3 scripts/parse_groq_response.py
+
+      - name: Update WEEKLY-REVIEW
+        run: |
+          echo "" >> memory/WEEKLY-REVIEW.md
+          cat /tmp/trade_log_entry.md >> memory/WEEKLY-REVIEW.md
+          echo "" >> memory/WEEKLY-REVIEW.md
+
+      - name: Send Telegram
+        run: |
+          python3 -c "
+          import json, urllib.request
+          msg = open('/tmp/telegram_msg.txt').read()
+          data = json.dumps({'chat_id': '${{ secrets.TELEGRAM_CHAT_ID }}', 'text': msg}).encode()
+          req = urllib.request.Request('https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage', data=data, headers={'Content-Type': 'application/json'})
+          urllib.request.urlopen(req)
+          print('Telegram sent')
+          "
+
+      - name: Commit and push
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "bot@trading-bot"
+          git add memory/WEEKLY-REVIEW.md
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Weekly review $(date -u +%Y-%m-%d)"
+          git push
