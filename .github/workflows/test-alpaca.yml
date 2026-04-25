@@ -26,6 +26,25 @@ jobs:
             cat /tmp/response.json
           fi
 
+      - name: Test Groq LLM
+        env:
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+        run: |
+          echo "Testing Groq API from GitHub Actions..."
+          HTTP_CODE=$(curl -s -o /tmp/groq.json -w "%{http_code}" \
+            -X POST "https://api.groq.com/openai/v1/chat/completions" \
+            -H "Authorization: Bearer $GROQ_API_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{"model":"llama-3.3-70b-versatile","messages":[{"role":"user","content":"Say OK in one word"}],"max_tokens":5}')
+          echo "HTTP status: $HTTP_CODE"
+          if [ "$HTTP_CODE" = "200" ]; then
+            echo "SUCCESS - Groq works from GitHub Actions"
+            python3 -c "import sys,json; print(json.load(open('/tmp/groq.json'))['choices'][0]['message']['content'])"
+          else
+            echo "FAILED - HTTP $HTTP_CODE"
+            cat /tmp/groq.json
+          fi
+
       - name: Test Telegram send
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
