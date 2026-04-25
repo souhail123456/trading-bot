@@ -162,3 +162,12 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 | NVDA | 99 | $201.73 | $208.17 | +4.27% | +$637.56 (+3.19%) | $189.86 (10% trail, HWM $210.95) |
 
 **Notes:** Strong close to a strong week. NVDA +4.27% on the day, carried by the double catalyst confirmation — MSFT/GOOGL AI capex beats (Apr 23 post-close) and Intel Q1 blowout (Apr 24). Portfolio cleared $100k for the first time since phase open, ending at $100,637.56. Day P&L +$844.47 (+0.85%); phase P&L +$637.56 (+0.64%). The 10% trailing stop remains active GTC (order f93dcc04), HWM $210.95, floor $189.86 — protecting nearly all unrealized gain. Trades today: NONE (hold). Trades this week: 1/3 (NVDA BUY on Apr 23). Weekly cap intact: 2 unused slots carry over to next week. Entering the weekend with 79.5% cash, 1 open position in a strong AI infrastructure name, thesis fully confirmed. Next week: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
+
+### Apr 25 — EOD Snapshot (Day 5, Saturday)
+**Portfolio:** $100,647.46 | **Cash:** $80,028.73 (79.6%) | **Day P&L:** +$9.90 (+0.01%) | **Phase P&L:** +$647.46 (+0.65%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| NVDA | 99 | $201.73 | $208.27 | +0.00% | $647.46 (+3.25%) | $189.86 (10% trail, HWM $210.95) |
+
+**Notes:** No trading activity on Saturday. Portfolio remains steady, with NVDA holding its value. Phase P&L at +$647.46. Trailing stop remains active.
