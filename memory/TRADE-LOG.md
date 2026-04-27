@@ -1,3 +1,12 @@
+<!-- SUMMARY
+portfolio_value: 101553.31
+cash: 80028.73
+total_pnl: 1553.31
+open_positions: [{"symbol": "NVDA", "shares": 99, "entry": 201.73, "side": "BUY", "unrealized_pnl": 1554.30}]
+closed_trades: []
+last_updated: 2026-04-28T00:00:00Z
+-->
+
 # Trade Log
 
 ## Day 0 — EOD Snapshot (pre-launch baseline, account reset)

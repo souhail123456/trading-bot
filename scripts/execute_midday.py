@@ -50,15 +50,29 @@ def alpaca(method, path, data=None):
         return None
 
 actions_taken = []
+closed_trades_new = []
 
 # Cut losers
 for cut in plan.get("cuts", []):
     sym = cut["symbol"]
     print(f"CUTTING {sym}: {cut['reason']}")
+
+    # Get position details before closing
+    pos = alpaca("GET", f"positions/{sym}")
+    entry_price = float(pos["avg_entry_price"]) if pos else 0
+    current_price = float(pos["current_price"]) if pos else 0
+    qty = int(pos["qty"]) if pos else 0
+
     result = alpaca("DELETE", f"positions/{sym}")
     if result:
         print(f"Closed {sym}")
         actions_taken.append(f"CUT {sym} ({cut['reason']})")
+        realized_pnl = round((current_price - entry_price) * qty, 2)
+        closed_trades_new.append({
+            "symbol": sym, "shares": qty, "entry": entry_price,
+            "exit": current_price, "realized_pnl": realized_pnl,
+            "reason": cut["reason"]
+        })
 
     # Cancel its stop order
     cancel_id = cut.get("cancel_order_id")
@@ -99,6 +113,11 @@ for tighten in plan.get("stop_tightens", []):
 with open("/tmp/trade_log_entry.md", "w") as f:
     entry = plan.get("trade_log_entry", "")
     f.write(entry)
+
+# Save closed trades for summary updater
+if closed_trades_new:
+    with open("/tmp/closed_trades_new.json", "w") as f:
+        json.dump(closed_trades_new, f)
 
 # Update telegram if actions were taken
 if actions_taken:
