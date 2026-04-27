@@ -171,3 +171,5 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 | NVDA | 99 | $201.73 | $208.27 | +0.00% | $647.46 (+3.25%) | $189.86 (10% trail, HWM $210.95) |
 
 **Notes:** No trading activity on Saturday. Portfolio remains steady, with NVDA holding its value. Phase P&L at +$647.46. Trailing stop remains active.
+
+Cut NVDA at +3.25% unrealized P&L, tighten trailing stop to 7% at +15%.
