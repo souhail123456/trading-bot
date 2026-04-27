@@ -77,7 +77,7 @@ jobs:
         run: |
           git config user.name "trading-bot"
           git config user.email "bot@trading-bot"
-          git add memory/RESEARCH-LOG.md
+          git add memory/
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Pre-market research $(date -u +%Y-%m-%d)"
           git push

@@ -74,7 +74,7 @@ jobs:
         run: |
           git config user.name "trading-bot"
           git config user.email "bot@trading-bot"
-          git add memory/WEEKLY-REVIEW.md
+          git add memory/
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "Weekly review $(date -u +%Y-%m-%d)"
           git push

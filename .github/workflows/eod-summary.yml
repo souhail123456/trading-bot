@@ -39,6 +39,9 @@ jobs:
           cat /tmp/trade_log_entry.md >> memory/TRADE-LOG.md
           echo "" >> memory/TRADE-LOG.md
 
+      - name: Snapshot portfolio
+        run: python3 scripts/snapshot_portfolio.py
+
       - name: Send Telegram
         run: |
           python3 -c "
@@ -54,7 +57,7 @@ jobs:
         run: |
           git config user.name "trading-bot"
           git config user.email "bot@trading-bot"
-          git add memory/TRADE-LOG.md
+          git add memory/
           git diff --cached --quiet && echo "No changes" && exit 0
           git commit -m "EOD snapshot $(date -u +%Y-%m-%d)"
           git push
