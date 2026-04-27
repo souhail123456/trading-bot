@@ -173,3 +173,22 @@ New API keys generated Apr 22. Account reset to $100k default paper balance. No 
 **Notes:** No trading activity on Saturday. Portfolio remains steady, with NVDA holding its value. Phase P&L at +$647.46. Trailing stop remains active.
 
 Cut NVDA at +3.25% unrealized P&L, tighten trailing stop to 7% at +15%.
+
+### Apr 27 — EOD Snapshot (Day 7, Monday)
+**Portfolio:** $101,541.43 | **Cash:** $80,028.73 (78.8%) | **Day P&L:** +$894.97 (+0.89%) | **Phase P&L:** +$1,541.43 (+1.54%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| NVDA | 99 | $201.73 | $217.3 | +4.27% | $1,541.43 (+7.65%) | $189.86 (7% trail, HWM $210.95) |
+
+**Notes:** NVDA continues to outperform, with a +4.27% day. The trailing stop was tightened to 7% at +15% and is now at $189.86. The portfolio remains strong, with a +1.54% phase P&L.
+
+---
+
+EOD Apr 27
+Portfolio: $101,541.43 (+1.54% phase, +0.89% day)
+Cash: $80,028.73
+Trades today: NONE (hold)
+Open positions:
+  NVDA +7.65% (stop $189.86)
+Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
