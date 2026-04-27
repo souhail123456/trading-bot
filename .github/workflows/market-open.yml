@@ -54,9 +54,7 @@ jobs:
       - name: Build prompt and call Groq
         run: |
           python3 scripts/build_market_open_prompt.py
-          HTTP=$(curl -s -o /tmp/groq_response.json -w "%{http_code}" -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer $GROQ_API_KEY" -H "Content-Type: application/json" -d @/tmp/prompt.json)
-          echo "Groq HTTP: $HTTP"
-          test "$HTTP" = "200" || { cat /tmp/groq_response.json; exit 1; }
+          bash scripts/call_groq.sh /tmp/prompt.json /tmp/groq_response.json
 
       - name: Execute trades
         run: python3 scripts/execute_trades.py
