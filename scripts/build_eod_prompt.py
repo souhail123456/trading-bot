@@ -62,7 +62,7 @@ Starting equity (phase): $100,000
 {json.dumps(orders, indent=2)}
 
 === RECENT TRADE LOG ===
-{trade_log[-3000:]}
+{trade_log[-1500:]}
 
 === STRATEGY RULES ===
 {strategy}

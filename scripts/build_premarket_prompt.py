@@ -75,10 +75,10 @@ user_msg = f"""Date: {date} ({day_of_week})
 {market_context}
 
 === RECENT TRADE LOG (tail) ===
-{trade_log[-2000:]}
+{trade_log[-1000:]}
 
 === RECENT RESEARCH LOG (tail) ===
-{research_log[-2000:]}
+{research_log[-1000:]}
 
 === STRATEGY RULES ===
 {strategy}
@@ -97,7 +97,7 @@ payload = {
         {"role": "system", "content": system_msg},
         {"role": "user", "content": user_msg}
     ],
-    "max_tokens": 2000,
+    "max_tokens": 1200,
     "temperature": 0.3
 }
 

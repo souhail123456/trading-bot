@@ -31,9 +31,9 @@ jobs:
           python3 -c "
           import json
           payload = {
-              'model': 'llama-3.3-70b-versatile',
+              'model': 'llama-3.1-8b-instant',
               'messages': [{'role': 'user', 'content': 'Give me a concise market briefing for $DATE: S&P 500 futures, Nasdaq futures, VIX, WTI oil price, Brent oil, major earnings before open today, key economic data releases, and top 3 sector movers. Plain text, no markdown.'}],
-              'max_tokens': 800,
+              'max_tokens': 500,
               'temperature': 0.3
           }
           with open('/tmp/market_query.json', 'w') as f:

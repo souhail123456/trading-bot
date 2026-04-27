@@ -30,9 +30,9 @@ jobs:
           python3 -c "
           import json
           payload = {
-              'model': 'llama-3.3-70b-versatile',
+              'model': 'llama-3.1-8b-instant',
               'messages': [{'role': 'user', 'content': 'What was the S&P 500 weekly return for the week ending $DATE? Give me the Monday open, Friday close, and weekly % change. Plain text, concise.'}],
-              'max_tokens': 300,
+              'max_tokens': 200,
               'temperature': 0.3
           }
           with open('/tmp/sp500_query.json', 'w') as f:

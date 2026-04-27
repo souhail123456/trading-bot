@@ -56,10 +56,10 @@ user_msg = f"""Date: {date}
 {json.dumps(orders, indent=2)}
 
 === RECENT TRADE LOG ===
-{trade_log[-2000:]}
+{trade_log[-1000:]}
 
 === TODAY'S RESEARCH ===
-{research_log[-2000:]}
+{research_log[-1000:]}
 
 === STRATEGY ===
 {strategy}

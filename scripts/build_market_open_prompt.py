@@ -71,10 +71,10 @@ user_msg = f"""Date: {date}
 {quotes}
 
 === TODAY'S RESEARCH LOG ===
-{research_log[-3000:]}
+{research_log[-1500:]}
 
 === RECENT TRADE LOG ===
-{trade_log[-2000:]}
+{trade_log[-1000:]}
 
 === STRATEGY ===
 {strategy}
