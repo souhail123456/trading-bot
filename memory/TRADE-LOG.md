@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 101123.16
-cash: 80028.73
-total_pnl: 1123.16
-open_positions: [{"symbol": "NVDA", "shares": 99, "entry": 201.73, "side": "BUY", "unrealized_pnl": 1123.15}]
+portfolio_value: 101040.54
+cash: 66396.86
+total_pnl: 1040.54
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": -9.18}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": -34.29}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": 25.7}, {"symbol": "NVDA", "shares": 99, "entry": 201.73, "side": "BUY", "unrealized_pnl": 1058.31}]
 closed_trades: []
-last_updated: 2026-04-28T14:19:17Z
+last_updated: 2026-04-28T23:34:30Z
 -->
 
 # Trade Log
@@ -203,3 +203,5 @@ Open positions:
 Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
 
 Placed trades on GOOGL, MSFT, and AMZN based on earnings thesis and sector momentum.
+
+Cut AMZN at -0.00392% unrealized loss. Tightened NVDA stop to 5% trail. Thesis broken for AMZN, will close at next opportunity.
