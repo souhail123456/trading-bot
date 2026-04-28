@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Build the Groq prompt JSON for weekly review."""
-import json, os
+import json, os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from prompt_utils import recent_trade_log, recent_research_log, compact_strategy, tail_sections
 
 account = json.load(open("/tmp/account.json"))
 positions = json.load(open("/tmp/positions.json"))
@@ -86,17 +88,17 @@ user_msg = f"""Date: {date}
 === S&P 500 WEEKLY PERFORMANCE ===
 {sp500}
 
-=== FULL TRADE LOG (this week) ===
-{trade_log}
+=== TRADE LOG (this week) ===
+{recent_trade_log(trade_log, 2000)}
 
-=== FULL RESEARCH LOG (this week) ===
-{research_log[-2000:]}
+=== RESEARCH LOG (this week) ===
+{recent_research_log(research_log, 1500)}
 
 === STRATEGY ===
-{strategy}
+{compact_strategy(strategy)}
 
-=== PREVIOUS WEEKLY REVIEWS ===
-{weekly_review}
+=== PREVIOUS WEEKLY REVIEWS (last) ===
+{tail_sections(weekly_review, 1500)}
 
 Produce the weekly review. Starting equity for the phase is $100,000.
 For week starting equity, use Monday's opening equity from TRADE-LOG.

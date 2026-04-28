@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build the Groq prompt JSON for EOD summary."""
-import json
-import os
+import json, os, sys
 from datetime import datetime
+sys.path.insert(0, os.path.dirname(__file__))
+from prompt_utils import recent_trade_log, compact_strategy
 
 account = json.load(open("/tmp/account.json"))
 positions = json.load(open("/tmp/positions.json"))
@@ -62,10 +63,10 @@ Starting equity (phase): $100,000
 {json.dumps(orders, indent=2)}
 
 === RECENT TRADE LOG ===
-{trade_log[-1500:]}
+{recent_trade_log(trade_log, 1000)}
 
 === STRATEGY RULES ===
-{strategy}
+{compact_strategy(strategy)}
 
 Produce the EOD summary now. Remember:
 - Day P&L = today equity minus last EOD equity (find it in the trade log)

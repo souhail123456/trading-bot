@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Build the Groq prompt JSON for midday scan."""
-import json, os
+import json, os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from prompt_utils import recent_trade_log, recent_research_log, compact_strategy
 
 account = json.load(open("/tmp/account.json"))
 positions = json.load(open("/tmp/positions.json"))
@@ -56,13 +58,13 @@ user_msg = f"""Date: {date}
 {json.dumps(orders, indent=2)}
 
 === RECENT TRADE LOG ===
-{trade_log[-1000:]}
+{recent_trade_log(trade_log, 800)}
 
 === TODAY'S RESEARCH ===
-{research_log[-1000:]}
+{recent_research_log(research_log, 800)}
 
 === STRATEGY ===
-{strategy}
+{compact_strategy(strategy)}
 
 Run the midday scan. For each position: check P&L vs -7% cut rule, check if stop needs tightening, check if thesis still holds."""
 

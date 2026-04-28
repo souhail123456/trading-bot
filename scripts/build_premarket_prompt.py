@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 """Build the Groq prompt JSON for pre-market research."""
-import json, os
+import json, os, sys
 from datetime import datetime
+sys.path.insert(0, os.path.dirname(__file__))
+from prompt_utils import recent_trade_log, recent_research_log, compact_strategy
 
 account = json.load(open("/tmp/account.json"))
 positions = json.load(open("/tmp/positions.json"))
@@ -75,13 +77,13 @@ user_msg = f"""Date: {date} ({day_of_week})
 {market_context}
 
 === RECENT TRADE LOG (tail) ===
-{trade_log[-1000:]}
+{recent_trade_log(trade_log, 800)}
 
 === RECENT RESEARCH LOG (tail) ===
-{research_log[-1000:]}
+{recent_research_log(research_log, 800)}
 
 === STRATEGY RULES ===
-{strategy}
+{compact_strategy(strategy)}
 
 Produce pre-market research now. Key rules:
 - Default to HOLD unless there's a clear edge

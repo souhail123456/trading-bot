@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 """Build the Groq prompt JSON for market-open execution."""
-import json, os
+import json, os, sys
+sys.path.insert(0, os.path.dirname(__file__))
+from prompt_utils import recent_trade_log, recent_research_log, compact_strategy
 
 account = json.load(open("/tmp/account.json"))
 positions = json.load(open("/tmp/positions.json"))
@@ -71,13 +73,13 @@ user_msg = f"""Date: {date}
 {quotes}
 
 === TODAY'S RESEARCH LOG ===
-{research_log[-1500:]}
+{recent_research_log(research_log, 1200)}
 
 === RECENT TRADE LOG ===
-{trade_log[-1000:]}
+{recent_trade_log(trade_log, 800)}
 
 === STRATEGY ===
-{strategy}
+{compact_strategy(strategy)}
 
 Decide: execute trades from today's research, or HOLD. Default HOLD unless thesis is confirmed by live data."""
 
