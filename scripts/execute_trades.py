@@ -95,7 +95,7 @@ for trade in plan["trades"]:
         fill_price = filled.get("filled_avg_price", trade.get("entry_price", "?"))
         print(f"FILLED: {sym} {qty}sh @ ${fill_price}")
 
-        # Place trailing stop
+        # Place trailing stop and verify it sticks
         stop_pct = trade.get("stop_pct", "10")
         stop_order = alpaca("POST", "orders", {
             "symbol": sym,
@@ -105,10 +105,21 @@ for trade in plan["trades"]:
             "trail_percent": stop_pct,
             "time_in_force": "gtc"
         })
-        if stop_order:
-            print(f"Trailing stop placed: {stop_pct}% — order {stop_order.get('id')}")
-        else:
+
+        # Verify stop was accepted
+        stop_ok = False
+        if stop_order and stop_order.get("id"):
+            time.sleep(1)
+            verify = alpaca("GET", f"orders/{stop_order['id']}")
+            if verify and verify.get("status") in ("new", "accepted", "held"):
+                print(f"Trailing stop VERIFIED for {sym}: {stop_pct}% — order {stop_order['id']}")
+                stop_ok = True
+            else:
+                print(f"Trailing stop for {sym} NOT accepted — status: {verify.get('status') if verify else 'null'}")
+
+        if not stop_ok:
             # Fallback: fixed stop
+            print(f"Trying fixed stop fallback for {sym}")
             try:
                 stop_price = round(float(fill_price) * (1 - float(stop_pct)/100), 2)
                 stop_order = alpaca("POST", "orders", {
@@ -119,9 +130,12 @@ for trade in plan["trades"]:
                     "stop_price": str(stop_price),
                     "time_in_force": "gtc"
                 })
-                print(f"Fixed stop placed at ${stop_price}")
+                if stop_order and stop_order.get("id"):
+                    print(f"Fixed stop placed for {sym} at ${stop_price}")
+                else:
+                    print(f"WARNING: No stop set for {sym} — NEEDS MANUAL STOP!")
             except:
-                print(f"WARNING: No stop set for {sym} — set manually!")
+                print(f"WARNING: No stop set for {sym} — NEEDS MANUAL STOP!")
 
         executed.append({"symbol": sym, "qty": qty, "price": fill_price, "stop_pct": stop_pct})
     else:
