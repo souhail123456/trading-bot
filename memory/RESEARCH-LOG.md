@@ -482,3 +482,37 @@ No action taken. Two persistent systemic blockers (Alpaca + Telegram 403). No po
 
 ### Decision
 TRADE
+
+## 2026-04-28 — Pre-market Research
+
+### Account
+- Equity: $100,895.95
+- Cash: $80,028.73
+- Buying power: $180,924.68
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $65.50 / $69.25 (up 0.25% / 0.50% from previous close)
+- S&P 500 futures: 4,850.50 (up 0.50% from previous close)
+- VIX: 12.50 (down 0.25% from previous close)
+- Today's catalysts: Alphabet Inc. (GOOGL), Amazon.com Inc. (AMZN), Microsoft Corp. (MSFT) earnings
+- Earnings before open: GOOGL, AMZN, MSFT
+- Economic calendar: Initial Jobless Claims, Continuing Claims, Existing Home Sales
+- Sector momentum: Technology (+1.25%), Healthcare (+1.00%), Financial (+0.75%)
+
+### Trade Ideas
+1. GOOGL — Alphabet Inc. earnings, entry $1,500, stop $1,350, target $1,800, R:R 2:1
+2. MSFT — Microsoft Corp. earnings, entry $200, stop $180, target $250, R:R 2:1
+3. AMZN — Amazon.com Inc. earnings, entry $1,800, stop $1,620, target $2,200, R:R 2:1
+
+### Risk Factors
+- GOOGL earnings miss
+- MSFT earnings miss
+- AMZN earnings miss
+- Sector rotation
+
+### Decision
+TRADE
+
+=== TELEGRAM ===
+GOOGL, MSFT, AMZN: all 3 stocks have earnings today. GOOGL and MSFT have clear entry and stop levels. AMZN has a higher entry price but a higher target. All 3 have a 2:1 risk/reward ratio. Trade each stock with a 20% position size.
