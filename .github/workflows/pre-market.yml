@@ -28,6 +28,9 @@ jobs:
       - name: Fetch real market data
         run: python3 scripts/fetch_market_data.py
 
+      - name: Fetch news headlines
+        run: python3 scripts/fetch_news.py
+
       - name: Build prompt and call Groq
         run: |
           python3 scripts/build_premarket_prompt.py

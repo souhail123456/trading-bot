@@ -30,6 +30,9 @@ jobs:
           python3 scripts/fetch_market_data.py
           cp /tmp/market_context.txt /tmp/quotes.txt
 
+      - name: Fetch news headlines
+        run: python3 scripts/fetch_news.py
+
       - name: Build prompt and call Groq
         run: |
           python3 scripts/build_market_open_prompt.py

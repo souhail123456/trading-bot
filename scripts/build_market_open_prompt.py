@@ -21,6 +21,12 @@ if os.path.exists("/tmp/quotes.txt"):
     with open("/tmp/quotes.txt") as f:
         quotes = f.read()
 
+# Read news headlines
+market_news = ""
+if os.path.exists("/tmp/market_news.txt"):
+    with open("/tmp/market_news.txt") as f:
+        market_news = f.read()
+
 date = os.popen("date -u +%Y-%m-%d").read().strip()
 
 system_msg = """You are an autonomous AI trading bot managing a paper ~$100,000 Alpaca account.
@@ -71,6 +77,9 @@ user_msg = f"""Date: {date}
 
 === LIVE QUOTES ===
 {quotes}
+
+=== NEWS HEADLINES ===
+{market_news}
 
 === TODAY'S RESEARCH LOG ===
 {recent_research_log(research_log, 1200)}

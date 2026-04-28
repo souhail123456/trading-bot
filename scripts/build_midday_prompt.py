@@ -17,6 +17,12 @@ with open("memory/TRADING-STRATEGY.md") as f:
 
 date = os.popen("date -u +%Y-%m-%d").read().strip()
 
+# Read news headlines
+market_news = ""
+if os.path.exists("/tmp/market_news.txt"):
+    with open("/tmp/market_news.txt") as f:
+        market_news = f.read()
+
 system_msg = """You are an autonomous AI trading bot managing a paper ~$100,000 Alpaca account.
 You run the midday scan — cut losers, tighten stops, check theses. Be ultra-concise.
 
@@ -59,6 +65,9 @@ user_msg = f"""Date: {date}
 
 === RECENT TRADE LOG ===
 {recent_trade_log(trade_log, 800)}
+
+=== NEWS HEADLINES ===
+{market_news}
 
 === TODAY'S RESEARCH ===
 {recent_research_log(research_log, 800)}

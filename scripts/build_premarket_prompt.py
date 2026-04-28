@@ -25,6 +25,12 @@ if os.path.exists("/tmp/market_context.txt"):
     with open("/tmp/market_context.txt") as f:
         market_context = f.read()
 
+# Read news headlines
+market_news = ""
+if os.path.exists("/tmp/market_news.txt"):
+    with open("/tmp/market_news.txt") as f:
+        market_news = f.read()
+
 system_msg = """You are an autonomous AI trading bot managing a paper ~$100,000 Alpaca account.
 You produce pre-market research. Be ultra-concise: short bullets, no fluff.
 Output EXACTLY two sections separated by ===TELEGRAM===:
@@ -75,6 +81,9 @@ user_msg = f"""Date: {date} ({day_of_week})
 
 === MARKET CONTEXT (from web search) ===
 {market_context}
+
+=== NEWS HEADLINES (positions + market) ===
+{market_news}
 
 === RECENT TRADE LOG (tail) ===
 {recent_trade_log(trade_log, 800)}

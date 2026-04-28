@@ -26,6 +26,9 @@ jobs:
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
           echo "Positions:" && python3 -c "import json; [print(f'{p[\"symbol\"]}: {p[\"unrealized_plpc\"]}') for p in json.load(open('/tmp/positions.json'))]"
 
+      - name: Fetch news headlines
+        run: python3 scripts/fetch_news.py
+
       - name: Build prompt and call Groq
         run: |
           python3 scripts/build_midday_prompt.py
