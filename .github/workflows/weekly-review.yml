@@ -26,26 +26,19 @@ jobs:
 
       - name: Get S&P 500 weekly performance
         run: |
-          DATE=$(date -u +%Y-%m-%d)
           python3 -c "
-          import json
-          payload = {
-              'model': 'llama-3.1-8b-instant',
-              'messages': [{'role': 'user', 'content': 'What was the S&P 500 weekly return for the week ending $DATE? Give me the Monday open, Friday close, and weekly % change. Plain text, concise.'}],
-              'max_tokens': 200,
-              'temperature': 0.3
-          }
-          with open('/tmp/sp500_query.json', 'w') as f:
-              json.dump(payload, f)
+          import json, urllib.request
+          url = 'https://query1.finance.yahoo.com/v8/finance/chart/%5EGSPC?range=5d&interval=1d'
+          req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
+          data = json.loads(urllib.request.urlopen(req, timeout=10).read())
+          closes = [c for c in data['chart']['result'][0]['indicators']['quote'][0]['close'] if c]
+          mon = closes[0]
+          fri = closes[-1]
+          chg = ((fri - mon) / mon) * 100
+          txt = f'S&P 500 weekly: Mon open {mon:.2f}, Fri close {fri:.2f}, change {chg:+.2f}%'
+          print(txt)
+          open('/tmp/sp500.txt','w').write(txt)
           "
-          sed -i "s/\$DATE/$DATE/g" /tmp/sp500_query.json
-          HTTP=$(curl -s -o /tmp/sp500_resp.json -w "%{http_code}" -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer $GROQ_API_KEY" -H "Content-Type: application/json" -d @/tmp/sp500_query.json)
-          if [ "$HTTP" = "200" ]; then
-            python3 -c "import json; print(json.load(open('/tmp/sp500_resp.json'))['choices'][0]['message']['content'])" > /tmp/sp500.txt
-          else
-            echo "S&P 500 data unavailable" > /tmp/sp500.txt
-          fi
-          cat /tmp/sp500.txt
 
       - name: Build prompt and call Groq
         run: |

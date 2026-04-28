@@ -25,28 +25,8 @@ jobs:
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
 
-      - name: Fetch market context via Groq
-        run: |
-          DATE=$(date -u +%Y-%m-%d)
-          python3 -c "
-          import json
-          payload = {
-              'model': 'llama-3.1-8b-instant',
-              'messages': [{'role': 'user', 'content': 'Give me a concise market briefing for $DATE: S&P 500 futures, Nasdaq futures, VIX, WTI oil price, Brent oil, major earnings before open today, key economic data releases, and top 3 sector movers. Plain text, no markdown.'}],
-              'max_tokens': 500,
-              'temperature': 0.3
-          }
-          with open('/tmp/market_query.json', 'w') as f:
-              json.dump(payload, f)
-          "
-          sed -i "s/\$DATE/$DATE/g" /tmp/market_query.json
-          HTTP=$(curl -s -o /tmp/market_resp.json -w "%{http_code}" -X POST "https://api.groq.com/openai/v1/chat/completions" -H "Authorization: Bearer $GROQ_API_KEY" -H "Content-Type: application/json" -d @/tmp/market_query.json)
-          if [ "$HTTP" = "200" ]; then
-            python3 -c "import json; print(json.load(open('/tmp/market_resp.json'))['choices'][0]['message']['content'])" > /tmp/market_context.txt
-          else
-            echo "Market context unavailable" > /tmp/market_context.txt
-          fi
-          cat /tmp/market_context.txt
+      - name: Fetch real market data
+        run: python3 scripts/fetch_market_data.py
 
       - name: Build prompt and call Groq
         run: |

@@ -25,31 +25,10 @@ jobs:
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
 
-      - name: Fetch live quotes for watchlist
+      - name: Fetch real market data + quotes
         run: |
-          # Get tickers from positions + any mentioned in today's research
-          TICKERS=$(python3 -c "
-          import json, re
-          tickers = set()
-          # From positions
-          for p in json.load(open('/tmp/positions.json')):
-              tickers.add(p['symbol'])
-          # From research log - find today's trade ideas
-          with open('memory/RESEARCH-LOG.md') as f:
-              text = f.read()
-          # Extract stock tickers (3-4 uppercase letters after common patterns)
-          for m in re.findall(r'\b([A-Z]{2,5})\b', text[-2000:]):
-              if m not in ('THE','AND','FOR','NOT','BUT','ALL','ANY','YTD','WTI','VIX','ETF','IPO','GDP','CPI','PPI','ATH','EOD','PDT','GTC','R:R','HOLD','TRADE','SKIP','DEAD','BUY','SELL','NONE'):
-                  tickers.add(m)
-          print(' '.join(list(tickers)[:10]))
-          ")
-          echo "Fetching quotes for: $TICKERS"
-          > /tmp/quotes.txt
-          for SYM in $TICKERS; do
-            QUOTE=$(curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://data.alpaca.markets/v2/stocks/$SYM/quotes/latest" 2>/dev/null)
-            echo "$SYM: $QUOTE" >> /tmp/quotes.txt
-          done
-          cat /tmp/quotes.txt
+          python3 scripts/fetch_market_data.py
+          cp /tmp/market_context.txt /tmp/quotes.txt
 
       - name: Build prompt and call Groq
         run: |
