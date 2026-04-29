@@ -19,12 +19,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup LLM Router + shared context
+      - name: Load shared context from trading-admin
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
         run: |
-          curl -sL https://raw.githubusercontent.com/souhail123456/trading-admin/main/shared/llm_router.py -o /tmp/llm_router.py
-          curl -sL https://raw.githubusercontent.com/souhail123456/trading-admin/main/shared/news.json -o /tmp/shared_news.json
-          curl -sL https://raw.githubusercontent.com/souhail123456/trading-admin/main/shared/global_state.json -o /tmp/shared_global_state.json
-          echo "Router + shared context loaded"
+          if [ -n "$GH_TOKEN" ]; then
+            gh api repos/souhail123456/trading-admin/contents/shared/news.json --jq '.content' | base64 -d > /tmp/shared_news.json 2>/dev/null || echo '{}' > /tmp/shared_news.json
+            gh api repos/souhail123456/trading-admin/contents/shared/global_state.json --jq '.content' | base64 -d > /tmp/shared_global_state.json 2>/dev/null || echo '{}' > /tmp/shared_global_state.json
+            echo "Shared context loaded"
+          else
+            echo '{}' > /tmp/shared_news.json
+            echo '{}' > /tmp/shared_global_state.json
+            echo "No BOT_GITHUB_TOKEN — using empty shared context"
+          fi
 
       - name: Fetch Alpaca data
         run: |
@@ -48,7 +55,7 @@ jobs:
           python3 scripts/build_market_open_prompt.py
           python3 -c "
           import sys, json
-          sys.path.insert(0, '/tmp')
+          sys.path.insert(0, 'scripts')
           from llm_router import call_llm
           prompt = json.load(open('/tmp/prompt.json'))
           system_msg = next(m['content'] for m in prompt['messages'] if m['role'] == 'system')
