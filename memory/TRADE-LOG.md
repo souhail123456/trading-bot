@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 101040.54
+portfolio_value: 100840.43
 cash: 66396.86
-total_pnl: 1040.54
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": -9.18}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": -34.29}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": 25.7}, {"symbol": "NVDA", "shares": 99, "entry": 201.73, "side": "BUY", "unrealized_pnl": 1058.31}]
+total_pnl: 840.43
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": -4.68}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 241.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -89.2}, {"symbol": "NVDA", "shares": 99, "entry": 201.73, "side": "BUY", "unrealized_pnl": 693.0}]
 closed_trades: []
-last_updated: 2026-04-28T23:34:30Z
+last_updated: 2026-04-29T20:26:42Z
 -->
 
 # Trade Log
@@ -205,3 +205,29 @@ Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry s
 Placed trades on GOOGL, MSFT, and AMZN based on earnings thesis and sector momentum.
 
 Cut AMZN at -0.00392% unrealized loss. Tightened NVDA stop to 5% trail. Thesis broken for AMZN, will close at next opportunity.
+
+### 04 29 — EOD Snapshot (Day 9, Wednesday)
+
+**Portfolio:** $101,040.54 | **Cash:** $66,396.86 (66%) | **Day P&L:** +$1,040.54 (+1.04%) | **Phase P&L:** +$1,040.54 (+1.04%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52| 260   | 0.00116 | -9.18          | 239.32 |
+| GOOGL  | 20     | 351.49| 363.56| 0.0394  | -34.29         | 320.21 |
+| MSFT   | 10     | 425.73| 416.81| -0.02898| 25.7           | 386.93 |
+| NVDA   | 99     | 201.73| 208.73| -0.02083| 1058.31        | 202.08 |
+
+**Notes:** Placed trades on GOOGL, MSFT, and AMZN based on earnings thesis and sector momentum. Tightened NVDA stop to 5% trail. Thesis broken for AMZN, will close at next opportunity.
+
+---
+
+EOD Apr 29
+Portfolio: $101,040.54 (+1.04% day, +1.04% phase)
+Cash: $66,396.86
+Trades today: NONE (hold)
+Open positions:
+  AMZN -0.00392% (stop $239.32)
+  GOOGL +0.0394% (stop $320.21)
+  MSFT -0.02898% (stop $386.93)
+  NVDA +7.65% (stop $202.08)
+Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
