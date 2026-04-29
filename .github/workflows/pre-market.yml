@@ -19,6 +19,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Setup LLM Router + shared context
+        run: |
+          curl -sL https://raw.githubusercontent.com/souhail123456/trading-admin/main/shared/llm_router.py -o /tmp/llm_router.py
+          curl -sL https://raw.githubusercontent.com/souhail123456/trading-admin/main/shared/news.json -o /tmp/shared_news.json
+          curl -sL https://raw.githubusercontent.com/souhail123456/trading-admin/main/shared/global_state.json -o /tmp/shared_global_state.json
+          echo "Router + shared context loaded"
+
       - name: Fetch Alpaca data
         run: |
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/account > /tmp/account.json
@@ -31,10 +38,24 @@ jobs:
       - name: Fetch news headlines
         run: python3 scripts/fetch_news.py
 
-      - name: Build prompt and call Groq
+      - name: Build prompt and call LLM (via router)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
         run: |
           python3 scripts/build_premarket_prompt.py
-          bash scripts/call_groq.sh /tmp/prompt.json /tmp/groq_response.json
+          python3 -c "
+          import sys, json
+          sys.path.insert(0, '/tmp')
+          from llm_router import call_llm
+          prompt = json.load(open('/tmp/prompt.json'))
+          system_msg = next(m['content'] for m in prompt['messages'] if m['role'] == 'system')
+          user_msg = next(m['content'] for m in prompt['messages'] if m['role'] == 'user')
+          response, provider, model = call_llm(system_msg, user_msg, prompt.get('max_tokens', 1200), prompt.get('temperature', 0.3))
+          print(f'LLM OK — {provider}/{model}')
+          output = {'choices': [{'message': {'content': response}}]}
+          json.dump(output, open('/tmp/groq_response.json', 'w'))
+          "
           python3 scripts/parse_groq_response.py
 
       - name: Update RESEARCH-LOG

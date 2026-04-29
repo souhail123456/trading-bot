@@ -5,7 +5,7 @@ import json, urllib.request, re, sys
 from xml.etree import ElementTree
 from datetime import datetime, timezone
 
-def yf_news(symbol, max_items=5):
+def yf_news(symbol, max_items=3):
     """Fetch news from Yahoo Finance RSS feed for a ticker."""
     url = f"https://feeds.finance.yahoo.com/rss/2.0/headline?s={symbol}&region=US&lang=en-US"
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
