@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100840.43
-cash: 66396.86
-total_pnl: 840.43
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": -4.68}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 241.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -89.2}, {"symbol": "NVDA", "shares": 99, "entry": 201.73, "side": "BUY", "unrealized_pnl": 693.0}]
+portfolio_value: 100560.59
+cash: 86399.81
+total_pnl: 560.59
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 37.7}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 650.11}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -158.9}]
 closed_trades: []
-last_updated: 2026-04-29T20:26:42Z
+last_updated: 2026-04-30T20:25:57Z
 -->
 
 # Trade Log
@@ -229,5 +229,32 @@ Open positions:
   AMZN -0.00392% (stop $239.32)
   GOOGL +0.0394% (stop $320.21)
   MSFT -0.02898% (stop $386.93)
+  NVDA +7.65% (stop $202.08)
+Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
+
+### 04/30 — EOD Snapshot (Day 10, Thursday)
+
+**Portfolio:** $100,560.59 | **Cash:** $86,399.81 (85%) | **Day P&L:** +$1,560.59 (+1.56%) | **Phase P&L:** +$1,560.59 (+1.56%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52| 264.71| 0.01608 | -4.68          | 239.32 |
+| GOOGL  | 20     | 351.49| 384  | 0.09733 | -34.29         | 320.21 |
+| MSFT   | 10     | 425.73| 409.84| -0.03444| 25.7           | 386.93 |
+| NVDA   | 99     | 201.73| 208.73| -0.02083| 1058.31        | 202.08 |
+| GOOGL  | 20     | 351.49| 384  | 0.09733 | -34.29         | 320.21 |
+
+**Notes:** NVDA tightened stop to 5% trail. Thesis broken for AMZN, will close at next opportunity.
+
+---
+
+EOD Apr 30
+Portfolio: $100,560.59 (+1.56% day, +1.56% phase)
+Cash: $86,399.81
+Trades today: NONE (hold)
+Open positions:
+  AMZN -0.00183% (stop $239.32)
+  GOOGL +0.09733% (stop $320.21)
+  MSFT -0.03444% (stop $386.93)
   NVDA +7.65% (stop $202.08)
 Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
