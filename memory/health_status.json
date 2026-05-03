@@ -1,0 +1,28 @@
+{
+  "checked_at": "2026-05-04T03:54:19.090889+08:00",
+  "repo": "trading-bot",
+  "services": {
+    "alpaca": {
+      "status": "ok",
+      "latency_ms": 280
+    },
+    "groq": {
+      "status": "error",
+      "latency_ms": 38,
+      "error": "403"
+    },
+    "gemini": {
+      "status": "ok",
+      "latency_ms": 135
+    },
+    "cerebras": {
+      "status": "error",
+      "latency_ms": 94,
+      "error": "403"
+    },
+    "telegram": {
+      "status": "ok",
+      "latency_ms": 497
+    }
+  }
+}
