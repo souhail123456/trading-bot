@@ -23,6 +23,12 @@ if os.path.exists("/tmp/market_news.txt"):
     with open("/tmp/market_news.txt") as f:
         market_news = f.read()
 
+# Read shared context from trading-admin (regime, risk)
+shared_context = {}
+if os.path.exists("/tmp/shared_global_state.json"):
+    with open("/tmp/shared_global_state.json") as f:
+        shared_context = json.load(f)
+
 system_msg = """You are an autonomous AI trading bot managing a paper ~$100,000 Alpaca account.
 You run the midday scan — cut losers, tighten stops, check theses. Be ultra-concise.
 
@@ -50,7 +56,12 @@ RULES:
 - Cut if thesis is broken even if not at -7%
 - Tighten trail to 7% at +15%, to 5% at +20%
 - Never tighten within 3% of current price
-- Never move a stop down"""
+- Never move a stop down
+
+MARKET REGIME (from trading-admin):
+- If regime is CRISIS: tighten ALL stops to 5%, cut any position below -3%.
+- If regime is VOLATILE: tighten stops to 7% on all positions.
+- If regime is RANGING/TRENDING: follow normal rules above."""
 
 user_msg = f"""Date: {date}
 
@@ -75,7 +86,11 @@ user_msg = f"""Date: {date}
 === STRATEGY ===
 {compact_strategy(strategy)}
 
-Run the midday scan. For each position: check P&L vs -7% cut rule, check if stop needs tightening, check if thesis still holds."""
+=== MARKET REGIME (from trading-admin) ===
+Regime: {shared_context.get('regime', 'UNKNOWN')}
+VIX: {shared_context.get('vix', 'N/A')}
+
+Run the midday scan. For each position: check P&L vs -7% cut rule, check if stop needs tightening, check if thesis still holds. RESPECT regime rules above."""
 
 payload = {
     "model": "llama-3.3-70b-versatile",

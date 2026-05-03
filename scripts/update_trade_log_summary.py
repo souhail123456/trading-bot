@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Update the machine-readable SUMMARY comment at the top of TRADE-LOG.md."""
-import json, re, os
+import json, re, os, urllib.request
 from datetime import datetime, timezone
 
 account = json.load(open("/tmp/account.json"))
@@ -35,11 +35,71 @@ if m:
     except json.JSONDecodeError:
         closed_trades = []
 
-# Merge any newly closed trades from midday/market-open
+# Detect vanished positions (trailing stop / stop-loss triggered by Alpaca)
+prev_open = []
+pm = re.search(r'open_positions:\s*(\[.*?\])', content)
+if pm:
+    try:
+        prev_open = json.loads(pm.group(1))
+    except json.JSONDecodeError:
+        prev_open = []
+
+current_syms = {p["symbol"] for p in positions}
+closed_syms = {ct["symbol"] for ct in closed_trades}
+
+for prev in prev_open:
+    sym = prev["symbol"]
+    if sym in current_syms or sym in closed_syms:
+        continue
+    # Position vanished — query Alpaca for the filled sell order
+    reason = "stop_triggered"
+    exit_price = None
+    try:
+        api_key = os.environ.get("ALPACA_API_KEY", "")
+        secret_key = os.environ.get("ALPACA_SECRET_KEY", "")
+        url = f"https://paper-api.alpaca.markets/v2/orders?status=closed&symbols={sym}&limit=5&direction=desc"
+        req = urllib.request.Request(url, headers={
+            "APCA-API-KEY-ID": api_key,
+            "APCA-API-SECRET-KEY": secret_key,
+        })
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            orders = json.loads(resp.read().decode())
+        for order in orders:
+            if order.get("side") == "sell" and order.get("status") == "filled":
+                exit_price = float(order["filled_avg_price"])
+                otype = order.get("type", "unknown")
+                if otype == "trailing_stop":
+                    reason = "trailing_stop"
+                elif otype == "stop":
+                    reason = "stop_loss"
+                else:
+                    reason = otype
+                break
+    except Exception as e:
+        print(f"Warning: could not query Alpaca orders for {sym}: {e}")
+
+    entry_price = prev.get("entry", 0)
+    shares = prev.get("shares", 0)
+    pnl = round((exit_price - entry_price) * shares, 2) if exit_price else None
+    closed_trades.append({
+        "symbol": sym,
+        "entry": entry_price,
+        "exit": exit_price,
+        "shares": shares,
+        "pnl": pnl,
+        "reason": reason,
+        "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+    })
+    print(f"Vanished position detected: {sym} — {reason}, exit={exit_price}, pnl={pnl}")
+
+# Merge any newly closed trades from midday/market-open (deduplicated)
 if os.path.exists("/tmp/closed_trades_new.json"):
     with open("/tmp/closed_trades_new.json") as f:
         new_closed = json.load(f)
-    closed_trades.extend(new_closed)
+    already = {ct["symbol"] for ct in closed_trades}
+    for nc in new_closed:
+        if nc["symbol"] not in already:
+            closed_trades.append(nc)
 
 now = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 

@@ -27,6 +27,12 @@ if os.path.exists("/tmp/market_news.txt"):
     with open("/tmp/market_news.txt") as f:
         market_news = f.read()
 
+# Read shared context from trading-admin (regime, risk)
+shared_context = {}
+if os.path.exists("/tmp/shared_global_state.json"):
+    with open("/tmp/shared_global_state.json") as f:
+        shared_context = json.load(f)
+
 date = os.popen("date -u +%Y-%m-%d").read().strip()
 
 system_msg = """You are an autonomous AI trading bot managing a paper ~$100,000 Alpaca account.
@@ -62,7 +68,13 @@ CRITICAL RULES — skip any trade that fails these:
 - Trades this week <= 3
 - Position cost <= 20% of equity
 - Catalyst documented in today's RESEARCH-LOG
-- daytrade_count < 3"""
+- daytrade_count < 3
+
+MARKET REGIME RULES (from trading-admin):
+- If regime is CRISIS: NO new entries. Only hold or cut.
+- If regime is VOLATILE: halve position sizes (max 10% of equity per trade).
+- If regime is RANGING: default rules apply.
+- If regime is TRENDING: normal trading, follow momentum."""
 
 user_msg = f"""Date: {date}
 
@@ -90,7 +102,12 @@ user_msg = f"""Date: {date}
 === STRATEGY ===
 {compact_strategy(strategy)}
 
-Decide: execute trades from today's research, or HOLD. Default HOLD unless thesis is confirmed by live data."""
+=== MARKET REGIME (from trading-admin) ===
+Regime: {shared_context.get('regime', 'UNKNOWN')}
+VIX: {shared_context.get('vix', 'N/A')}
+Recommendations: {json.dumps(shared_context.get('recommendations', {}), indent=2) if shared_context.get('recommendations') else 'N/A'}
+
+Decide: execute trades from today's research, or HOLD. Default HOLD unless thesis is confirmed by live data. RESPECT the regime rules above."""
 
 payload = {
     "model": "llama-3.3-70b-versatile",
