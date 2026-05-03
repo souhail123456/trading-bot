@@ -65,7 +65,7 @@ def run_checks() -> dict:
     groq_key = os.environ.get("GROQ_API_KEY", "")
     if groq_key:
         groq_body = json.dumps({
-            "model": "llama3-8b-8192",
+            "model": "llama-3.3-70b-versatile",
             "messages": [{"role": "user", "content": "hi"}],
             "max_tokens": 1
         }).encode()
