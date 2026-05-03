@@ -2,6 +2,7 @@ name: Daily Summary
 
 "on":
   schedule:
+    # 4:00 AM Shanghai (GMT+8) = 8:00 PM UTC, Mon-Fri (runs after US market close)
     - cron: '0 20 * * 0-4'
   workflow_dispatch:
 

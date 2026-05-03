@@ -68,6 +68,47 @@ jobs:
       - name: Execute midday actions
         run: python3 scripts/execute_midday.py
 
+      - name: Update bot status
+        run: |
+          python3 -c "
+          import json
+          from datetime import datetime, timezone, timedelta
+          SHANGHAI_TZ = timezone(timedelta(hours=8))
+          now = datetime.now(SHANGHAI_TZ).isoformat()
+
+          try:
+              status = json.load(open('memory/bot_status.json'))
+          except:
+              status = {}
+
+          try:
+              resp = json.load(open('/tmp/groq_response.json'))
+              content = resp['choices'][0]['message']['content']
+              plan_start = content.find('{')
+              plan_end = content.rfind('}') + 1
+              if plan_start >= 0:
+                  plan = json.loads(content[plan_start:plan_end])
+                  trades = plan.get('trades', [])
+              else:
+                  plan = {}
+                  trades = []
+          except:
+              plan = {}
+              trades = []
+
+          status['stock_bot'] = {
+              'last_run': now,
+              'run_type': 'midday',
+              'trades_placed': len(trades),
+              'action': plan.get('action', 'UNKNOWN'),
+              'status': 'ok',
+              'next_run': 'eod or next market open'
+          }
+
+          json.dump(status, open('memory/bot_status.json', 'w'), indent=2)
+          print(f'Bot status updated: {len(trades)} trades')
+          "
+
       - name: Update TRADE-LOG
         run: |
           ENTRY=$(cat /tmp/trade_log_entry.md)
