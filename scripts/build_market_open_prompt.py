@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Build the Groq prompt JSON for market-open execution."""
-import json, os, sys
+import json, os, sys, subprocess
 sys.path.insert(0, os.path.dirname(__file__))
 from prompt_utils import recent_trade_log, recent_research_log, compact_strategy
 
@@ -32,6 +32,69 @@ shared_context = {}
 if os.path.exists("/tmp/shared_global_state.json"):
     with open("/tmp/shared_global_state.json") as f:
         shared_context = json.load(f)
+
+# ---------------------------------------------------------------------------
+# Run strategy signal generator
+# ---------------------------------------------------------------------------
+script_dir = os.path.dirname(os.path.abspath(__file__))
+print("Running strategy_signals.py...")
+result = subprocess.run(
+    [sys.executable, os.path.join(script_dir, "strategy_signals.py")],
+    capture_output=True, text=True
+)
+if result.returncode != 0:
+    print(f"strategy_signals.py stderr:\n{result.stderr}", file=sys.stderr)
+else:
+    print(result.stdout)
+
+# Load signals
+strategy_signals = {}
+if os.path.exists("/tmp/strategy_signals.json"):
+    with open("/tmp/strategy_signals.json") as f:
+        strategy_signals = json.load(f)
+
+# Build a compact, LLM-readable summary of signals
+def format_signals_for_prompt(ss: dict) -> str:
+    if not ss or not ss.get("signals"):
+        return "No strategy signals available — HOLD all positions."
+
+    lines = []
+    lines.append(f"Strategy: Trend-Following in Stocks (SMA-50/SMA-200 golden cross)")
+    lines.append(f"Generated: {ss.get('generated_at', 'N/A')}")
+    lines.append(f"Regime: {ss.get('regime', 'UNKNOWN')} | VIX: {ss.get('vix', 'N/A')}")
+    lines.append(f"Position size: {ss.get('position_size_pct', 20)}% of equity | Max positions: {ss.get('max_positions', 5)}")
+    lines.append("")
+
+    buys  = [s for s in ss["signals"] if s["action"] == "buy"]
+    sells = [s for s in ss["signals"] if s["action"] == "sell"]
+    holds = [s for s in ss["signals"] if s["action"] == "hold"]
+
+    if buys:
+        lines.append("BUY SIGNALS (MANDATORY entries — do NOT skip without CRISIS regime):")
+        for s in buys:
+            lines.append(
+                f"  BUY {s['symbol']} @ ~${s['entry_price']}  "
+                f"qty={s['qty']}  stop={s['stop_pct']}%  "
+                f"reason: {s['reason']}"
+            )
+    else:
+        lines.append("BUY SIGNALS: None — no new entries today.")
+
+    if sells:
+        lines.append("")
+        lines.append("SELL SIGNALS (MANDATORY exits — close these positions NOW):")
+        for s in sells:
+            lines.append(f"  SELL {s['symbol']}  reason: {s['reason']}")
+
+    if holds:
+        lines.append("")
+        lines.append("HOLD (no action — trend intact):")
+        for s in holds:
+            lines.append(f"  HOLD {s['symbol']} @ ${s['entry_price']}  {s['reason']}")
+
+    return "\n".join(lines)
+
+signals_text = format_signals_for_prompt(strategy_signals)
 
 date = os.popen("date -u +%Y-%m-%d").read().strip()
 
@@ -67,8 +130,16 @@ CRITICAL RULES — skip any trade that fails these:
 - Total positions after trade <= 6
 - Trades this week <= 3
 - Position cost <= 20% of equity
-- Catalyst documented in today's RESEARCH-LOG
 - daytrade_count < 3
+
+STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
+- You MUST follow the strategy signals in === STRATEGY SIGNALS ===.
+- BUY signals: these are mandatory entries. Place the trade with the specified qty and stop_pct.
+- SELL signals: these are mandatory exits. Close these positions immediately.
+- You MAY NOT make discretionary picks outside the signal list.
+- You MAY NOT buy a symbol that does not appear in the BUY SIGNALS list.
+- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 6 total positions, (4) insufficient cash.
+- If there are no BUY signals, action is HOLD (no new entries).
 
 MARKET REGIME RULES (from trading-admin):
 - If regime is CRISIS: NO new entries. Only hold or cut.
@@ -93,13 +164,13 @@ user_msg = f"""Date: {date}
 === NEWS HEADLINES ===
 {market_news}
 
-=== TODAY'S RESEARCH LOG ===
-{recent_research_log(research_log, 1200)}
+=== STRATEGY SIGNALS (MANDATORY — follow these exactly) ===
+{signals_text}
 
 === RECENT TRADE LOG ===
-{recent_trade_log(trade_log, 800)}
+{recent_trade_log(trade_log, 600)}
 
-=== STRATEGY ===
+=== STRATEGY RULES ===
 {compact_strategy(strategy)}
 
 === MARKET REGIME (from trading-admin) ===
@@ -107,7 +178,7 @@ Regime: {shared_context.get('regime', 'UNKNOWN')}
 VIX: {shared_context.get('vix', 'N/A')}
 Recommendations: {json.dumps(shared_context.get('recommendations', {}), indent=2) if shared_context.get('recommendations') else 'N/A'}
 
-Decide: execute trades from today's research, or HOLD. Default HOLD unless thesis is confirmed by live data. RESPECT the regime rules above."""
+INSTRUCTIONS: Execute ONLY the trades listed in STRATEGY SIGNALS above. Do not add discretionary picks. If there are BUY signals and conditions are met, action is TRADE. Otherwise HOLD. RESPECT regime rules."""
 
 payload = {
     "model": "llama-3.3-70b-versatile",

@@ -43,6 +43,9 @@ jobs:
       - name: Fetch news headlines
         run: python3 scripts/fetch_news.py
 
+      - name: Generate strategy signals (trend-following)
+        run: python3 scripts/strategy_signals.py
+
       - name: Build prompt and call LLM (via router)
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
