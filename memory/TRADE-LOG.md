@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100560.59
-cash: 86399.81
-total_pnl: 560.59
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 37.7}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 650.11}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -158.9}]
+portfolio_value: 100672.33
+cash: 86399.79
+total_pnl: 672.33
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 69.66}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 683.91}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -112.9}]
 closed_trades: []
-last_updated: 2026-04-30T20:25:57Z
+last_updated: 2026-05-03T20:13:45Z
 -->
 
 # Trade Log
@@ -258,3 +258,13 @@ Open positions:
   MSFT -0.03444% (stop $386.93)
   NVDA +7.65% (stop $202.08)
 Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry setups in semis/AI infrastructure if momentum holds.
+
+### May 03 — EOD Snapshot (Day 13, Sunday)
+**Portfolio:** $100,672.33 | **Cash:** $86,399.79 (85.89%) | **Day P&L:** $111.74 (+0.11%) | **Phase P&L:** $672.33 (+0.67%)
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52| 268.26| 0.02971 | 69.66          | 245.98 |
+| GOOGL  | 20     | 351.4945| 385.69| 0.09729 | 683.91         | 348.06 |
+| MSFT   | 10     | 425.73| 414.44| -0.02652| -112.9         | 386.93 |
+
+**Notes:** No trades today. All positions held with existing stops.
