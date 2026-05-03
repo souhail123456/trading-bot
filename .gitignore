@@ -5,6 +5,9 @@
 # ClickUp fallback notification file (root-level only)
 /DAILY-SUMMARY.md
 
+# Python
+__pycache__/
+
 # macOS
 .DS_Store
 
