@@ -96,11 +96,13 @@ for trade in plan["trades"]:
         print(f"FILLED: {sym} {qty}sh @ ${fill_price}")
 
         # Place trailing stop and verify it sticks
+        # For longs (side=buy), stop is sell-side; for shorts (side=sell), stop is buy-side
         stop_pct = trade.get("stop_pct", "10")
+        stop_side = "buy" if side == "sell" else "sell"
         stop_order = alpaca("POST", "orders", {
             "symbol": sym,
             "qty": qty,
-            "side": "sell",
+            "side": stop_side,
             "type": "trailing_stop",
             "trail_percent": stop_pct,
             "time_in_force": "gtc"
@@ -112,7 +114,7 @@ for trade in plan["trades"]:
             time.sleep(1)
             verify = alpaca("GET", f"orders/{stop_order['id']}")
             if verify and verify.get("status") in ("new", "accepted", "held"):
-                print(f"Trailing stop VERIFIED for {sym}: {stop_pct}% — order {stop_order['id']}")
+                print(f"Trailing stop VERIFIED for {sym}: {stop_pct}% ({stop_side}-side) — order {stop_order['id']}")
                 stop_ok = True
             else:
                 print(f"Trailing stop for {sym} NOT accepted — status: {verify.get('status') if verify else 'null'}")
@@ -121,17 +123,22 @@ for trade in plan["trades"]:
             # Fallback: fixed stop
             print(f"Trying fixed stop fallback for {sym}")
             try:
-                stop_price = round(float(fill_price) * (1 - float(stop_pct)/100), 2)
+                if side == "sell":
+                    # Short position: stop above fill price
+                    stop_price = round(float(fill_price) * (1 + float(stop_pct)/100), 2)
+                else:
+                    # Long position: stop below fill price
+                    stop_price = round(float(fill_price) * (1 - float(stop_pct)/100), 2)
                 stop_order = alpaca("POST", "orders", {
                     "symbol": sym,
                     "qty": qty,
-                    "side": "sell",
+                    "side": stop_side,
                     "type": "stop",
                     "stop_price": str(stop_price),
                     "time_in_force": "gtc"
                 })
                 if stop_order and stop_order.get("id"):
-                    print(f"Fixed stop placed for {sym} at ${stop_price}")
+                    print(f"Fixed stop placed for {sym} at ${stop_price} ({stop_side}-side)")
                 else:
                     print(f"WARNING: No stop set for {sym} — NEEDS MANUAL STOP!")
             except:
