@@ -34,9 +34,10 @@ UNIVERSE = [
 ]
 
 SMA_FAST = 50
+SMA_MEDIUM = 20
 SMA_SLOW = 200
-MAX_POSITIONS = 5
-POSITION_SIZE_PCT = 20   # % of equity per position
+MAX_POSITIONS = 7
+POSITION_SIZE_PCT = 15   # % of equity per position
 DEFAULT_STOP_PCT = "10"  # trailing stop %
 
 ALPACA_DATA_BASE = "https://data.alpaca.markets/v2"
@@ -133,6 +134,12 @@ def compute_signals(
         # Trend strength: how far above SMA-200 (used for ranking)
         trend_strength = (price - slow) / slow if slow > 0 else 0.0
 
+        # 20-day momentum (used for ranking and breakout detection)
+        momentum_20d = (closes[-1] - closes[-SMA_MEDIUM]) / closes[-SMA_MEDIUM] if len(closes) >= SMA_MEDIUM else 0.0
+
+        # 20-day high for momentum breakout detection
+        high_20d = max(closes[-SMA_MEDIUM:]) if len(closes) >= SMA_MEDIUM else price
+
         currently_held = symbol in positions_held
 
         if currently_held:
@@ -151,6 +158,7 @@ def compute_signals(
                     "stop_pct": DEFAULT_STOP_PCT,
                     "price": price,
                     "trend_strength": round(trend_strength, 4),
+                    "momentum_20d": round(momentum_20d, 4),
                     "sma_50": round(fast, 2),
                     "sma_200": round(slow, 2),
                 })
@@ -163,27 +171,41 @@ def compute_signals(
                     "stop_pct": DEFAULT_STOP_PCT,
                     "price": price,
                     "trend_strength": round(trend_strength, 4),
+                    "momentum_20d": round(momentum_20d, 4),
                     "sma_50": round(fast, 2),
                     "sma_200": round(slow, 2),
                 })
         else:
             # Check entry conditions
-            if in_trend and not crisis:
+            # Signal 1: Golden cross (original trend entry)
+            golden_cross_entry = in_trend and not crisis
+            # Signal 2: Momentum breakout — price > 20-day high AND above SMA-50
+            momentum_breakout = (price >= high_20d) and (price > fast) and not crisis
+
+            if golden_cross_entry or momentum_breakout:
+                if golden_cross_entry:
+                    reason = (
+                        f"Trend entry: price ${price:.2f} > SMA-200 ${slow:.2f} "
+                        f"(+{trend_strength*100:.1f}%), SMA-50 ${fast:.2f} > SMA-200 (golden cross)"
+                    )
+                else:
+                    reason = (
+                        f"Momentum breakout: price ${price:.2f} >= 20d high ${high_20d:.2f}, "
+                        f"above SMA-50 ${fast:.2f} (+{momentum_20d*100:.1f}% 20d return)"
+                    )
                 signals.append({
                     "symbol": symbol,
                     "action": "buy",
-                    "reason": (
-                        f"Trend entry: price ${price:.2f} > SMA-200 ${slow:.2f} "
-                        f"(+{trend_strength*100:.1f}%), SMA-50 ${fast:.2f} > SMA-200 (golden cross)"
-                    ),
+                    "reason": reason,
                     "entry_price": f"{price:.2f}",
                     "stop_pct": DEFAULT_STOP_PCT,
                     "price": price,
                     "trend_strength": round(trend_strength, 4),
+                    "momentum_20d": round(momentum_20d, 4),
                     "sma_50": round(fast, 2),
                     "sma_200": round(slow, 2),
                 })
-            elif in_trend and crisis:
+            elif (in_trend or momentum_breakout) and crisis:
                 signals.append({
                     "symbol": symbol,
                     "action": "hold",  # would be buy, but regime blocks it
@@ -192,6 +214,7 @@ def compute_signals(
                     "stop_pct": DEFAULT_STOP_PCT,
                     "price": price,
                     "trend_strength": round(trend_strength, 4),
+                    "momentum_20d": round(momentum_20d, 4),
                     "sma_50": round(fast, 2),
                     "sma_200": round(slow, 2),
                 })
@@ -213,8 +236,8 @@ def rank_and_cap(signals: list[dict], current_position_count: int) -> list[dict]
     positions_after_sells = current_position_count - len(sells)
     open_slots = max(0, MAX_POSITIONS - positions_after_sells)
 
-    # Rank buys by trend strength, pick top open_slots
-    buys.sort(key=lambda s: s["trend_strength"], reverse=True)
+    # Rank buys by 20-day momentum (fall back to trend_strength)
+    buys.sort(key=lambda s: s.get("momentum_20d", s["trend_strength"]), reverse=True)
     capped_buys = buys[:open_slots]
 
     # Mark excess buys as filtered

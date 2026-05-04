@@ -127,9 +127,9 @@ If action is HOLD, trades array should be empty.
 <message if trade placed, or "No trades at open — holding" if HOLD>
 
 CRITICAL RULES — skip any trade that fails these:
-- Total positions after trade <= 6
-- Trades this week <= 3
-- Position cost <= 20% of equity
+- Total positions after trade <= 8
+- Trades this week <= 5
+- Position cost <= 15% of equity
 - daytrade_count < 3
 
 STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
@@ -138,7 +138,7 @@ STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
 - SELL signals: these are mandatory exits. Close these positions immediately.
 - You MAY NOT make discretionary picks outside the signal list.
 - You MAY NOT buy a symbol that does not appear in the BUY SIGNALS list.
-- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 6 total positions, (4) insufficient cash.
+- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 8 total positions, (4) insufficient cash.
 - If there are no BUY signals, action is HOLD (no new entries).
 
 MARKET REGIME RULES (from trading-admin):
