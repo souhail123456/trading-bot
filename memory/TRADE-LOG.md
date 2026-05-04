@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100672.33
+portfolio_value: 100623.54
 cash: 86399.79
-total_pnl: 672.33
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 69.66}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 683.91}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -112.9}]
+total_pnl: 623.54
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 101.07}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 621.71}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -130.9}]
 closed_trades: []
-last_updated: 2026-05-03T20:13:45Z
+last_updated: 2026-05-04T20:30:54Z
 -->
 
 # Trade Log
@@ -268,3 +268,27 @@ Tomorrow: watch NVDA for +15% tighten trigger (~$231.99) and for any new entry s
 | MSFT   | 10     | 425.73| 414.44| -0.02652| -112.9         | 386.93 |
 
 **Notes:** No trades today. All positions held with existing stops.
+
+### 05-04 — EOD Snapshot (Day 14, Monday)
+**Portfolio:** $100,623.54 | **Cash:** $86,399.79 (85.89%) | **Day P&L:** $50.21 (+0.05%) | **Phase P&L:** $623.54 (+0.62%)
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52| 271.75| 0.01301 | 101.07         | 239.32 |
+| GOOGL  | 20     | 351.4945| 382.58| -0.00806 | 621.71         | 320.21 |
+| MSFT   | 10     | 425.73| 412.6399| -0.00434 | -130.901       | 386.93 |
+| GOOGL  | 20     | 351.4945| 382.58| -0.00806 | 621.71         | 348.64 |
+
+**Notes:** No trades today. All positions held with existing stops.
+
+---
+
+EOD May 04
+Portfolio: $100,623.54 (+0.05% day, +0.62% phase)
+Cash: $86,399.79
+Trades today: NONE (hold)
+Open positions:
+  AMZN +0.04311% (stop $239.32)
+  GOOGL +0.08844% (stop $320.21)
+  MSFT -0.03075% (stop $386.93)
+  GOOGL +0.08844% (stop $348.64)
+Tomorrow: watch AMZN for +15% tighten trigger (~$293.69) and for any new entry setups in semis/AI infrastructure if momentum holds.
