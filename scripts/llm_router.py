@@ -94,6 +94,7 @@ def _call_openai_format(url, api_key, model, system_prompt, user_prompt, max_tok
     req = urllib.request.Request(url, data=payload, headers={
         "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json",
+        "User-Agent": "trading-bot/1.0",
     })
 
     resp = urllib.request.urlopen(req, timeout=30)
@@ -116,6 +117,7 @@ def _call_gemini_format(url, api_key, model, system_prompt, user_prompt, max_tok
 
     req = urllib.request.Request(full_url, data=payload, headers={
         "Content-Type": "application/json",
+        "User-Agent": "trading-bot/1.0",
     })
 
     resp = urllib.request.urlopen(req, timeout=30)
