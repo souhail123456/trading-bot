@@ -516,3 +516,31 @@ TRADE
 
 === TELEGRAM ===
 GOOGL, MSFT, AMZN: all 3 stocks have earnings today. GOOGL and MSFT have clear entry and stop levels. AMZN has a higher entry price but a higher target. All 3 have a 2:1 risk/reward ratio. Trade each stock with a 20% position size.
+
+## 2026-05-04 — Pre-market Research
+
+### Account
+- Equity: $100,639.57
+- Cash: $86,399.79
+- Buying power: $187,039.36
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $105.06 / $111.73
+- S&P 500 futures: +0.29%
+- VIX: 18.03 (+6.12%)
+- Today's catalysts: Earnings reports, Initial Jobless Claims, Continuing Claims, Existing Home Sales
+- Earnings before open: None
+- Economic calendar: Initial Jobless Claims, Continuing Claims, Existing Home Sales
+- Sector momentum: Technology (+1.49%), Consumer Disc. (+0.24%)
+
+### Trade Ideas
+1. NVDA — Semiconductor company earnings, entry $202.08, stop $180, target $250, R:R 2:1
+2. AMD — Semiconductor company earnings, entry $75, stop $67, target $100, R:R 2:1
+
+### Risk Factors
+- Earnings misses
+- Sector rotation
+
+### Decision
+HOLD
