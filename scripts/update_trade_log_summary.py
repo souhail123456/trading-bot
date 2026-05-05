@@ -6,6 +6,10 @@ from datetime import datetime, timezone
 account = json.load(open("/tmp/account.json"))
 positions = json.load(open("/tmp/positions.json"))
 
+if not isinstance(account, dict) or "equity" not in account:
+    print(f"Alpaca auth error: {account}")
+    raise SystemExit(0)
+
 equity = float(account["equity"])
 cash = float(account["cash"])
 total_pnl = equity - 100000.0
