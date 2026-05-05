@@ -380,7 +380,7 @@ def main():
     if os.path.exists("/tmp/shared_global_state.json"):
         try:
             ctx = json.load(open("/tmp/shared_global_state.json"))
-            regime = ctx.get("regime", "UNKNOWN")
+            regime = ctx.get("regime") or "UNKNOWN"
             vix = ctx.get("vix")
         except Exception as e:
             print(f"Warning: could not read shared_global_state.json: {e}", file=sys.stderr)
