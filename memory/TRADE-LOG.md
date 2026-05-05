@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100678.78
+portfolio_value: 100672.29
 cash: 86399.79
-total_pnl: 678.78
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 114.21}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 644.71}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -111.8}]
+total_pnl: 672.29
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 112.32}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 642.71}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -114.4}]
 closed_trades: []
-last_updated: 2026-05-05T06:23:36Z
+last_updated: 2026-05-05T06:29:28Z
 -->
 
 # Trade Log
@@ -296,3 +296,5 @@ Tomorrow: watch AMZN for +15% tighten trigger (~$293.69) and for any new entry s
 Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%.
 
 Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%.
+
+Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%. 
