@@ -298,3 +298,5 @@ Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%
 Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%.
 
 Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%. 
+
+Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%. 
