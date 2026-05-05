@@ -108,7 +108,7 @@ def compute_signals(
 ) -> list[dict]:
     """
     For each symbol in UNIVERSE, compute entry/exit/hold signal.
-    positions_held: list of dicts with 'symbol' and 'side' keys.
+    positions_held: list of dicts with 'symbol', 'side', and optional 'entry_price' keys.
     Returns list of signal dicts with action='buy'/'sell'/'short'/'cover'/'hold'.
     """
     signals = []
@@ -118,6 +118,11 @@ def compute_signals(
     # Build lookup sets for held positions by side
     held_long_symbols = {p["symbol"] for p in positions_held if p.get("side") == "long"}
     held_short_symbols = {p["symbol"] for p in positions_held if p.get("side") == "short"}
+    # Build entry price lookup for loss detection (key: symbol, value: float or None)
+    entry_price_map = {
+        p["symbol"]: float(p["entry_price"]) if p.get("entry_price") is not None else None
+        for p in positions_held
+    }
 
     for symbol in UNIVERSE:
         print(f"  Scanning {symbol}...", file=sys.stderr)
@@ -177,18 +182,44 @@ def compute_signals(
                     "sma_200": round(slow, 2),
                 })
             else:
-                signals.append({
-                    "symbol": symbol,
-                    "action": "hold",
-                    "reason": f"Trend intact: price ${price:.2f} > SMA-200 ${slow:.2f}, SMA-50 ${fast:.2f} > SMA-200",
-                    "entry_price": f"{price:.2f}",
-                    "stop_pct": DEFAULT_STOP_PCT,
-                    "price": price,
-                    "trend_strength": round(trend_strength, 4),
-                    "momentum_20d": round(momentum_20d, 4),
-                    "sma_50": round(fast, 2),
-                    "sma_200": round(slow, 2),
-                })
+                # Time-based cut: if price < SMA-20 AND position is in loss → cut the drag
+                med = sma(closes, SMA_MEDIUM)
+                entry_px = entry_price_map.get(symbol)
+                in_loss = (entry_px is not None and price < entry_px) or (entry_px is None and momentum_20d < 0)
+                if med is not None and price < med and in_loss:
+                    loss_desc = (
+                        f"entry ${entry_px:.2f}" if entry_px is not None
+                        else f"momentum {momentum_20d*100:.1f}%"
+                    )
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "sell",
+                        "reason": (
+                            f"Time-based cut: price ${price:.2f} below SMA-20 ${med:.2f} "
+                            f"while in loss ({loss_desc})"
+                        ),
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                        "sma_20": round(med, 2),
+                    })
+                else:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "hold",
+                        "reason": f"Trend intact: price ${price:.2f} > SMA-200 ${slow:.2f}, SMA-50 ${fast:.2f} > SMA-200",
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
         elif currently_held_short:
             # Check short exit conditions — cover when trend recovering
             if price > fast:
@@ -399,7 +430,12 @@ def main():
                 # Determine side from qty: negative qty = short position
                 qty = float(p.get("qty", p.get("quantity", 0)))
                 side = p.get("side", "long" if qty >= 0 else "short")
-                positions_held.append({"symbol": p["symbol"], "side": side})
+                entry_px = p.get("avg_entry_price") or p.get("entry_price")
+                positions_held.append({
+                    "symbol": p["symbol"],
+                    "side": side,
+                    "entry_price": float(entry_px) if entry_px is not None else None,
+                })
             current_position_count = len(positions)
             print(f"Current positions ({current_position_count}): {[(p['symbol'], p['side']) for p in positions_held]}")
         except Exception as e:
