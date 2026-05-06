@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100881.90
+portfolio_value: 100980.70
 cash: 86399.79
-total_pnl: 881.90
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 106.92}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 897.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -153.99}]
+total_pnl: 980.70
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 143.32}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 928.81}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -123.2}]
 closed_trades: []
-last_updated: 2026-05-05T20:25:19Z
+last_updated: 2026-05-06T17:29:54Z
 -->
 
 # Trade Log
@@ -319,3 +319,5 @@ Cut MSFT at -2.64% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%
 | MSFT   | 10     | 425.73 | 410.3307 | -0.00795 | -153.993       | 386.93 |
 
 **Notes:** Day P&L calculated as the difference between today's equity ($100,881.90) and the last recorded equity ($100,672.33). Phase P&L is the difference between today's equity and the starting equity ($100,000). All open positions are listed with their respective stops based on trailing stop orders.
+
+Cut MSFT at -2.89% due to -7% rule. Tightened AMZN stop to 7%.
