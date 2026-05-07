@@ -544,3 +544,31 @@ GOOGL, MSFT, AMZN: all 3 stocks have earnings today. GOOGL and MSFT have clear e
 
 ### Decision
 HOLD
+
+## 2026-05-07 — Pre-market Research
+
+### Account
+- Equity: $101,112.94
+- Cash: $86,399.79
+- Buying power: $187,512.73
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $91.74 / $97.95
+- S&P 500 futures: +1.46%
+- VIX: 17.48 (+0.52%)
+- Today's catalysts: None
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+2.66%), Industrials (+2.59%)
+
+### Trade Ideas
+1. NVDA — No specific catalyst, skip
+2. AMD — No specific catalyst, skip
+
+### Risk Factors
+- Sector rotation
+- Earnings misses
+
+### Decision
+HOLD
