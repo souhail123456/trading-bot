@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100961.45
+portfolio_value: 101018.30
 cash: 86399.79
-total_pnl: 961.45
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 96.63}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 881.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -48.15}]
+total_pnl: 1018.30
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 100.13}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 926.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -39.8}]
 closed_trades: []
-last_updated: 2026-05-07T17:31:28Z
+last_updated: 2026-05-07T20:29:10Z
 -->
 
 # Trade Log
@@ -345,3 +345,14 @@ Open positions:
 Tomorrow: Review sector momentum and adjust stops as needed.
 
 Cut MSFT at -0.01131% due to -7% rule. Tightened stops for AMZN and GOOGL to 7%.
+
+### May 07 — EOD Snapshot (Day 17, Thursday)
+**Portfolio:** $101,018.30 | **Cash:** $86,399.79 (85.6%) | **Day P&L:** +$43.20 (+0.043%) | **Phase P&L:** +$1,018.30 (+1.018%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52 | 271.65 | -0.01216 | 100.1259       | 259.0608 |
+| GOOGL  | 20     | 351.4945 | 397.81 | -0.00058 | 926.31         | 370.2888 |
+| MSFT   | 10     | 425.73 | 421.75 | 0.01882  | -39.8           | 386.928  |
+
+**Notes:** Day P&L calculated as the difference between today's equity ($101,018.30) and the last recorded equity ($100,975.10). Phase P&L is the difference between today's equity and the starting equity ($100,000). All open positions are listed with their respective stops based on trailing stop orders.
