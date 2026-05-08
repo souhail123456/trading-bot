@@ -160,3 +160,68 @@ Template for each entry:
 ### Overall Grade: C+
 
 
+
+=== TELEGRAM ===
+Week ending 2026-05-08
+Portfolio: $101,018.30 (+1.018% phase, +0.19% week)
+vs S&P 500: +2.75%
+Trades: 0 (W:0 / L:0 / open:3)
+Best: NVDA +3.25% (open)  Worst: N/A
+Takeaway: Maintain 3-trade weekly cap discipline and tighten stops for AMZN and GOOGL.
+Grade: C+
+
+
+SECTION 1: Weekly review entry for WEEKLY-REVIEW.md
+
+## Week ending 2026-05-08
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100,639.57 |
+| Ending portfolio | $101,018.30 |
+| Week return | +$379.73 (+0.38%) |
+| S&P 500 week | +2.75% |
+| Bot vs S&P | -2.37% |
+| Trades | 0 (W:0 / L:0 / open:3) |
+| Win rate | N/A |
+| Best trade | NVDA +3.25% (open) |
+| Worst trade | N/A |
+| Profit factor | N/A |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+| — | — | — | — | No closed trades this week |
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+| AMZN | 260.52 | 271.65 | +$100.1259 | 259.0608 |
+| GOOGL | 351.4945 | 397.81 | +$926.31 | 370.2888 |
+| MSFT | 425.73 | 421.75 | -$39.8 | 386.928 |
+
+### What Worked
+- Patience > activity
+- Good skips have value
+- Stop trail working as designed
+
+### What Didn't Work
+- Deployed only 3 of 3 weekly trade slots
+- No second position entered
+- Phase performance barely beats S&P
+
+### Key Lessons
+- Infrastructure reliability is crucial
+- Catalyst stacking amplifies confidence
+- Cash drag suppresses returns
+
+### Adjustments for Next Week
+- Target 3-4 positions (40-60% deployed)
+- NVDA threshold watch for tightening stops
+- Monday pre-market scan is critical
+- AMD as next entry candidate
+- Maintain 3-trade weekly cap discipline
+- Exit NVDA if thesis breaks
+
+### Overall Grade: C+
