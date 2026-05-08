@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 101018.30
+portfolio_value: 100974.62
 cash: 86399.79
-total_pnl: 1018.30
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 100.13}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 926.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -39.8}]
+total_pnl: 974.62
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 105.39}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 923.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -85.74}]
 closed_trades: []
-last_updated: 2026-05-07T20:29:10Z
+last_updated: 2026-05-08T17:27:55Z
 -->
 
 # Trade Log
