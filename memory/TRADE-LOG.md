@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100974.62
+portfolio_value: 101021.11
 cash: 86399.79
-total_pnl: 974.62
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 105.39}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 923.31}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -85.74}]
+total_pnl: 1021.11
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 109.44}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 986.11}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -106.1}]
 closed_trades: []
-last_updated: 2026-05-08T17:27:55Z
+last_updated: 2026-05-10T20:16:38Z
 -->
 
 # Trade Log
@@ -356,3 +356,26 @@ Cut MSFT at -0.01131% due to -7% rule. Tightened stops for AMZN and GOOGL to 7%.
 | MSFT   | 10     | 425.73 | 421.75 | 0.01882  | -39.8           | 386.928  |
 
 **Notes:** Day P&L calculated as the difference between today's equity ($101,018.30) and the last recorded equity ($100,975.10). Phase P&L is the difference between today's equity and the starting equity ($100,000). All open positions are listed with their respective stops based on trailing stop orders.
+
+### 05-10 — EOD Snapshot (Day 20, Sunday)
+**Portfolio:** $101,021.11 | **Cash:** $86,399.79 (85.6%) | **Day P&L:** +$46.01 (+0.046%) | **Phase P&L:** +$1,021.11 (+1.021%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52 | 272.68 | -0.01216 | 109.44         | 259.0608 |
+| GOOGL  | 20     | 351.4945 | 400.8 | -0.00058 | 986.11         | 370.2888 |
+| MSFT   | 10     | 425.73 | 415.12 | 0.01882  | -106.1          | 386.928  |
+
+**Notes:** Day P&L calculated as the difference between today's equity ($101,021.11) and the last recorded equity ($100,975.10). Phase P&L is the difference between today's equity and the starting equity ($100,000). All open positions are listed with their respective stops based on trailing stop orders.
+
+---
+
+EOD May 10
+Portfolio: $101,021.11 (+0.046% day, +1.021% phase)
+Cash: $86,399.79
+Trades today: none
+Open positions:
+  AMZN +4.2% (stop $259.0608)
+  GOOGL +146.7% (stop $370.2888)
+  MSFT -2.5% (stop $386.928)
+Tomorrow: Review sector momentum and adjust stops as needed.
