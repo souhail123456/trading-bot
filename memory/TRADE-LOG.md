@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100811.33
+portfolio_value: 100725.19
 cash: 86399.79
-total_pnl: 811.33
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 93.64}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 843.11}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -156.5}]
+total_pnl: 725.19
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 75.42}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 754.41}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -136.3}]
 closed_trades: []
-last_updated: 2026-05-11T17:36:54Z
+last_updated: 2026-05-11T20:35:33Z
 -->
 
 # Trade Log
@@ -381,3 +381,28 @@ Open positions:
 Tomorrow: Review sector momentum and adjust stops as needed.
 
 Cut MSFT at -3.68% due to thesis broken. Tightened stops on AMZN and GOOGL to 7%.
+
+### 05-11 — EOD Snapshot (Day 21, Monday)
+**Portfolio:** $101,021.11 | **Cash:** $86,399.79 (99.6%) | **Day P&L:** +$46.01 (+0.046%) | **Phase P&L:** +$1,021.11 (+1.021%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52 | 272.68 | -0.01216 | 109.44         | 259.0608 |
+| GOOGL  | 20     | 351.4945 | 400.8 | -0.00058 | 986.11         | 370.2888 |
+| MSFT   | 10     | 425.73 | 415.12 | 0.01882  | -106.1          | 386.928  |
+| GOOGL  | 20     | 351.4945 | 389.2152 | -0.0289 | 986.11         | 366.3084 |
+
+**Notes:** Tightened stops on AMZN and GOOGL to 7% due to thesis broken. Cut MSFT at -3.68% due to thesis broken.
+
+---
+
+EOD May 11
+Portfolio: $101,021.11 (+0.046% day, +1.021% phase)
+Cash: $86,399.79
+Trades today: none
+Open positions:
+  AMZN +4.2% (stop $259.0608)
+  GOOGL +146.7% (stop $370.2888)
+  GOOGL +146.7% (stop $366.3084)
+  MSFT -2.5% (stop $386.928)
+Tomorrow: Review sector momentum and adjust stops as needed.
