@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100725.19
+portfolio_value: 100553.42
 cash: 86399.79
-total_pnl: 725.19
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 75.42}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 754.41}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -136.3}]
+total_pnl: 553.42
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 29.25}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 658.91}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -166.4}]
 closed_trades: []
-last_updated: 2026-05-11T20:35:33Z
+last_updated: 2026-05-12T17:37:42Z
 -->
 
 # Trade Log
@@ -406,3 +406,5 @@ Open positions:
   GOOGL +146.7% (stop $366.3084)
   MSFT -2.5% (stop $386.928)
 Tomorrow: Review sector momentum and adjust stops as needed.
+
+Cut MSFT at -2.5% due to thesis broken. Tightened stops on AMZN, GOOGL, and MSFT.
