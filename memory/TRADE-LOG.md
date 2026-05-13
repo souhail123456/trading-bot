@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100896.31
+portfolio_value: 100923.10
 cash: 86399.79
-total_pnl: 896.31
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 80.64}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 1002.91}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -218.9}]
+total_pnl: 923.10
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 85.57}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 1019.11}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -213.25}]
 closed_trades: []
-last_updated: 2026-05-13T17:38:45Z
+last_updated: 2026-05-13T20:35:25Z
 -->
 
 # Trade Log
@@ -440,3 +440,30 @@ Tomorrow: Review sector momentum and adjust stops as needed.
 Holding all positions as per strategy signals.
 
 Cut MSFT at -5.14% due to -7% rule. Tightened stops on AMZN and GOOGL.
+
+### 05-13 — EOD Snapshot (Day 23, Wednesday)
+**Portfolio:** $100,923.10 | **Cash:** $86,399.79 (100%) | **Day P&L:** +$1,306.23 (+1.31%) | **Phase P&L:** +$1,323.23 (+1.32%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN   | 9      | 260.52 | 272.68 | -0.01216 | 80.64          | 259.0608 |
+| GOOGL  | 20     | 351.4945 | 400.8 | -0.00058 | 986.11         | 370.2888 |
+| MSFT   | 10     | 425.73 | 415.12 | 0.01882  | -106.1          | 386.928  |
+| GOOGL  | 20     | 351.4945 | 389.2152 | -0.0289 | 986.11         | 366.3084 |
+| GOOGL  | 20     | 351.4945 | 400.8 | -0.00058 | 986.11         | 370.2888 |
+
+**Notes:** Holding all positions as per strategy signals. Tightened stops on AMZN and GOOGL to 7% due to thesis broken.
+
+---
+
+EOD May 13
+Portfolio: $100,923.10 (+1.31% day, +1.32% phase)
+Cash: $86,399.79
+Trades today: none
+Open positions:
+  AMZN +4.2% (stop $259.0608)
+  GOOGL +146.7% (stop $370.2888)
+  GOOGL +146.7% (stop $366.3084)
+  GOOGL +146.7% (stop $370.2888)
+  MSFT -2.5% (stop $386.928)
+Tomorrow: Review sector momentum and adjust stops as needed.
