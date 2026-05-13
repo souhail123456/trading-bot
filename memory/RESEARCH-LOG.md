@@ -572,3 +572,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-05-13 — Pre-market Research
+
+### Account
+- Equity: $100637
+- Cash: $86399.79
+- Buying power: $187036.79
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $101.78 / $107.58
+- S&P 500 futures: 7399.42 (-0.16%)
+- VIX: 17.89 (-0.56%)
+- Today's catalysts: Q1 Earnings Call Highlights for AMZN, GOOGL, MSFT
+- Earnings before open: AMZN, GOOGL, MSFT
+- Economic calendar: None
+- Sector momentum: Technology (-1.51%), Industrials (-0.39%)
+
+### Trade Ideas
+1. **AMZN** — Q1 Earnings Call Highlights, entry $265.82, stop $249.5, target $325, R:R 2:1
+2. **GOOGL** — Q1 Earnings Call Highlights, entry $387.35, stop $360.5, target $475, R:R 2:1
+3. **MSFT** — Nebius Revenue Booms On AI Computer Infrastructure Spending, entry $407.77, stop $383.5, target $500, R:R 2:1
+
+### Risk Factors
+- Earnings misses
+- Sector rotation
+
+### Decision
+TRADE
