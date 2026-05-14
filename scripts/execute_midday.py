@@ -63,8 +63,11 @@ if os.path.exists(positions_file):
     for p in json.load(open(positions_file)):
         held_symbols.add(p["symbol"].upper())
 
+import re
 for sym in held_symbols:
-    if sym.lower() in trade_log_text and ("cut" in trade_log_text or "close" in trade_log_text or "exit" in trade_log_text):
+    # Only match explicit "cut MSFT", "close MSFT", "exit MSFT", "closed MSFT", "cutting MSFT"
+    pattern = rf'\b(cut|cuts|cutting|close|closed|closing|exit|exiting)\s+{re.escape(sym)}\b'
+    if re.search(pattern, trade_log_text, re.IGNORECASE):
         if sym not in cuts_symbols:
             print(f"WARNING: trade_log_entry mentions cutting {sym} but it's NOT in cuts array — forcing cut")
             plan.setdefault("cuts", []).append({"symbol": sym, "reason": "auto-detected from trade_log_entry (LLM omitted from cuts)"})
