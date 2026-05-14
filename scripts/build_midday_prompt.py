@@ -103,14 +103,20 @@ ACTION PLAN FORMAT (valid JSON):
 ===TELEGRAM===
 <action summary or "Midday scan — no action needed">
 
+CRITICAL — CUTS ARRAY IS THE ONLY WAY TO CLOSE A POSITION:
+- Writing "Cut X" in trade_log_entry does NOTHING. Only the "cuts" array triggers actual sell orders.
+- If you decide to close ANY position for ANY reason, it MUST go in the "cuts" array.
+- If thesis_checks.status is "broken", you MUST ALSO add that symbol to "cuts".
+- NEVER mention cutting/closing a position in trade_log_entry without ALSO adding it to "cuts".
+
 STRATEGY EXIT RULES (HIGHEST PRIORITY):
 - If a symbol appears in STRATEGY EXIT SIGNALS, you MUST add it to cuts immediately.
 - Strategy exits override the -7% threshold — exit regardless of P&L.
 - Reason: price broke below SMA-200 or death cross (SMA-50 crossed below SMA-200).
 
 P&L RULES (apply after strategy exit check):
-- Cut any position with unrealized_plpc <= -0.07
-- Cut if thesis is broken even if not at -7%
+- Cut any position with unrealized_plpc <= -0.07 → add to "cuts"
+- Cut if thesis is broken even if not at -7% → add to "cuts"
 - Tighten trail to 7% at +15%, to 5% at +20%
 - Never tighten within 3% of current price
 - Never move a stop down

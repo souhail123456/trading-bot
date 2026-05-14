@@ -52,6 +52,31 @@ def alpaca(method, path, data=None):
 actions_taken = []
 closed_trades_new = []
 
+# Safety net: detect "cut" mentions in trade_log_entry that aren't in the cuts array
+trade_log_text = plan.get("trade_log_entry", "").lower()
+cuts_symbols = {c["symbol"].upper() for c in plan.get("cuts", [])}
+
+# Load current positions to cross-check
+positions_file = "/tmp/positions.json"
+held_symbols = set()
+if os.path.exists(positions_file):
+    for p in json.load(open(positions_file)):
+        held_symbols.add(p["symbol"].upper())
+
+for sym in held_symbols:
+    if sym.lower() in trade_log_text and ("cut" in trade_log_text or "close" in trade_log_text or "exit" in trade_log_text):
+        if sym not in cuts_symbols:
+            print(f"WARNING: trade_log_entry mentions cutting {sym} but it's NOT in cuts array — forcing cut")
+            plan.setdefault("cuts", []).append({"symbol": sym, "reason": "auto-detected from trade_log_entry (LLM omitted from cuts)"})
+
+# Also enforce: if thesis_checks says "broken", force into cuts
+for check in plan.get("thesis_checks", []):
+    if check.get("status", "").lower() == "broken":
+        sym = check["symbol"].upper()
+        if sym not in cuts_symbols and sym in held_symbols:
+            print(f"WARNING: thesis broken for {sym} but NOT in cuts — forcing cut")
+            plan.setdefault("cuts", []).append({"symbol": sym, "reason": f"thesis broken: {check.get('notes', '')}"})
+
 # Cut losers
 for cut in plan.get("cuts", []):
     sym = cut["symbol"]
