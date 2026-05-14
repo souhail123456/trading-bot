@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100923.88
+portfolio_value: 100889.88
 cash: 86399.79
-total_pnl: 923.88
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 73.8}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 983.51}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -165.8}]
+total_pnl: 889.88
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 59.31}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 980.11}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -181.2}]
 closed_trades: []
-last_updated: 2026-05-14T17:31:33Z
+last_updated: 2026-05-14T20:32:17Z
 -->
 
 # Trade Log
@@ -136,3 +136,14 @@ Cut MSFT due to thesis broken. Tightened stops on AMZN and GOOGL.
 No trades at open — holding
 
 Cut MSFT due to thesis broken. Tightened stop on GOOGL.
+
+### May 14 — EOD Snapshot (Day 24, Thursday)
+**Portfolio:** $100,889.88 | **Cash:** $86,399.79 (85.6%) | **Day P&L:** -$33.02 (-0.03%) | **Phase P&L:** +$889.88 (+0.89%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| AMZN | 9 | $260.52 | $267.11 | -0.01118 | $59.31 (+2.53%) | $251.83 |
+| GOOGL | 20 | $351.49 | $400.50 | -0.00527 | $980.11 (+13.94%) | $382.78 |
+| MSFT | 10 | $425.73 | $407.61 | 0.00592 | -$181.20 (-4.26%) | $383.01 |
+
+**Notes:** MSFT should be reviewed for exit. Stops tightened on AMZN and GOOGL.
