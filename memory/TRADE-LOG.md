@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100949.62
+portfolio_value: 100834.19
 cash: 86399.79
-total_pnl: 949.62
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 89.55}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 1050.71}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -222.3}]
+total_pnl: 834.19
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 70.52}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 933.51}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -202.1}]
 closed_trades: []
-last_updated: 2026-05-14T06:40:56Z
+last_updated: 2026-05-14T14:19:07Z
 -->
 
 # Trade Log
@@ -132,3 +132,5 @@ NVDA trailing stop triggered. Realized ~$560 profit. Cash returned to ~$86,400.
 **Notes:** MSFT has been flagged for exit multiple times but was never sold due to a bug (cuts array not populated). Fix deployed May 14 — next midday scan will enforce the cut.
 
 Cut MSFT due to thesis broken. Tightened stops on AMZN and GOOGL.
+
+No trades at open — holding
