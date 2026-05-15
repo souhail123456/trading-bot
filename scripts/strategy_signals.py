@@ -39,8 +39,8 @@ SMA_SLOW = 200
 MAX_POSITIONS = 7
 POSITION_SIZE_PCT = 15   # % of equity per position
 SHORT_SIZE_PCT = 10      # % of equity per short position (smaller than longs)
-DEFAULT_STOP_PCT = "10"  # trailing stop %
-SHORT_STOP_PCT = "7"     # tighter stop for shorts
+DEFAULT_STOP_PCT = "7"   # trailing stop %
+SHORT_STOP_PCT = "5"     # tighter stop for shorts
 
 ALPACA_DATA_BASE = "https://data.alpaca.markets/v2"
 

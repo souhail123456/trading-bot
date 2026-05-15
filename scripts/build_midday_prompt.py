@@ -89,10 +89,10 @@ Output a JSON action plan, then ===TELEGRAM===, then a Telegram message (only if
 ACTION PLAN FORMAT (valid JSON):
 {
   "cuts": [
-    {"symbol": "SYM", "reason": "-7% rule or strategy exit or thesis broken", "unrealized_plpc": "-0.08"}
+    {"symbol": "SYM", "reason": "-4% rule or strategy exit or thesis broken", "unrealized_plpc": "-0.05"}
   ],
   "stop_tightens": [
-    {"symbol": "SYM", "old_trail": "10", "new_trail": "7", "reason": "up 15%+", "cancel_order_id": "xxx"}
+    {"symbol": "SYM", "old_trail": "7", "new_trail": "5", "reason": "up 10%+", "cancel_order_id": "xxx"}
   ],
   "thesis_checks": [
     {"symbol": "SYM", "status": "intact or broken", "notes": "..."}
@@ -111,19 +111,20 @@ CRITICAL — CUTS ARRAY IS THE ONLY WAY TO CLOSE A POSITION:
 
 STRATEGY EXIT RULES (HIGHEST PRIORITY):
 - If a symbol appears in STRATEGY EXIT SIGNALS, you MUST add it to cuts immediately.
-- Strategy exits override the -7% threshold — exit regardless of P&L.
+- Strategy exits override the -4% threshold — exit regardless of P&L.
 - Reason: price broke below SMA-200 or death cross (SMA-50 crossed below SMA-200).
 
 P&L RULES (apply after strategy exit check):
-- Cut any position with unrealized_plpc <= -0.07 → add to "cuts"
-- Cut if thesis is broken even if not at -7% → add to "cuts"
-- Tighten trail to 7% at +15%, to 5% at +20%
+- Cut any position with unrealized_plpc <= -0.04 → add to "cuts"
+- Cut if thesis is broken even if not at -4% → add to "cuts"
+- Tighten trail to 5% at +10%, to 3% at +15%
+- Cut any position that has been held for 5+ trading days and is in the red
 - Never tighten within 3% of current price
 - Never move a stop down
 
 MARKET REGIME (from trading-admin):
-- If regime is CRISIS: tighten ALL stops to 5%, cut any position below -3%.
-- If regime is VOLATILE: tighten stops to 7% on all positions.
+- If regime is CRISIS: tighten ALL stops to 5%, cut any position below -2%.
+- If regime is VOLATILE: tighten stops to 5% on all positions.
 - If regime is RANGING/TRENDING: follow normal rules above."""
 
 user_msg = f"""Date: {date}
@@ -153,7 +154,7 @@ user_msg = f"""Date: {date}
 Regime: {shared_context.get('regime', 'UNKNOWN')}
 VIX: {shared_context.get('vix', 'N/A')}
 
-Run the midday scan. First: enforce any strategy exit signals above. Then: check P&L vs -7% cut rule, check if stop needs tightening. RESPECT regime rules."""
+Run the midday scan. First: enforce any strategy exit signals above. Then: check P&L vs -4% cut rule, check if stop needs tightening. RESPECT regime rules."""
 
 payload = {
     "model": "llama-3.3-70b-versatile",

@@ -1,0 +1,147 @@
+name: Afternoon Scan
+
+"on":
+  schedule:
+    # 3:00 AM GMT+8 = 7:00 PM UTC (previous day), Tue-Sat
+    - cron: '0 19 * * 1-5'
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Load shared context from trading-admin
+        env:
+          GH_TOKEN: ${{ secrets.BOT_GITHUB_TOKEN }}
+        run: |
+          if [ -n "$GH_TOKEN" ]; then
+            gh api repos/souhail123456/trading-admin/contents/shared/news.json --jq '.content' | base64 -d > /tmp/shared_news.json 2>/dev/null || echo '{}' > /tmp/shared_news.json
+            gh api repos/souhail123456/trading-admin/contents/shared/global_state.json --jq '.content' | base64 -d > /tmp/shared_global_state.json 2>/dev/null || echo '{}' > /tmp/shared_global_state.json
+            echo "Shared context loaded"
+          else
+            echo '{}' > /tmp/shared_news.json
+            echo '{}' > /tmp/shared_global_state.json
+            echo "No BOT_GITHUB_TOKEN — using empty shared context"
+          fi
+
+      - name: Fetch Alpaca data
+        run: |
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/account > /tmp/account.json
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
+          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
+          echo "Positions:" && python3 -c "import json; data=json.load(open('/tmp/positions.json')); [print(f'{p[\"symbol\"]}: {p[\"unrealized_plpc\"]}') for p in data] if isinstance(data, list) else print(f'Alpaca response: {data}')"
+
+      - name: Fetch news headlines
+        run: python3 scripts/fetch_news.py
+
+      - name: Generate strategy signals (trend-following)
+        run: python3 scripts/strategy_signals.py
+
+      - name: Build prompt and call LLM (via router)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          CEREBRAS_API_KEY: ${{ secrets.CEREBRAS_API_KEY }}
+          OPEN_ROUTER: ${{ secrets.OPEN_ROUTER }}
+        run: |
+          python3 scripts/build_midday_prompt.py
+          python3 -c "
+          import sys, json
+          sys.path.insert(0, 'scripts')
+          from llm_router import call_llm
+          prompt = json.load(open('/tmp/prompt.json'))
+          system_msg = next(m['content'] for m in prompt['messages'] if m['role'] == 'system')
+          user_msg = next(m['content'] for m in prompt['messages'] if m['role'] == 'user')
+          response, provider, model = call_llm(system_msg, user_msg, prompt.get('max_tokens', 1500), prompt.get('temperature', 0.2))
+          print(f'LLM OK — {provider}/{model}')
+          output = {'choices': [{'message': {'content': response}}]}
+          json.dump(output, open('/tmp/groq_response.json', 'w'))
+          "
+
+      - name: Execute midday actions
+        run: python3 scripts/execute_midday.py
+
+      - name: Update bot status
+        run: |
+          python3 -c "
+          import json
+          from datetime import datetime, timezone, timedelta
+          SHANGHAI_TZ = timezone(timedelta(hours=8))
+          now = datetime.now(SHANGHAI_TZ).isoformat()
+
+          try:
+              status = json.load(open('memory/bot_status.json'))
+          except:
+              status = {}
+
+          try:
+              resp = json.load(open('/tmp/groq_response.json'))
+              content = resp['choices'][0]['message']['content']
+              plan_start = content.find('{')
+              plan_end = content.rfind('}') + 1
+              if plan_start >= 0:
+                  plan = json.loads(content[plan_start:plan_end])
+                  trades = plan.get('trades', [])
+              else:
+                  plan = {}
+                  trades = []
+          except:
+              plan = {}
+              trades = []
+
+          status['stock_bot'] = {
+              'last_run': now,
+              'run_type': 'afternoon',
+              'trades_placed': len(trades),
+              'action': plan.get('action', 'UNKNOWN'),
+              'status': 'ok',
+              'next_run': 'eod or next market open'
+          }
+
+          json.dump(status, open('memory/bot_status.json', 'w'), indent=2)
+          print(f'Bot status updated: {len(trades)} trades')
+          "
+
+      - name: Update TRADE-LOG
+        run: |
+          ENTRY=$(cat /tmp/trade_log_entry.md)
+          test -z "$ENTRY" && echo "No trade log entry" && exit 0
+          echo "" >> memory/TRADE-LOG.md
+          cat /tmp/trade_log_entry.md >> memory/TRADE-LOG.md
+          echo "" >> memory/TRADE-LOG.md
+
+      - name: Update TRADE-LOG summary
+        run: python3 scripts/update_trade_log_summary.py
+
+      - name: Snapshot portfolio
+        run: python3 scripts/snapshot_portfolio.py
+
+      - name: Send Telegram (only if action taken)
+        run: |
+          MSG=$(cat /tmp/telegram_msg.txt)
+          echo "$MSG" | grep -qi "no action" && echo "No action — skipping Telegram" && exit 0
+          python3 -c "
+          import json, urllib.request
+          msg = open('/tmp/telegram_msg.txt').read()
+          data = json.dumps({'chat_id': '${{ secrets.TELEGRAM_CHAT_ID }}', 'text': msg}).encode()
+          req = urllib.request.Request('https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage', data=data, headers={'Content-Type': 'application/json'})
+          urllib.request.urlopen(req)
+          print('Telegram sent')
+          "
+
+      - name: Commit and push
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "bot@trading-bot"
+          git add memory/
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Afternoon scan $(date -u +%Y-%m-%d)"
+          git push
