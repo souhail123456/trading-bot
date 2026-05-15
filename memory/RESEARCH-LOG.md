@@ -629,3 +629,31 @@ TRADE
 
 ### Decision
 HOLD
+
+## 2026-05-15 — Pre-market Research
+
+### Account
+- Equity: $100771.21
+- Cash: $86399.79
+- Buying power: $187171
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $99.71 / $108.19
+- S&P 500 futures: 7501.24 (+0.77%)
+- VIX: 18.62 (+7.88%)
+- Today's catalysts: Trump-Xi Summit aftermath, AI Orders
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+1.50%), Energy (+0.76%)
+
+### Trade Ideas
+1. **NVDA** — AI Orders, entry $415, stop $373, target $520, R:R 2:1
+2. **CSCO** — AI Orders, entry $55, stop $49.5, target $65, R:R 2:1
+
+### Risk Factors
+- Earnings misses
+- Sector rotation
+
+### Decision
+HOLD
