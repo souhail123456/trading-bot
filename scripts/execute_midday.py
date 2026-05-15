@@ -121,6 +121,77 @@ for cut in plan.get("cuts", []):
         alpaca("DELETE", f"orders/{cancel_id}")
         print(f"Cancelled stop order {cancel_id}")
 
+# Partial profit takes (sell half at +8%)
+for take in plan.get("partial_takes", []):
+    sym = take["symbol"]
+    sell_qty = int(take.get("sell_qty", 0))
+    if sell_qty <= 0:
+        print(f"SKIP partial take {sym}: invalid qty {sell_qty}")
+        continue
+
+    print(f"PARTIAL TAKE {sym}: selling {sell_qty} shares ({take.get('reason', '')})")
+
+    # Get position details
+    pos = alpaca("GET", f"positions/{sym}")
+    if not pos:
+        print(f"No position found for {sym}")
+        continue
+
+    entry_price = float(pos["avg_entry_price"])
+    current_price = float(pos["current_price"])
+    total_qty = int(pos["qty"])
+
+    if sell_qty > total_qty:
+        sell_qty = total_qty  # safety: don't sell more than we have
+
+    # Sell the partial qty
+    result = alpaca("POST", "orders", {
+        "symbol": sym,
+        "qty": str(sell_qty),
+        "side": "sell",
+        "type": "market",
+        "time_in_force": "day"
+    })
+
+    if result and result.get("id"):
+        print(f"Partial sell {sym}: {sell_qty} shares — order {result['id']}")
+        actions_taken.append(f"PARTIAL TAKE {sym} ({sell_qty}sh at +{take.get('unrealized_plpc', '?')})")
+        realized_pnl = round((current_price - entry_price) * sell_qty, 2)
+        closed_trades_new.append({
+            "symbol": sym, "shares": sell_qty, "entry": entry_price,
+            "exit": current_price, "realized_pnl": realized_pnl,
+            "reason": f"partial profit take ({take.get('reason', '')})"
+        })
+
+        # Cancel existing stop and replace with tighter one for remaining shares
+        remaining = total_qty - sell_qty
+        if remaining > 0:
+            # Find and cancel existing stop order for this symbol
+            try:
+                all_orders = json.load(open("/tmp/orders.json")) if os.path.exists("/tmp/orders.json") else []
+                for o in all_orders:
+                    if o.get("symbol") == sym and o.get("type") in ("trailing_stop", "stop") and o.get("status") in ("new", "accepted", "held"):
+                        alpaca("DELETE", f"orders/{o['id']}")
+                        print(f"Cancelled old stop {o['id']} for {sym}")
+                        break
+            except Exception as e:
+                print(f"Warning: could not cancel old stop for {sym}: {e}")
+
+            # Place new 5% trailing stop on remaining shares
+            stop_order = alpaca("POST", "orders", {
+                "symbol": sym,
+                "qty": str(remaining),
+                "side": "sell",
+                "type": "trailing_stop",
+                "trail_percent": "5",
+                "time_in_force": "gtc"
+            })
+            if stop_order and stop_order.get("id"):
+                print(f"New 5% trailing stop on remaining {remaining}sh of {sym}")
+                actions_taken.append(f"TIGHTEN {sym} stop to 5% (remaining {remaining}sh)")
+    else:
+        print(f"Failed partial sell for {sym}: {result}")
+
 # Tighten stops
 for tighten in plan.get("stop_tightens", []):
     sym = tighten["symbol"]

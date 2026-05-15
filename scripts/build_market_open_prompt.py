@@ -161,6 +161,11 @@ STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
 - The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 8 total positions, (4) insufficient cash.
 - If there are no BUY signals, action is HOLD (no new entries).
 
+PROFIT-TAKING AT OPEN (check existing positions):
+- If any held position has unrealized gain >= +12%: close it (add to trades with side="sell").
+- If any held position has unrealized gain >= +8% but < +12%: sell half (add to trades with side="sell", qty = half of held shares).
+- These are in ADDITION to strategy signals, not instead of.
+
 MARKET REGIME RULES (from trading-admin):
 - If regime is CRISIS: NO new entries. Only hold or cut.
 - If regime is VOLATILE: halve position sizes (max 10% of equity per trade).

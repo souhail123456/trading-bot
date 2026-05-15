@@ -40,6 +40,11 @@ Beat the S&P 500 over the challenge window. Stocks only — no options, ever.
 - Position red after 5 trading days: close immediately
 - Sector has 2 consecutive failed trades: exit all positions in that sector
 
+## Profit-Taking Rules (partial exits to lock gains)
+- Up >= +8%: sell HALF the position (round down shares), tighten remaining stop to 5%
+- Up >= +12%: close the FULL remaining position
+- If already partially taken (shares < original entry), the +12% rule closes what's left
+
 ## Entry Checklist (document before placing)
 - What is the specific catalyst today?
 - Is the sector in momentum?

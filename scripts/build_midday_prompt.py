@@ -94,6 +94,9 @@ ACTION PLAN FORMAT (valid JSON):
   "stop_tightens": [
     {"symbol": "SYM", "old_trail": "7", "new_trail": "5", "reason": "up 10%+", "cancel_order_id": "xxx"}
   ],
+  "partial_takes": [
+    {"symbol": "SYM", "sell_qty": "N", "reason": "+8% partial take", "unrealized_plpc": "0.09"}
+  ],
   "thesis_checks": [
     {"symbol": "SYM", "status": "intact or broken", "notes": "..."}
   ],
@@ -108,11 +111,18 @@ CRITICAL — CUTS ARRAY IS THE ONLY WAY TO CLOSE A POSITION:
 - If you decide to close ANY position for ANY reason, it MUST go in the "cuts" array.
 - If thesis_checks.status is "broken", you MUST ALSO add that symbol to "cuts".
 - NEVER mention cutting/closing a position in trade_log_entry without ALSO adding it to "cuts".
+- "partial_takes" array sells ONLY the specified sell_qty — it does NOT close the full position.
 
 STRATEGY EXIT RULES (HIGHEST PRIORITY):
 - If a symbol appears in STRATEGY EXIT SIGNALS, you MUST add it to cuts immediately.
 - Strategy exits override the -4% threshold — exit regardless of P&L.
 - Reason: price broke below SMA-200 or death cross (SMA-50 crossed below SMA-200).
+
+PROFIT-TAKING RULES (lock gains via partial exits):
+- If unrealized_plpc >= +0.08 (up 8%+): sell HALF the shares (round down), tighten remaining stop to 5%. Add to "partial_takes".
+- If unrealized_plpc >= +0.12 (up 12%+): close the FULL remaining position. Add to "cuts" with reason "profit target +12%".
+- partial_takes triggers a market sell for sell_qty shares only (not the full position).
+- After partial take, the remaining shares keep their trailing stop (tightened to 5%).
 
 P&L RULES (apply after strategy exit check):
 - Cut any position with unrealized_plpc <= -0.04 → add to "cuts"
@@ -154,7 +164,7 @@ user_msg = f"""Date: {date}
 Regime: {shared_context.get('regime', 'UNKNOWN')}
 VIX: {shared_context.get('vix', 'N/A')}
 
-Run the midday scan. First: enforce any strategy exit signals above. Then: check P&L vs -4% cut rule, check if stop needs tightening. RESPECT regime rules."""
+Run the midday scan. First: enforce strategy exit signals. Then: check profit targets (+8% partial, +12% full close). Then: check P&L vs -4% cut rule and stop tightening. RESPECT regime rules."""
 
 payload = {
     "model": "llama-3.3-70b-versatile",
