@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100938.56
+portfolio_value: 100978.02
 cash: 86399.79
-total_pnl: 938.56
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 28.44}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 958.51}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": -80.05}]
+total_pnl: 978.02
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 26.1}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 919.51}, {"symbol": "MSFT", "shares": 10, "entry": 425.73, "side": "BUY", "unrealized_pnl": 0.75}]
 closed_trades: []
-last_updated: 2026-05-15T14:21:28Z
+last_updated: 2026-05-15T17:29:00Z
 -->
 
 # Trade Log
@@ -151,3 +151,5 @@ Cut MSFT due to thesis broken. Tightened stop on GOOGL.
 Cut MSFT for -4.26% loss. Tightened stops on AMZN and GOOGL.
 
 No trades at open — holding
+
+Cut MSFT for -4.26% loss.
