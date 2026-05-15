@@ -225,3 +225,49 @@ SECTION 1: Weekly review entry for WEEKLY-REVIEW.md
 - Exit NVDA if thesis breaks
 
 ### Overall Grade: C+
+
+## Week ending 2026-05-15
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100,940.08 |
+| Ending portfolio | $100,937.33 |
+| Week return | -$2.75 (-0.003%) |
+| S&P 500 week | -0.06% |
+| Bot vs S&P | -0.03% |
+| Trades | 1 (W:0 / L:1 / open:2) |
+| Win rate | 0% |
+| Best trade | None |
+| Worst trade | MSFT -4.26% |
+| Profit factor | 0 |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+| MSFT | 425.73 | 407.61 | -$181.20 | Cut for -4.26% loss |
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+| AMZN | 260.52 | 263.26 | $24.66 | $251.83 |
+| GOOGL | 351.4945 | 396.48 | $899.71 | $382.78 |
+
+### What Worked
+- Stop loss worked as designed for MSFT
+- Patience and discipline in not over-trading
+
+### What Didn't Work
+- MSFT trade did not work out as planned
+- Failure to capitalize on sector momentum
+
+### Key Lessons
+- Importance of timely exit when thesis is broken
+- Need to improve trade selection and timing
+
+### Adjustments for Next Week
+- Review and adjust trade entry criteria
+- Consider adding new positions to diversify portfolio
+- Maintain discipline and patience in trading decisions
+
+### Overall Grade: D+
