@@ -91,16 +91,29 @@ for cut in plan.get("cuts", []):
     current_price = float(pos["current_price"]) if pos else 0
     qty = int(pos["qty"]) if pos else 0
 
-    result = alpaca("DELETE", f"positions/{sym}")
-    if result:
-        print(f"Closed {sym}")
-        actions_taken.append(f"CUT {sym} ({cut['reason']})")
-        realized_pnl = round((current_price - entry_price) * qty, 2)
-        closed_trades_new.append({
-            "symbol": sym, "shares": qty, "entry": entry_price,
-            "exit": current_price, "realized_pnl": realized_pnl,
-            "reason": cut["reason"]
+    # Close via market sell order (DELETE /positions/ returns 403 on paper API)
+    if pos and qty > 0:
+        side = "sell" if pos.get("side", "long") == "long" else "buy"
+        result = alpaca("POST", "orders", {
+            "symbol": sym,
+            "qty": str(qty),
+            "side": side,
+            "type": "market",
+            "time_in_force": "day"
         })
+        if result and result.get("id"):
+            print(f"Closed {sym} via market {side} order: {result['id']}")
+            actions_taken.append(f"CUT {sym} ({cut['reason']})")
+            realized_pnl = round((current_price - entry_price) * qty, 2)
+            closed_trades_new.append({
+                "symbol": sym, "shares": qty, "entry": entry_price,
+                "exit": current_price, "realized_pnl": realized_pnl,
+                "reason": cut["reason"]
+            })
+        else:
+            print(f"Failed to close {sym}: {result}")
+    else:
+        print(f"No position found for {sym}")
 
     # Cancel its stop order
     cancel_id = cut.get("cancel_order_id")
