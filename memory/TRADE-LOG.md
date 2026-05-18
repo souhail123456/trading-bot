@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100951.24
+portfolio_value: 101127.28
 cash: 90638.38
-total_pnl: 951.24
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 32.58}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 905.71}]
+total_pnl: 1127.28
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 62.82}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 1051.51}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}]
-last_updated: 2026-05-17T20:18:23Z
+last_updated: 2026-05-18T14:39:42Z
 -->
 
 # Trade Log
@@ -165,3 +165,5 @@ Cut MSFT for -4.25% loss.
 | GOOGL | 20 | $351.4945 | $396.78 | 0 | $905.71 (+12.88%) | $385.15 |
 
 **Notes:** No trades executed today.
+
+No trades executed at open — holding existing positions
