@@ -686,3 +686,30 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-05-19 — Pre-market Research
+
+### Account
+- Equity: $100986.64
+- Cash: $90638.38
+- Buying power: $191625.02
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $103.92 / $110.98
+- S&P 500 futures: 7403.05 (-0.07%)
+- VIX: 18.03 (+1.18%)
+- Today's catalysts: None
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Energy (+1.92%), Consumer Staples (+1.49%)
+
+### Trade Ideas
+1. **No trade ideas meet the buy-side gate criteria**
+
+### Risk Factors
+- Sector rotation
+- US-Iran tensions
+
+### Decision
+HOLD
