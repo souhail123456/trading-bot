@@ -4,7 +4,7 @@ cash: 100659.66
 total_pnl: 659.66
 open_positions: []
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}, {"symbol": "AMZN", "entry": 260.52, "exit": 255.407778, "shares": 9, "pnl": -46.01, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "GOOGL", "entry": 351.4945, "exit": 386.1305, "shares": 20, "pnl": 692.72, "reason": "trailing_stop", "date": "2026-05-19"}]
-last_updated: 2026-05-19T19:35:32Z
+last_updated: 2026-05-19T20:35:24Z
 -->
 
 # Trade Log
@@ -185,3 +185,12 @@ No trades executed — holding all positions
 Closed AMZN for being in the red after 5 trading days. Partially closed GOOGL for +12% gain.
 
 Closed AMZN for being in the red after 5 trading days. Partially closed GOOGL for +12% gain.
+
+### May 19 — EOD Snapshot (Day 29, Tuesday)
+**Portfolio:** $100,659.66 | **Cash:** $100,659.66 (100%) | **Day P&L:** -$304.26 (-0.3%) | **Phase P&L:** $659.66 (+0.66%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| None |
+
+**Notes:** No open positions.
