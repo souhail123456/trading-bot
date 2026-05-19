@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100963.92
+portfolio_value: 100714.57
 cash: 90638.38
-total_pnl: 963.92
-open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": 37.26}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 913.71}]
+total_pnl: 714.57
+open_positions: [{"symbol": "AMZN", "shares": 9, "entry": 260.52, "side": "BUY", "unrealized_pnl": -34.47}, {"symbol": "GOOGL", "shares": 20, "entry": 351.4945, "side": "BUY", "unrealized_pnl": 735.91}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}]
-last_updated: 2026-05-18T20:32:59Z
+last_updated: 2026-05-19T14:22:39Z
 -->
 
 # Trade Log
@@ -179,3 +179,5 @@ Tightened stop on GOOGL to 5% and took partial profit of 10 shares
 | GOOGL | 20 | $351.4945 | $397.18 | 0.00101 | $913.71 (+12.99%) | $386.1376 |
 
 **Notes:** No trades executed today. Stops adjusted according to trailing stop orders.
+
+No trades executed — holding all positions
