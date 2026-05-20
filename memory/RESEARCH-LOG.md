@@ -713,3 +713,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-05-20 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $201319.3
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $102.59 / $109.24
+- S&P 500 futures: 7353.61 (-0.67%)
+- VIX: 17.99 (-0.39%)
+- Today's catalysts: Nvidia earnings
+- Earnings before open: Nvidia
+- Economic calendar: None
+- Sector momentum: Energy (+1.17%), Healthcare (+1.10%)
+
+### Trade Ideas
+1. NVDA — Earnings catalyst, entry $415, stop $373, target $520, R:R 2:1
+
+### Risk Factors
+- Earnings misses
+- Sector rotation
+- US-Iran tensions
+
+### Decision
+HOLD
