@@ -768,3 +768,30 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-05-22 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $201319.3
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $97.48 / $104.44
+- S&P 500 futures: 7445.72 (+0.17%)
+- VIX: 17.01 (+1.49%)
+- Today's catalysts: US-Iran negotiations, oil prices
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Utilities (+1.10%), Technology (+0.82%)
+
+### Trade Ideas
+1. AMZN — AI stock momentum, entry $260, stop $234, target $338, R:R 2.5:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
