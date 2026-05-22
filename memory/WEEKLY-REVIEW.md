@@ -271,3 +271,49 @@ SECTION 1: Weekly review entry for WEEKLY-REVIEW.md
 - Maintain discipline and patience in trading decisions
 
 ### Overall Grade: D+
+
+## Week ending 2026-05-22
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100,963.92 |
+| Ending portfolio | $100,659.65 |
+| Week return | -$304.27 (-0.3%) |
+| S&P 500 week | +0.95% |
+| Bot vs S&P | -1.25% |
+| Trades | 3 (W:1 / L:2 / open:0) |
+| Win rate | 33.33% |
+| Best trade | GOOGL +12% |
+| Worst trade | AMZN -4.26% |
+| Profit factor | 0.93 |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+| MSFT | 425.73 | 423.88 | -$18.5 | -4% rule |
+| AMZN | 260.52 | 255.407778 | -$46.01 | trailing_stop |
+| GOOGL | 351.4945 | 386.1305 | $692.72 | trailing_stop |
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+
+### What Worked
+- Trailing stop worked as designed for GOOGL
+- Patience and discipline in not over-trading
+
+### What Didn't Work
+- MSFT and AMZN trades did not work out as planned
+- Failure to capitalize on sector momentum
+
+### Key Lessons
+- Importance of timely exit when thesis is broken
+- Need to improve trade selection and timing
+
+### Adjustments for Next Week
+- Review and adjust trade entry criteria
+- Consider adding new positions to diversify portfolio
+- Maintain discipline and patience in trading decisions
+
+### Overall Grade: C
