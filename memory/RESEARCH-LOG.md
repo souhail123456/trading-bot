@@ -795,3 +795,30 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-05-25 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $201319.3
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $96.6 / $100.21
+- S&P 500 futures: 7473.47 (+0.37%)
+- VIX: 16.65 (-0.30%)
+- Today's catalysts: Oil price volatility, sector rotation
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Healthcare (+1.17%), Technology (+1.00%)
+
+### Trade Ideas
+1. XOM — Oil price catalyst, entry $59, stop $53, target $73, R:R 2:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
