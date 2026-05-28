@@ -822,3 +822,30 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-05-28 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $201319.3
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $91.42 / $94.84
+- S&P 500 futures: 7520.36 (+0.02%)
+- VIX: 16.73 (+2.70%)
+- Today's catalysts: US-Iran tensions, Fed inflation data
+- Earnings before open: Snowflake
+- Economic calendar: Fed inflation data
+- Sector momentum: Consumer Disc. (+1.76%), Consumer Staples (+1.14%)
+
+### Trade Ideas
+1. SNOW — Earnings catalyst, entry $220, stop $193, target $286, R:R 2.5:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
