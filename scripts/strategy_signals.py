@@ -69,7 +69,7 @@ def _alpaca_get(path: str, params: dict | None = None) -> dict | list | None:
         return None
 
 
-def fetch_daily_closes(symbol: str, days: int = 260) -> list[float]:
+def fetch_daily_closes(symbol: str, days: int = 400) -> list[float]:
     """Return list of daily close prices, oldest first. Returns empty list on error."""
     start = (datetime.now(timezone.utc) - timedelta(days=days + 30)).strftime("%Y-%m-%d")
     data = _alpaca_get(
@@ -79,7 +79,6 @@ def fetch_daily_closes(symbol: str, days: int = 260) -> list[float]:
             "start": start,
             "limit": days + 30,
             "adjustment": "split",
-            "feed": "iex",
         },
     )
     if not data or "bars" not in data:
