@@ -933,3 +933,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-03 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $201319.3
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $96.25 / $98.28
+- S&P 500 futures: 7609.78 (+0.13%)
+- VIX: 16.09 (+2.03%)
+- Today's catalysts: US-Iran tensions, sector rotation
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Utilities (+1.86%), Technology (+1.25%)
+
+### Trade Ideas
+1. COHR — Sector momentum, entry $280, stop $252, target $360, R:R 2.5:1
+2. AEP — Sector momentum, entry $95, stop $85, target $115, R:R 2.5:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
