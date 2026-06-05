@@ -989,3 +989,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-05 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $402638.6
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $92.83 / $94.73
+- S&P 500 futures: 7584.31 (+0.41%)
+- VIX: 15.65 (+1.62%)
+- Today's catalysts: US-Iran war, sector rotation
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Healthcare (+3.07%), Financials (+2.59%)
+
+### Trade Ideas
+1. HCA — Sector momentum, entry $250, stop $225, target $325, R:R 2.5:1
+2. JNJ — Sector momentum, entry $155, stop $140, target $190, R:R 2.5:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
