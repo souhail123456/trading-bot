@@ -1073,3 +1073,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-10 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $402638.6
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $89.89 / $92.92
+- S&P 500 futures: 7405.73 (+0.30%)
+- VIX: 21.99 (+16.23%)
+- Today's catalysts: US-Iran tensions, CPI inflation data
+- Earnings before open: None
+- Economic calendar: CPI inflation data
+- Sector momentum: Technology (+2.15%), Energy (+1.14%)
+
+### Trade Ideas
+1. NVDA — Sector momentum, entry $435, stop $393, target $540, R:R 3.5:1
+2. TSLA — Sector momentum, entry $185, stop $165, target $230, R:R 2.5:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
