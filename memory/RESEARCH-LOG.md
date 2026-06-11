@@ -1101,3 +1101,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-11 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $402638.6
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $89.05 / $91.94
+- S&P 500 futures: 7266.99 (-1.62%)
+- VIX: 20.78 (-6.48%)
+- Today's catalysts: US-Iran tensions easing, PPI data
+- Earnings before open: None
+- Economic calendar: PPI data
+- Sector momentum: Consumer Staples (+1.65%), Energy (+1.50%)
+
+### Trade Ideas
+1. XOM — Sector momentum, entry $105, stop $95, target $125, R:R 2:1
+2. PG — Sector momentum, entry $140, stop $126, target $160, R:R 2.2:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
