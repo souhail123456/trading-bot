@@ -404,3 +404,46 @@ None this week
 - Maintain discipline and patience in trading decisions
 
 ### Overall Grade: B
+
+## Week ending 2026-06-12
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100,659.65 |
+| Ending portfolio | $100,659.65 |
+| Week return | $0 (0%) |
+| S&P 500 week | +0.35% |
+| Bot vs S&P | -0.35% |
+| Trades | 0 (W:0 / L:0 / open:0) |
+| Win rate | N/A |
+| Best trade | N/A |
+| Worst trade | N/A |
+| Profit factor | N/A |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+None this week
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+
+### What Worked
+- No losses incurred during the week
+
+### What Didn't Work
+- Failure to capitalize on market opportunities
+- No trades executed during the week
+
+### Key Lessons
+- Importance of timely trade execution
+- Need to improve trade selection and timing
+
+### Adjustments for Next Week
+- Review and adjust trade entry criteria
+- Consider adding new positions to diversify portfolio
+- Maintain discipline and patience in trading decisions
+
+### Overall Grade: C
