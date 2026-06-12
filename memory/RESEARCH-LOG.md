@@ -1129,3 +1129,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-12 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $402638.6
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $85.1 / $87.91
+- S&P 500 futures: 7394.3 (+1.75%)
+- VIX: 18.83 (-3.14%)
+- Today's catalysts: Iran deal hopes, market momentum
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+3.73%), Materials (+3.27%)
+
+### Trade Ideas
+1. NVDA — Sector momentum, entry $380, stop $342, target $440, R:R 2.5:1
+2. ADBE — Sector momentum, entry $520, stop $468, target $580, R:R 2.2:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
