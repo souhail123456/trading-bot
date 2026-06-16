@@ -1185,3 +1185,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-16 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $402638.6
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $76.53 / $80.1
+- S&P 500 futures: 7431.46 (+0.50%)
+- VIX: 16.13 (-8.77%)
+- Today's catalysts: US-Iran peace deal signing, market momentum
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Materials (+1.87%), Financials (+1.37%)
+
+### Trade Ideas
+1. JPM — Sector momentum, entry $140, stop $126, target $160, R:R 2.5:1
+2. XOM — Sector momentum, entry $90, stop $81, target $105, R:R 2.2:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+
+### Decision
+HOLD
