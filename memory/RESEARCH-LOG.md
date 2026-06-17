@@ -1213,3 +1213,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-17 — Pre-market Research
+
+### Account
+- Equity: $100659.65
+- Cash: $100659.65
+- Buying power: $402638.6
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $76.01 / $79.84
+- S&P 500 futures: 7511.35 (-0.57%)
+- VIX: 16.35 (-0.37%)
+- Today's catalysts: Fed decision, market momentum
+- Earnings before open: None
+- Economic calendar: Fed decision
+- Sector momentum: Financials (+1.47%), Utilities (+0.72%)
+
+### Trade Ideas
+1. JPM — Sector momentum, entry $140, stop $126, target $160, R:R 2.5:1
+2. EQT — Catalyst: 3 Reasons We Love This Stock, entry $40, stop $36, target $50, R:R 2.2:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+- Fed decision uncertainty
+
+### Decision
+HOLD
