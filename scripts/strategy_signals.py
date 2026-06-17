@@ -70,22 +70,31 @@ def _alpaca_get(path: str, params: dict | None = None) -> dict | list | None:
 
 
 def fetch_daily_closes(symbol: str, days: int = 400) -> list[float]:
-    """Return list of daily close prices, oldest first. Returns empty list on error."""
+    """Return list of daily close prices, oldest first. Paginates to get all bars."""
     start = (datetime.now(timezone.utc) - timedelta(days=days + 30)).strftime("%Y-%m-%d")
-    data = _alpaca_get(
-        f"stocks/{symbol}/bars",
-        {
+    all_bars = []
+    page_token = None
+
+    for _ in range(5):  # max 5 pages (~1000 bars)
+        params = {
             "timeframe": "1Day",
             "start": start,
-            "limit": days + 30,
+            "limit": 1000,
             "adjustment": "split",
-        },
-    )
-    if not data or "bars" not in data:
-        return []
+        }
+        if page_token:
+            params["page_token"] = page_token
 
-    bars = data["bars"]
-    closes = [bar["c"] for bar in bars if bar.get("c") is not None]
+        data = _alpaca_get(f"stocks/{symbol}/bars", params)
+        if not data or "bars" not in data:
+            break
+
+        all_bars.extend(data["bars"])
+        page_token = data.get("next_page_token")
+        if not page_token:
+            break
+
+    closes = [bar["c"] for bar in all_bars if bar.get("c") is not None]
     return closes
 
 
@@ -125,9 +134,9 @@ def compute_signals(
 
     for symbol in UNIVERSE:
         print(f"  Scanning {symbol}...", file=sys.stderr)
-        closes = fetch_daily_closes(symbol, days=260)
+        closes = fetch_daily_closes(symbol, days=400)
 
-        if len(closes) < SMA_SLOW + 5:
+        if len(closes) < SMA_SLOW + 1:
             print(f"    Insufficient data ({len(closes)} bars) — skip", file=sys.stderr)
             continue
 
