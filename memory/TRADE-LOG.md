@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100659.65
-cash: 100659.65
-total_pnl: 659.65
-open_positions: []
+portfolio_value: 100323.73
+cash: -5315.77
+total_pnl: 323.73
+open_positions: [{"symbol": "AAPL", "shares": 51, "entry": 298.687844, "side": "BUY", "unrealized_pnl": 41.93}, {"symbol": "GOOGL", "shares": 41, "entry": 365.46805, "side": "BUY", "unrealized_pnl": -120.67}, {"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": -74.72}, {"symbol": "QQQ", "shares": 20, "entry": 736.3685, "side": "BUY", "unrealized_pnl": -19.97}, {"symbol": "SPY", "shares": 20, "entry": 747.86, "side": "BUY", "unrealized_pnl": -54.2}, {"symbol": "XLI", "shares": 84, "entry": 182.512143, "side": "BUY", "unrealized_pnl": -87.54}, {"symbol": "XLK", "shares": 81, "entry": 190.6, "side": "BUY", "unrealized_pnl": -21.06}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}, {"symbol": "AMZN", "entry": 260.52, "exit": 255.407778, "shares": 9, "pnl": -46.01, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "GOOGL", "entry": 351.4945, "exit": 386.1305, "shares": 20, "pnl": 692.72, "reason": "trailing_stop", "date": "2026-05-19"}]
-last_updated: 2026-06-17T20:44:19Z
+last_updated: 2026-06-18T14:31:50Z
 -->
 
 # Trade Log
@@ -451,3 +451,5 @@ Executing strategy signals: XLI, XLK, IWM, QQQ, SPY, AAPL, GOOGL
 | None |
 
 **Notes:** No open positions, no trades executed today. Multiple buy orders are pending.
+
+Executed strategy signals: Bought NVDA and XLE, sold SPY and GOOGL
