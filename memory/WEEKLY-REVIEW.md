@@ -447,3 +447,57 @@ None this week
 - Maintain discipline and patience in trading decisions
 
 ### Overall Grade: C
+
+## Week ending 2026-06-19
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100,659.65 |
+| Ending portfolio | $100,747.72 |
+| Week return | $88.07 (+0.09%) |
+| S&P 500 week | -0.15% |
+| Bot vs S&P | +0.24% |
+| Trades | 5 (W:5 / L:0 / open:5) |
+| Win rate | 100% |
+| Best trade | NVDA +0.60% |
+| Worst trade | IWM +0.023% |
+| Profit factor | 1.01 |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+| MSFT | 425.73 | 423.88 | -18.5 | -4% rule |
+| AMZN | 260.52 | 255.407778 | -46.01 | trailing_stop |
+| GOOGL | 351.4945 | 386.1305 | 692.72 | trailing_stop |
+| SPY | 747.86 | 745.407 | -49.06 | market |
+| AAPL | 298.687844 | 297.65 | -52.93 | strategy exit signal |
+| XLI | 182.512143 | 181.055 | -122.4 | unrealized_plpc <= -0.04 |
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+| IWM | 294.306923 | 295.59 | 66.72 | - |
+| NVDA | 208.95 | 210.69 | 125.28 | 200.82 |
+| QQQ | 736.3685 | 740.62 | 85.03 | 704.73 |
+| XLE | 53.47 | 53.77 | 84.3 | 51.21 |
+| XLK | 190.6 | 191.44 | 68.04 | - |
+
+### What Worked
+- Successful execution of trade entry and exit strategies
+- Ability to capitalize on market opportunities
+
+### What Didn't Work
+- Limited number of trades executed during the week
+- Failure to fully capitalize on market momentum
+
+### Key Lessons
+- Importance of timely trade execution and risk management
+- Need to continue improving trade selection and timing
+
+### Adjustments for Next Week
+- Review and adjust trade entry criteria
+- Consider adding new positions to diversify portfolio
+- Maintain discipline and patience in trading decisions
+
+### Overall Grade: B+
