@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 100737.42
-cash: 24779.00
-total_pnl: 737.42
-open_positions: [{"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 62.56}, {"symbol": "NVDA", "shares": 72, "entry": 208.95, "side": "BUY", "unrealized_pnl": 79.2}, {"symbol": "QQQ", "shares": 20, "entry": 736.3685, "side": "BUY", "unrealized_pnl": 73.83}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 98.38}, {"symbol": "XLK", "shares": 81, "entry": 190.6, "side": "BUY", "unrealized_pnl": 105.05}]
+portfolio_value: 100747.72
+cash: 24778.95
+total_pnl: 747.72
+open_positions: [{"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 66.72}, {"symbol": "NVDA", "shares": 72, "entry": 208.95, "side": "BUY", "unrealized_pnl": 125.28}, {"symbol": "QQQ", "shares": 20, "entry": 736.3685, "side": "BUY", "unrealized_pnl": 85.03}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 84.3}, {"symbol": "XLK", "shares": 81, "entry": 190.6, "side": "BUY", "unrealized_pnl": 68.04}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}, {"symbol": "AMZN", "entry": 260.52, "exit": 255.407778, "shares": 9, "pnl": -46.01, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "GOOGL", "entry": 351.4945, "exit": 386.1305, "shares": 20, "pnl": 692.72, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "SPY", "entry": 747.86, "exit": 745.407, "shares": 20, "pnl": -49.06, "reason": "market", "date": "2026-06-18"}, {"symbol": "AAPL", "shares": 51, "entry": 298.687844, "exit": 297.65, "realized_pnl": -52.93, "reason": "strategy exit signal"}, {"symbol": "XLI", "shares": 84, "entry": 182.512143, "exit": 181.055, "realized_pnl": -122.4, "reason": "unrealized_plpc <= -0.04"}]
-last_updated: 2026-06-18T20:50:24Z
+last_updated: 2026-06-19T14:28:11Z
 -->
 
 # Trade Log
@@ -470,3 +470,5 @@ Cut XLI due to -4% rule, tighten QQQ stop to 5% due to +2.5% gain
 | XLK   | 81    | 190.6 | 191.9 | 0.03281 | 105.05         | -     |
 
 **Notes:** All positions are long, with stops set for NVDA, QQQ, and XLE. No trades were executed today.
+
+Executed strategy signals: bought XLI, SPY, AAPL, GOOGL, sold XLK and XLE
