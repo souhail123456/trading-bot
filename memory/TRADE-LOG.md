@@ -4,7 +4,7 @@ cash: 24778.95
 total_pnl: 747.72
 open_positions: [{"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 66.72}, {"symbol": "NVDA", "shares": 72, "entry": 208.95, "side": "BUY", "unrealized_pnl": 125.28}, {"symbol": "QQQ", "shares": 20, "entry": 736.3685, "side": "BUY", "unrealized_pnl": 85.03}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 84.3}, {"symbol": "XLK", "shares": 81, "entry": 190.6, "side": "BUY", "unrealized_pnl": 68.04}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}, {"symbol": "AMZN", "entry": 260.52, "exit": 255.407778, "shares": 9, "pnl": -46.01, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "GOOGL", "entry": 351.4945, "exit": 386.1305, "shares": 20, "pnl": 692.72, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "SPY", "entry": 747.86, "exit": 745.407, "shares": 20, "pnl": -49.06, "reason": "market", "date": "2026-06-18"}, {"symbol": "AAPL", "shares": 51, "entry": 298.687844, "exit": 297.65, "realized_pnl": -52.93, "reason": "strategy exit signal"}, {"symbol": "XLI", "shares": 84, "entry": 182.512143, "exit": 181.055, "realized_pnl": -122.4, "reason": "unrealized_plpc <= -0.04"}]
-last_updated: 2026-06-19T19:34:01Z
+last_updated: 2026-06-21T20:32:59Z
 -->
 
 # Trade Log
@@ -476,3 +476,16 @@ Executed strategy signals: bought XLI, SPY, AAPL, GOOGL, sold XLK and XLE
 Closed XLK and XLE due to strategy exit signals.
 
 Cut XLK and XLE due to strategy exit signals. Tightened stop on NVDA to 5%.
+
+### Jun 21 — EOD Snapshot (Day 62, Sunday)
+**Portfolio:** $100,747.72 | **Cash:** $24,778.95 (24.6%) | **Day P&L:** $10.3 (+0.01%) | **Phase P&L:** $747.72 (+0.75%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| IWM   | 52    | 294.31| 295.59| 0       | 66.72          | -    |
+| NVDA  | 72    | 208.95| 210.69| 0       | 125.28         | 199.81|
+| QQQ   | 20    | 736.37| 740.62| 0       | 85.03          | 704.73|
+| XLE   | 281   | 53.47 | 53.77 | 0       | 84.3           | 51.21 |
+| XLK   | 81    | 190.6 | 191.44| 0       | 68.04          | -     |
+
+**Notes:** All positions are long. No trades were executed today.
