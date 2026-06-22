@@ -1300,3 +1300,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-22 — Pre-market Research
+
+### Account
+- Equity: $100925.45
+- Cash: $24778.95
+- Buying power: $252729.27
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $74.65 / $78.65
+- S&P 500 futures: 7500.58 (+1.08%)
+- VIX: 17.07 (+4.09%)
+- Today's catalysts: US-Iran peace talks, market momentum
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+3.04%), Consumer Discretionary (+1.45%)
+
+### Trade Ideas
+1. SMH — Semiconductor strength, entry $245.6, stop $221.94, target $280, R:R 2.2:1
+2. QQQ — Index momentum, entry $740, stop $704.73, target $800, R:R 2.1:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+- Market volatility
+
+### Decision
+HOLD
