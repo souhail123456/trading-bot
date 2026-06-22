@@ -1,10 +1,10 @@
 {
   "stock_bot": {
-    "last_run": "2026-06-22T23:20:26.559294+08:00",
-    "run_type": "market_open",
-    "trades_placed": 5,
-    "action": "TRADE",
+    "last_run": "2026-06-23T02:19:37.963041+08:00",
+    "run_type": "midday",
+    "trades_placed": 0,
+    "action": "UNKNOWN",
     "status": "ok",
-    "next_run": "midday or next market open"
+    "next_run": "eod or next market open"
   }
 }
