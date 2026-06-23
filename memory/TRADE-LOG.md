@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 98808.63
-cash: -5759.48
-total_pnl: -1191.37
-open_positions: [{"symbol": "AMZN", "shares": 64, "entry": 233.42, "side": "BUY", "unrealized_pnl": 185.6}, {"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 148.36}, {"symbol": "QQQ", "shares": 20, "entry": 736.3685, "side": "BUY", "unrealized_pnl": -259.77}, {"symbol": "SPY", "shares": 20, "entry": 746.342, "side": "BUY", "unrealized_pnl": -141.24}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 182.65}, {"symbol": "XLI", "shares": 83, "entry": 181.208193, "side": "BUY", "unrealized_pnl": -113.56}, {"symbol": "XLK", "shares": 78, "entry": 191.897308, "side": "BUY", "unrealized_pnl": -364.99}]
+portfolio_value: 98582.62
+cash: -34869.40
+total_pnl: -1417.38
+open_positions: [{"symbol": "AAPL", "shares": 49, "entry": 299.187755, "side": "BUY", "unrealized_pnl": 26.57}, {"symbol": "AMZN", "shares": 64, "entry": 233.42, "side": "BUY", "unrealized_pnl": 47.68}, {"symbol": "GOOGL", "shares": 42, "entry": 347.303809, "side": "BUY", "unrealized_pnl": 21.68}, {"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 161.36}, {"symbol": "NVDA", "shares": 72, "entry": 203.36, "side": "BUY", "unrealized_pnl": -56.88}, {"symbol": "QQQ", "shares": 20, "entry": 736.3685, "side": "BUY", "unrealized_pnl": -336.67}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 289.43}, {"symbol": "XLI", "shares": 83, "entry": 181.208193, "side": "BUY", "unrealized_pnl": -144.27}, {"symbol": "XLK", "shares": 78, "entry": 191.897308, "side": "BUY", "unrealized_pnl": -448.29}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}, {"symbol": "AMZN", "entry": 260.52, "exit": 255.407778, "shares": 9, "pnl": -46.01, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "GOOGL", "entry": 351.4945, "exit": 386.1305, "shares": 20, "pnl": 692.72, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "SPY", "entry": 747.86, "exit": 745.407, "shares": 20, "pnl": -49.06, "reason": "market", "date": "2026-06-18"}, {"symbol": "AAPL", "shares": 51, "entry": 298.687844, "exit": 297.65, "realized_pnl": -52.93, "reason": "strategy exit signal"}, {"symbol": "XLI", "shares": 84, "entry": 182.512143, "exit": 181.055, "realized_pnl": -122.4, "reason": "unrealized_plpc <= -0.04"}, {"symbol": "XLK", "entry": 190.6, "exit": 192.824074, "shares": 81, "pnl": 180.15, "reason": "market", "date": "2026-06-22"}, {"symbol": "NVDA", "entry": 208.95, "exit": 200.37, "shares": 72, "pnl": -617.76, "reason": "trailing_stop", "date": "2026-06-23"}]
-last_updated: 2026-06-23T14:21:33Z
+last_updated: 2026-06-23T17:35:26Z
 -->
 
 # Trade Log
@@ -513,3 +513,5 @@ Cut AMZN and NVDA due to strategy exit signals.
 **Notes:** All positions are long. No trades were executed today. NVDA should be reviewed for exit.
 
 Executed strategy signals: bought AAPL, NVDA, GOOGL, sold SPY, QQQ, XLK
+
+Cut QQQ, NVDA, XLK due to strategy exit signals
