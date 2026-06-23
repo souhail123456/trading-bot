@@ -1329,3 +1329,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-23 — Pre-market Research
+
+### Account
+- Equity: $98453.96
+- Cash: -$20186.12
+- Buying power: $251447.74
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $73.66 / $77.65
+- S&P 500 futures: 7472.79 (-0.37%)
+- VIX: 19.63 (+13.60%)
+- Today's catalysts: Tech sell-off, US-Iran tensions
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Energy (+0.54%), Industrials (+0.49%)
+
+### Trade Ideas
+1. XLE — Energy sector strength, entry $54.16, stop $50.54, target $60, R:R 2:1
+2. IWM — Small-cap momentum, entry $298.18, stop $283.55, target $320, R:R 2.2:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+- Market volatility
+
+### Decision
+HOLD
