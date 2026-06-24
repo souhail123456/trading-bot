@@ -1358,3 +1358,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-24 — Pre-market Research
+
+### Account
+- Equity: $97940.02
+- Cash: -$34869.43
+- Buying power: $232388.75
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $71.27 / $74.99
+- S&P 500 futures: 7365.46 (-1.44%)
+- VIX: 18.95 (-2.77%)
+- Today's catalysts: Tech sell-off, oil price decline
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Consumer Staples (+1.87%), Healthcare (+1.41%)
+
+### Trade Ideas
+1. XLP — Consumer Staples strength, entry $83.50, stop $78.50, target $90, R:R 2.2:1
+2. XLV — Healthcare momentum, entry $152.00, stop $143.00, target $165, R:R 2.1:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+- Market volatility
+
+### Decision
+HOLD
