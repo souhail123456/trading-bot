@@ -1387,3 +1387,33 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-06-25 — Pre-market Research
+
+### Account
+- Equity: $97298.06
+- Cash: -$20707.61
+- Buying power: $247585.42
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $69.78 / $73.35
+- S&P 500 futures: 7358.22 (-0.10%)
+- VIX: 18.08 (-2.95%)
+- Today's catalysts: Micron earnings, inflation data
+- Earnings before open: None
+- Economic calendar: Inflation data
+- Sector momentum: Industrials (+1.16%), Consumer Discretionary (+1.15%)
+
+### Trade Ideas
+1. XLI — Industrials strength, entry $181.50, stop $170.50, target $195, R:R 2.5:1
+2. IWM — Russell 2000 momentum, entry $298.00, stop $283.00, target $315, R:R 2.3:1
+
+### Risk Factors
+- US-Iran tensions
+- Sector rotation
+- Market volatility
+- Inflation data surprise
+
+### Decision
+HOLD
