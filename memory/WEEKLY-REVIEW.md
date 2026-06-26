@@ -501,3 +501,54 @@ None this week
 - Maintain discipline and patience in trading decisions
 
 ### Overall Grade: B+
+
+## Week ending 2026-06-26
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $96202.35 |
+| Ending portfolio | $95606.04 |
+| Week return | -$596.31 (-0.62%) |
+| S&P 500 week | -1.59% |
+| Bot vs S&P | 0.97% |
+| Trades | 0 (W:0 / L:0 / open:11) |
+| Win rate | N/A |
+| Best trade | N/A |
+| Worst trade | N/A |
+| Profit factor | N/A |
+
+### Closed Trades
+| Ticker | Entry | Exit | P&L | Notes |
+|--------|-------|------|-----|-------|
+| None this week |
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+| AMZN | 233.42 | 227.29 | -392.64 | 224.12 |
+| GOOGL | 347.30 | 343.50 | -159.76 | 328.73 |
+| IWM | 294.31 | 299.40 | 264.84 | 286.40 |
+| NVDA | 203.36 | 195.22 | -586.08 | 189.21 |
+| QQQ | 713.48 | 716.87 | 67.76 | 669.23 |
+| SPY | 736.00 | 734.60 | -26.61 | 686.17 |
+| XLE | 53.47 | 54.21 | 207.94 | 51.83 |
+| XLF | 54.62 | 53.62 | -263.42 | 50.85 |
+| XLI | 181.21 | 183.76 | 211.57 | 176.79 |
+| XLK | 191.90 | 184.70 | -561.39 | 178.80 |
+| XLV | 156.82 | 156.08 | -68.08 | 146.20 |
+
+### What Worked
+- The bot was able to maintain a relatively stable portfolio despite market volatility.
+
+### What Didn't Work
+- The bot did not execute any trades during the week, which may indicate a need to review and adjust trade entry criteria.
+
+### Key Lessons
+- The importance of timely trade execution and risk management in maintaining a stable portfolio.
+
+### Adjustments for Next Week
+- Review and adjust trade entry criteria to potentially increase trade execution.
+- Consider adding new positions to diversify the portfolio.
+
+### Overall Grade: C+
