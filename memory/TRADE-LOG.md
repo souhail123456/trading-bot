@@ -1,10 +1,10 @@
 <!-- SUMMARY
-portfolio_value: 97255.49
+portfolio_value: 97334.50
 cash: -34800.05
-total_pnl: -2744.51
-open_positions: [{"symbol": "GOOGL", "shares": 42, "entry": 347.30381, "side": "BUY", "unrealized_pnl": 231.68}, {"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 202.7}, {"symbol": "NVDA", "shares": 72, "entry": 203.36, "side": "BUY", "unrealized_pnl": -630.0}, {"symbol": "QQQ", "shares": 20, "entry": 713.482, "side": "BUY", "unrealized_pnl": 191.34}, {"symbol": "SPY", "shares": 19, "entry": 736.000526, "side": "BUY", "unrealized_pnl": 85.11}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 39.34}, {"symbol": "XLF", "shares": 264, "entry": 54.617803, "side": "BUY", "unrealized_pnl": -221.18}, {"symbol": "XLI", "shares": 83, "entry": 181.208193, "side": "BUY", "unrealized_pnl": 112.2}, {"symbol": "XLV", "shares": 92, "entry": 156.82, "side": "BUY", "unrealized_pnl": 346.84}]
+total_pnl: -2665.50
+open_positions: [{"symbol": "GOOGL", "shares": 42, "entry": 347.30381, "side": "BUY", "unrealized_pnl": 239.24}, {"symbol": "IWM", "shares": 52, "entry": 294.306923, "side": "BUY", "unrealized_pnl": 232.08}, {"symbol": "NVDA", "shares": 72, "entry": 203.36, "side": "BUY", "unrealized_pnl": -619.92}, {"symbol": "QQQ", "shares": 20, "entry": 713.482, "side": "BUY", "unrealized_pnl": 190.16}, {"symbol": "SPY", "shares": 19, "entry": 736.000526, "side": "BUY", "unrealized_pnl": 85.68}, {"symbol": "XLE", "shares": 281, "entry": 53.47, "side": "BUY", "unrealized_pnl": 36.53}, {"symbol": "XLF", "shares": 264, "entry": 54.617803, "side": "BUY", "unrealized_pnl": -221.66}, {"symbol": "XLI", "shares": 83, "entry": 181.208193, "side": "BUY", "unrealized_pnl": 143.74}, {"symbol": "XLV", "shares": 92, "entry": 156.82, "side": "BUY", "unrealized_pnl": 350.52}]
 closed_trades: [{"symbol": "MSFT", "shares": 10, "entry": 425.73, "exit": 423.88, "realized_pnl": -18.5, "reason": "-4% rule"}, {"symbol": "AMZN", "entry": 260.52, "exit": 255.407778, "shares": 9, "pnl": -46.01, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "GOOGL", "entry": 351.4945, "exit": 386.1305, "shares": 20, "pnl": 692.72, "reason": "trailing_stop", "date": "2026-05-19"}, {"symbol": "SPY", "entry": 747.86, "exit": 745.407, "shares": 20, "pnl": -49.06, "reason": "market", "date": "2026-06-18"}, {"symbol": "AAPL", "shares": 51, "entry": 298.687844, "exit": 297.65, "realized_pnl": -52.93, "reason": "strategy exit signal"}, {"symbol": "XLI", "shares": 84, "entry": 182.512143, "exit": 181.055, "realized_pnl": -122.4, "reason": "unrealized_plpc <= -0.04"}, {"symbol": "XLK", "entry": 190.6, "exit": 192.824074, "shares": 81, "pnl": 180.15, "reason": "market", "date": "2026-06-22"}, {"symbol": "NVDA", "entry": 208.95, "exit": 200.37, "shares": 72, "pnl": -617.76, "reason": "trailing_stop", "date": "2026-06-23"}, {"symbol": "QQQ", "entry": 736.3685, "exit": 708.092, "shares": 20, "pnl": -565.53, "reason": "trailing_stop", "date": "2026-06-24"}]
-last_updated: 2026-06-29T19:34:34Z
+last_updated: 2026-06-29T20:37:56Z
 -->
 
 # Trade Log
@@ -598,3 +598,20 @@ Executed strategy signals: bought XLF, XLV, SPY, QQQ; sold GOOGL, AMZN, NVDA, XL
 Cut NVDA, XLF, XLV due to strategy exit signals. Tightened stops on QQQ and SPY to 5%.
 
 Cut NVDA, XLF, XLV due to strategy exit signals. Tightened stops on QQQ and SPY to 5%.
+
+### Jun 29 — EOD Snapshot (Day 70, Monday)
+**Portfolio:** $97334.5 | **Cash:** -$34800.05 (35.7%) | **Day P&L:** +$1745.3 (+1.8%) | **Phase P&L:** -$12665.5 (-12.7%)
+
+| Ticker | Shares | Entry | Close | Day Chg | Unrealized P&L | Stop |
+|--------|--------|-------|-------|---------|----------------|------|
+| GOOGL | 42 | 347.30 | 353.00 | 0.0463 | 239.24 | 329.55 |
+| IWM | 52 | 294.31 | 298.77 | -0.0035 | 232.08 | 286.40 |
+| NVDA | 72 | 203.36 | 194.75 | 0.0115 | -619.92 | 189.21 |
+| QQQ | 20 | 713.48 | 722.99 | 0.0233 | 190.16 | 688.35 |
+| SPY | 19 | 736.00 | 740.51 | 0.0158 | 85.68 | 704.48 |
+| XLE | 281 | 53.47 | 53.60 | -0.0045 | 36.53 | 51.83 |
+| XLF | 264 | 54.62 | 53.78 | 0.0039 | -221.66 | 50.85 |
+| XLI | 83 | 181.21 | 182.94 | 0.0096 | 143.74 | 176.79 |
+| XLV | 92 | 156.82 | 160.63 | 0.0018 | 350.52 | 152.83 |
+
+**Notes:** No trades were executed today. NVDA should be reviewed for exit.
