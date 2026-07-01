@@ -1446,3 +1446,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-01 — Pre-market Research
+
+### Account
+- Equity: $97791.61
+- Cash: -$34800.09
+- Buying power: $232056.4
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $69.13 / $72.36
+- S&P 500 futures: 7499.36 (+0.79%)
+- VIX: 16.72 (+1.64%)
+- Today's catalysts: None
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+2.76%), Industrials (+1.35%)
+
+### Trade Ideas
+1. NVDA — Rebound potential after recent drop, entry $200.00, stop $180.00, target $220, R:R 2:1
+2. XLI — Industrials momentum, entry $185.50, stop $170.00, target $200, R:R 2.5:1
+
+### Risk Factors
+- Market volatility
+- Sector rotation
+- US-Iran tensions
+
+### Decision
+HOLD
