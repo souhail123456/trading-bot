@@ -1475,3 +1475,32 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-02 — Pre-market Research
+
+### Account
+- Equity: $98171.86
+- Cash: -$34800.09
+- Buying power: $233121.09
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $67.14 / $70.28
+- S&P 500 futures: 7483.23 (-0.22%)
+- VIX: 16.61 (+0.12%)
+- Today's catalysts: June jobs report
+- Earnings before open: None
+- Economic calendar: June jobs report
+- Sector momentum: Communications (+2.44%), Financials (+2.18%)
+
+### Trade Ideas
+1. XLF — Financials momentum, entry $54.80, stop $51.20, target $59.00, R:R 2:1
+2. XLV — Healthcare momentum, entry $159.50, stop $153.20, target $165.00, R:R 2:1
+
+### Risk Factors
+- Market volatility
+- Sector rotation
+- US jobs report surprise
+
+### Decision
+HOLD
