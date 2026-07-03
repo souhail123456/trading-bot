@@ -1504,3 +1504,30 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-03 — Pre-market Research
+
+### Account
+- Equity: $98187.98
+- Cash: -$34800.09
+- Buying power: $233166.24
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $68.19 / $71.42
+- S&P 500 futures: 7483.24 (+0.00%)
+- VIX: 15.94 (-1.30%)
+- Today's catalysts: None
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Healthcare (+2.63%), Utilities (+2.21%)
+
+### Trade Ideas
+1. XLV — Healthcare momentum, entry $163.00, stop $155.00, target $175.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility
+- Sector rotation
+
+### Decision
+HOLD
