@@ -1531,3 +1531,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-06 — Pre-market Research
+
+### Account
+- Equity: $98,748.38
+- Cash: -$34,800.09
+- Buying power: $234,735.36
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $68.46 / $71.96
+- S&P 500 futures: 7525.19 (+0.56%)
+- VIX: 16.11 (-0.25%)
+- Today's catalysts: None
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+2.57%), Industrials (+0.88%)
+
+### Trade Ideas
+1. QQQ — Tech sector momentum, entry $725.00, stop $685.00, target $765.00, R:R 2:1
+2. XLI — Industrials sector momentum, entry $185.00, stop $175.00, target $195.00, R:R 1:1
+
+### Risk Factors
+- Market volatility
+- Sector rotation
+
+### Decision
+HOLD
