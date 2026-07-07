@@ -114,8 +114,27 @@ for cut in plan.get("cuts", []):
     current_price = float(pos["current_price"]) if pos else 0
     qty = int(pos["qty"]) if pos else 0
 
-    # Close via market sell order, fallback to DELETE /positions/{sym}
+    # Cancel ALL open orders for this symbol (trailing stops lock shares)
     if pos and qty > 0:
+        # Fetch fresh open orders for this symbol directly from API
+        open_orders = alpaca("GET", f"orders?status=open&symbols={sym}") or []
+        if isinstance(open_orders, list):
+            for o in open_orders:
+                print(f"  Cancelling order {o['id']} ({o.get('type','?')}) holding {sym} shares...")
+                alpaca("DELETE", f"orders/{o['id']}")
+        else:
+            # Fallback: cancel all orders for symbol from cached file
+            try:
+                all_orders = json.load(open("/tmp/orders.json")) if os.path.exists("/tmp/orders.json") else []
+                for o in all_orders:
+                    if o.get("symbol") == sym and o.get("status") in ("new", "accepted", "held"):
+                        print(f"  Cancelling order {o['id']} ({o.get('type','?')}) holding {sym} shares...")
+                        alpaca("DELETE", f"orders/{o['id']}")
+            except Exception as e:
+                print(f"  Warning: could not cancel orders for {sym}: {e}")
+
+        # Now close via market sell order, fallback to DELETE /positions/{sym}
+        import time; time.sleep(0.5)  # brief pause for cancel to propagate
         side = "sell" if pos.get("side", "long") == "long" else "buy"
         result = alpaca("POST", "orders", {
             "symbol": sym,
