@@ -59,6 +59,10 @@ def alpaca(method, path, data=None):
     try:
         resp = urllib.request.urlopen(req)
         return json.loads(resp.read())
+    except urllib.request.HTTPError as e:
+        body_text = e.read().decode() if e.fp else ""
+        print(f"Alpaca API error: {e.code} {e.reason} — {body_text[:300]}")
+        return None
     except Exception as e:
         print(f"Alpaca API error: {e}")
         return None

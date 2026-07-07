@@ -45,8 +45,31 @@ def alpaca(method, path, data=None):
     try:
         resp = urllib.request.urlopen(req)
         return json.loads(resp.read())
+    except urllib.request.HTTPError as e:
+        body_text = e.read().decode() if e.fp else ""
+        print(f"Alpaca error: {e.code} {e.reason} — {body_text[:300]}")
+        return None
     except Exception as e:
         print(f"Alpaca error: {e}")
+        return None
+
+
+def close_position(sym):
+    """Close position using DELETE /v2/positions/{sym} endpoint."""
+    import urllib.request
+    url = f"{BASE}/positions/{sym}"
+    req = urllib.request.Request(url, method="DELETE")
+    req.add_header("APCA-API-KEY-ID", API_KEY)
+    req.add_header("APCA-API-SECRET-KEY", API_SECRET)
+    try:
+        resp = urllib.request.urlopen(req)
+        return json.loads(resp.read())
+    except urllib.request.HTTPError as e:
+        body_text = e.read().decode() if e.fp else ""
+        print(f"DELETE /positions/{sym} error: {e.code} {e.reason} — {body_text[:300]}")
+        return None
+    except Exception as e:
+        print(f"DELETE /positions/{sym} error: {e}")
         return None
 
 actions_taken = []
@@ -91,7 +114,7 @@ for cut in plan.get("cuts", []):
     current_price = float(pos["current_price"]) if pos else 0
     qty = int(pos["qty"]) if pos else 0
 
-    # Close via market sell order (DELETE /positions/ returns 403 on paper API)
+    # Close via market sell order, fallback to DELETE /positions/{sym}
     if pos and qty > 0:
         side = "sell" if pos.get("side", "long") == "long" else "buy"
         result = alpaca("POST", "orders", {
@@ -101,8 +124,11 @@ for cut in plan.get("cuts", []):
             "type": "market",
             "time_in_force": "day"
         })
-        if result and result.get("id"):
-            print(f"Closed {sym} via market {side} order: {result['id']}")
+        if not result or not result.get("id"):
+            print(f"POST /orders failed for {sym}, trying DELETE /positions/{sym}...")
+            result = close_position(sym)
+        if result and (result.get("id") or result.get("status")):
+            print(f"Closed {sym}: {result.get('id', result.get('status', 'ok'))}")
             actions_taken.append(f"CUT {sym} ({cut['reason']})")
             realized_pnl = round((current_price - entry_price) * qty, 2)
             closed_trades_new.append({
@@ -111,7 +137,7 @@ for cut in plan.get("cuts", []):
                 "reason": cut["reason"]
             })
         else:
-            print(f"Failed to close {sym}: {result}")
+            print(f"Failed to close {sym} via both methods")
     else:
         print(f"No position found for {sym}")
 
