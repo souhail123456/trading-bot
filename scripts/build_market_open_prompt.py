@@ -175,28 +175,28 @@ MARKET REGIME RULES (from trading-admin):
 user_msg = f"""Date: {date}
 
 === ACCOUNT ===
-{json.dumps(account, indent=2)}
+Equity: ${account.get('equity', '?')} | Cash: ${account.get('cash', '?')} | Buying Power: ${account.get('buying_power', '?')} | Daytrades: {account.get('daytrade_count', '?')}
 
-=== POSITIONS ===
-{json.dumps(positions, indent=2)}
+=== POSITIONS ({len(positions)}) ===
+{chr(10).join(f"{p['symbol']}: {p['qty']}sh @ ${p['avg_entry_price']} | P&L: ${p.get('unrealized_pl','?')} ({p.get('unrealized_plpc','?')})" for p in positions)}
 
-=== OPEN ORDERS ===
-{json.dumps(orders, indent=2)}
+=== OPEN ORDERS ({len(orders)}) ===
+{chr(10).join(f"{o['symbol']}: {o['type']} {o['side']} {o['qty']}sh" for o in orders[:10])}
 
 === LIVE QUOTES ===
-{quotes}
+{chr(10).join(quotes.strip().splitlines()[:20]) if quotes else 'None'}
 
-=== NEWS HEADLINES ===
-{market_news}
+=== NEWS HEADLINES (last 5) ===
+{chr(10).join(market_news.strip().splitlines()[:10]) if market_news else 'None'}
 
 === STRATEGY SIGNALS (MANDATORY — follow these exactly) ===
 {signals_text}
 
 === RECENT TRADE LOG ===
-{recent_trade_log(trade_log, 600)}
+{recent_trade_log(trade_log, 400)}
 
 === STRATEGY RULES ===
-{compact_strategy(strategy)}
+{compact_strategy(strategy, 800)}
 
 === MARKET REGIME (from trading-admin) ===
 Regime: {shared_context.get('regime', 'UNKNOWN')}

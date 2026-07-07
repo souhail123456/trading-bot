@@ -179,8 +179,8 @@ def call_llm(system_prompt, user_prompt, max_tokens=1500, temperature=0.3):
                 errors.append(f"{provider['name']}/{model}: {error_msg}")
                 _log_usage(provider["name"], model, 0, 0, False, error_msg)
 
-                # If rate limited on primary, try fallback model
-                if "rate_limit" in error_msg.lower() or "429" in error_msg:
+                # If rate limited or payload too large, try fallback model
+                if "429" in error_msg or "413" in error_msg or "rate_limit" in error_msg.lower():
                     continue
                 # If other error, skip to next provider
                 else:
