@@ -1587,3 +1587,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-08 — Pre-market Research
+
+### Account
+- Equity: $98,426.58
+- Cash: $23,174.91
+- Buying power: $303,404.31
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $73.92 / $77.96
+- S&P 500 futures: unknown
+- VIX: $17.49
+- Today's catalysts: Trump declares Iran ceasefire 'over'
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Energy (+2.84%), Healthcare (+1.53%)
+
+### Trade Ideas
+1. XOM — Energy sector momentum due to rising oil prices, entry $93.00, stop $85.00, target $105.00, R:R 2:1
+2. CVX — Energy sector momentum due to rising oil prices, entry $157.00, stop $145.00, target $175.00, R:R 2:1
+
+### Risk Factors
+- Market volatility due to geopolitical tensions
+- Sector rotation away from Technology
+
+### Decision
+HOLD
