@@ -1615,3 +1615,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-09 — Pre-market Research
+
+### Account
+- Equity: $98,660.07
+- Cash: $10,162.77
+- Buying power: $288,443.51
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $72.97 / $77.72
+- S&P 500 futures: +0.32%
+- VIX: $16.67
+- Today's catalysts: US-Iran tensions
+- Earnings before open: None
+- Economic calendar: None
+- Sector momentum: Technology (+2.28%), Industrials (+0.52%)
+
+### Trade Ideas
+1. NVDA — Technology sector momentum, entry $200.00, stop $180.00, target $240.00, R:R 3:1
+2. QCOM — Technology sector momentum, entry $120.00, stop $108.00, target $150.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to geopolitical tensions
+- Sector rotation away from Energy
+
+### Decision
+HOLD
