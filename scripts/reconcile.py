@@ -68,17 +68,31 @@ def parse_summary_positions():
 def main():
     print("=== RECONCILIATION CHECK ===")
 
-    # 1. Fetch broker positions
+    # 1. Fetch broker positions — MUST fail closed: if broker is unreachable,
+    # skip the entire trading cycle (never trade blind)
     broker_positions = alpaca_get("positions")
     if broker_positions is None:
-        print("ERROR: Could not fetch broker positions — skipping reconciliation")
-        sys.exit(0)
+        print("ERROR: Broker unreachable — BLOCKING trading cycle (fail closed)")
+        with open("/tmp/reconcile_skip", "w") as f:
+            f.write("broker_unreachable")
+        send_telegram(
+            "🚨 RECONCILIATION BLOCKED\n\n"
+            "Cannot reach Alpaca broker — trading cycle SKIPPED.\n"
+            "No orders will be placed until broker connectivity is restored."
+        )
+        sys.exit(1)
 
     # Also fetch account for summary update
     account = alpaca_get("account")
     if account is None:
-        print("ERROR: Could not fetch account — skipping reconciliation")
-        sys.exit(0)
+        print("ERROR: Broker account unreachable — BLOCKING trading cycle")
+        with open("/tmp/reconcile_skip", "w") as f:
+            f.write("broker_unreachable")
+        send_telegram(
+            "🚨 RECONCILIATION BLOCKED\n\n"
+            "Cannot fetch Alpaca account — trading cycle SKIPPED."
+        )
+        sys.exit(1)
 
     # Save to /tmp for downstream scripts
     with open("/tmp/positions.json", "w") as f:
