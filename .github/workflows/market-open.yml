@@ -33,10 +33,20 @@ jobs:
             echo "No BOT_GITHUB_TOKEN — using empty shared context"
           fi
 
+      - name: Reconcile broker vs internal state
+        run: python3 scripts/reconcile.py
+
+      - name: Check reconciliation result
+        run: |
+          if [ -f /tmp/reconcile_skip ]; then
+            echo "RECONCILIATION MISMATCH — skipping new orders this cycle"
+            echo "RECONCILE_SKIP=true" >> $GITHUB_ENV
+          fi
+
       - name: Fetch Alpaca data
         run: |
-          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/account > /tmp/account.json
-          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
+          # reconcile.py already saved account.json and positions.json
+          # Only fetch orders here
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
 
       - name: Fetch real market data + quotes
@@ -71,7 +81,14 @@ jobs:
           "
 
       - name: Execute trades
-        run: python3 scripts/execute_trades.py
+        run: |
+          if [ "$RECONCILE_SKIP" = "true" ]; then
+            echo "Skipping trade execution due to reconciliation mismatch"
+            echo "" > /tmp/trade_log_entry.md
+            echo "Reconciliation mismatch — no trades executed this cycle" > /tmp/telegram_msg.txt
+          else
+            python3 scripts/execute_trades.py
+          fi
 
       - name: Update bot status
         run: |

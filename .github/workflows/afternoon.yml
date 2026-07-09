@@ -33,10 +33,19 @@ jobs:
             echo "No BOT_GITHUB_TOKEN — using empty shared context"
           fi
 
+      - name: Reconcile broker vs internal state
+        run: python3 scripts/reconcile.py
+
+      - name: Check reconciliation result
+        run: |
+          if [ -f /tmp/reconcile_skip ]; then
+            echo "RECONCILIATION MISMATCH — skipping new orders this cycle"
+            echo "RECONCILE_SKIP=true" >> $GITHUB_ENV
+          fi
+
       - name: Fetch Alpaca data
         run: |
-          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/account > /tmp/account.json
-          curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" https://paper-api.alpaca.markets/v2/positions > /tmp/positions.json
+          # reconcile.py already saved account.json and positions.json
           curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" "https://paper-api.alpaca.markets/v2/orders?status=open" > /tmp/orders.json
           echo "Positions:" && python3 -c "import json; data=json.load(open('/tmp/positions.json')); [print(f'{p[\"symbol\"]}: {p[\"unrealized_plpc\"]}') for p in data] if isinstance(data, list) else print(f'Alpaca response: {data}')"
 
@@ -67,7 +76,14 @@ jobs:
           "
 
       - name: Execute midday actions
-        run: python3 scripts/execute_midday.py
+        run: |
+          if [ "$RECONCILE_SKIP" = "true" ]; then
+            echo "Skipping afternoon execution due to reconciliation mismatch"
+            echo "" > /tmp/trade_log_entry.md
+            echo "Reconciliation mismatch — no afternoon actions this cycle" > /tmp/telegram_msg.txt
+          else
+            python3 scripts/execute_midday.py
+          fi
 
       - name: Update bot status
         run: |
