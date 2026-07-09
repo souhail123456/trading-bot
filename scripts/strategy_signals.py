@@ -38,9 +38,9 @@ SMA_MEDIUM = 20
 SMA_SLOW = 200
 MAX_POSITIONS = 7
 POSITION_SIZE_PCT = 15   # % of equity per position
-SHORT_SIZE_PCT = 10      # % of equity per short position (smaller than longs)
+# SHORT_SIZE_PCT = 10    # DISABLED — shorting removed (broken accounting, zero evidence of edge)
+# SHORT_STOP_PCT = "5"   # DISABLED
 DEFAULT_STOP_PCT = "7"   # trailing stop %
-SHORT_STOP_PCT = "5"     # tighter stop for shorts
 
 ALPACA_DATA_BASE = "https://data.alpaca.markets/v2"
 
@@ -117,7 +117,7 @@ def compute_signals(
     """
     For each symbol in UNIVERSE, compute entry/exit/hold signal.
     positions_held: list of dicts with 'symbol', 'side', and optional 'entry_price' keys.
-    Returns list of signal dicts with action='buy'/'sell'/'short'/'cover'/'hold'.
+    Returns list of signal dicts with action='buy'/'sell'/'cover'/'hold'.
     """
     signals = []
     crisis = regime.upper() == "CRISIS"
@@ -229,33 +229,19 @@ def compute_signals(
                         "sma_200": round(slow, 2),
                     })
         elif currently_held_short:
-            # Check short exit conditions — cover when trend recovering
-            if price > fast:
-                signals.append({
-                    "symbol": symbol,
-                    "action": "cover",
-                    "reason": f"Cover short: price ${price:.2f} > SMA-50 ${fast:.2f} (trend recovering)",
-                    "entry_price": f"{price:.2f}",
-                    "stop_pct": SHORT_STOP_PCT,
-                    "price": price,
-                    "trend_strength": round(trend_strength, 4),
-                    "momentum_20d": round(momentum_20d, 4),
-                    "sma_50": round(fast, 2),
-                    "sma_200": round(slow, 2),
-                })
-            else:
-                signals.append({
-                    "symbol": symbol,
-                    "action": "hold",
-                    "reason": f"Short intact: price ${price:.2f} < SMA-50 ${fast:.2f}, holding short",
-                    "entry_price": f"{price:.2f}",
-                    "stop_pct": SHORT_STOP_PCT,
-                    "price": price,
-                    "trend_strength": round(trend_strength, 4),
-                    "momentum_20d": round(momentum_20d, 4),
-                    "sma_50": round(fast, 2),
-                    "sma_200": round(slow, 2),
-                })
+            # Short positions exist from before — force cover to unwind
+            signals.append({
+                "symbol": symbol,
+                "action": "cover",
+                "reason": f"Cover short: shorting disabled — unwinding legacy short position",
+                "entry_price": f"{price:.2f}",
+                "stop_pct": DEFAULT_STOP_PCT,
+                "price": price,
+                "trend_strength": round(trend_strength, 4),
+                "momentum_20d": round(momentum_20d, 4),
+                "sma_50": round(fast, 2),
+                "sma_200": round(slow, 2),
+            })
         else:
             # Check long entry conditions
             # Signal 1: Golden cross (original trend entry)
@@ -300,110 +286,41 @@ def compute_signals(
                     "sma_200": round(slow, 2),
                 })
 
-            # Check short entry conditions (mirror of long)
-            # Signal 1: Death cross short — price < SMA-200 AND SMA-50 < SMA-200
-            death_cross_short = below_slow and death_cross and not crisis
-            # Signal 2: Momentum breakdown — price <= 20-day low AND price < SMA-50
-            momentum_breakdown = (price <= low_20d) and (price < fast) and not crisis
-
-            if death_cross_short or momentum_breakdown:
-                if death_cross_short:
-                    reason = (
-                        f"Death cross short: price ${price:.2f} < SMA-200 ${slow:.2f}, "
-                        f"SMA-50 ${fast:.2f} < SMA-200"
-                    )
-                else:
-                    reason = (
-                        f"Momentum breakdown: price ${price:.2f} <= 20d low ${low_20d:.2f}, "
-                        f"below SMA-50 ${fast:.2f} ({momentum_20d*100:.1f}% 20d return)"
-                    )
-                signals.append({
-                    "symbol": symbol,
-                    "action": "short",
-                    "reason": reason,
-                    "entry_price": f"{price:.2f}",
-                    "stop_pct": SHORT_STOP_PCT,
-                    "price": price,
-                    "trend_strength": round(trend_strength, 4),
-                    "momentum_20d": round(momentum_20d, 4),
-                    "sma_50": round(fast, 2),
-                    "sma_200": round(slow, 2),
-                })
-            elif (death_cross_short or momentum_breakdown) and crisis:
-                signals.append({
-                    "symbol": symbol,
-                    "action": "hold",  # would be short, but regime blocks it
-                    "reason": f"CRISIS regime — no new shorts despite bearish signal for {symbol}",
-                    "entry_price": f"{price:.2f}",
-                    "stop_pct": SHORT_STOP_PCT,
-                    "price": price,
-                    "trend_strength": round(trend_strength, 4),
-                    "momentum_20d": round(momentum_20d, 4),
-                    "sma_50": round(fast, 2),
-                    "sma_200": round(slow, 2),
-                })
+            # Shorting DISABLED — broken accounting, zero evidence of edge.
+            # Short signals were causing ghost trades and margin blowouts.
+            # If bearish, we simply don't enter. Existing shorts get covered above.
 
     return signals
 
 
 def rank_and_cap(signals: list[dict], current_position_count: int) -> list[dict]:
     """
-    Cap buy+short signals to keep total positions (longs + shorts) <= MAX_POSITIONS.
-    Rank buys by momentum (highest first), shorts by momentum (lowest/most negative first).
-    Sells/covers always pass through. Holds always pass through.
+    Cap buy signals to keep total positions <= MAX_POSITIONS.
+    Rank buys by momentum (highest first).
+    Sells always pass through. Holds always pass through.
     """
     sells  = [s for s in signals if s["action"] == "sell"]
-    covers = [s for s in signals if s["action"] == "cover"]
     holds  = [s for s in signals if s["action"] == "hold"]
     buys   = [s for s in signals if s["action"] == "buy"]
-    shorts = [s for s in signals if s["action"] == "short"]
 
-    # After sells/covers, how many slots remain
-    positions_after_exits = current_position_count - len(sells) - len(covers)
+    # After sells, how many slots remain
+    positions_after_exits = current_position_count - len(sells)
     open_slots = max(0, MAX_POSITIONS - positions_after_exits)
 
     # Rank buys by 20-day momentum (fall back to trend_strength)
     buys.sort(key=lambda s: s.get("momentum_20d", s["trend_strength"]), reverse=True)
-    # Rank shorts by momentum ascending (most negative = strongest short signal)
-    shorts.sort(key=lambda s: s.get("momentum_20d", 0))
 
-    # Interleave: fill slots with best buys and shorts, alternating priority to buys
-    capped_buys = []
-    capped_shorts = []
-    buy_idx = 0
-    short_idx = 0
-    slots_used = 0
-
-    # First fill buys, then shorts with remaining slots
-    for b in buys:
-        if slots_used >= open_slots:
-            break
-        capped_buys.append(b)
-        slots_used += 1
-        buy_idx += 1
-
-    for s in shorts:
-        if slots_used >= open_slots:
-            break
-        capped_shorts.append(s)
-        slots_used += 1
-        short_idx += 1
+    capped_buys = buys[:open_slots]
 
     # Mark excess buys as filtered
     filtered = []
-    for b in buys[buy_idx:]:
+    for b in buys[open_slots:]:
         b = dict(b)
         b["action"] = "filtered"
         b["reason"] = f"Capped at {MAX_POSITIONS} positions — lower trend strength"
         filtered.append(b)
 
-    for s in shorts[short_idx:]:
-        s = dict(s)
-        s["action"] = "filtered"
-        s["reason"] = f"Capped at {MAX_POSITIONS} positions — lower short momentum"
-        filtered.append(s)
-
-    return sells + covers + holds + capped_buys + capped_shorts + filtered
+    return sells + holds + capped_buys + filtered
 
 
 # ---------------------------------------------------------------------------
@@ -465,19 +382,12 @@ def main():
     # Rank and cap buys
     signals = rank_and_cap(signals, current_position_count)
 
-    # Compute position size for buys and shorts
+    # Compute position size for buys
     # In VOLATILE regime, halve the position size
     long_size_pct = POSITION_SIZE_PCT / 2 if regime.upper() == "VOLATILE" else POSITION_SIZE_PCT
-    short_size_pct = SHORT_SIZE_PCT / 2 if regime.upper() == "VOLATILE" else SHORT_SIZE_PCT
     for s in signals:
         if s["action"] == "buy":
             notional = equity * (long_size_pct / 100)
-            price = s["price"]
-            qty = int(notional / price) if price > 0 else 0
-            s["qty"] = qty
-            s["notional"] = round(notional, 2)
-        elif s["action"] == "short":
-            notional = equity * (short_size_pct / 100)
             price = s["price"]
             qty = int(notional / price) if price > 0 else 0
             s["qty"] = qty
@@ -488,17 +398,13 @@ def main():
 
     # Build summary
     buys     = [s for s in signals if s["action"] == "buy"]
-    shorts   = [s for s in signals if s["action"] == "short"]
     sells    = [s for s in signals if s["action"] == "sell"]
-    covers   = [s for s in signals if s["action"] == "cover"]
     holds    = [s for s in signals if s["action"] == "hold"]
     filtered = [s for s in signals if s["action"] == "filtered"]
 
     print(f"\nResults:")
     print(f"  BUY signals:      {len(buys)}")
-    print(f"  SHORT signals:    {len(shorts)}")
     print(f"  SELL signals:     {len(sells)}")
-    print(f"  COVER signals:    {len(covers)}")
     print(f"  HOLD signals:     {len(holds)}")
     print(f"  Filtered (capped): {len(filtered)}")
 
@@ -506,17 +412,9 @@ def main():
         print("\n  BUY:")
         for s in buys:
             print(f"    {s['symbol']:>6} @ ${s['entry_price']}  trend_strength={s['trend_strength']:.3f}  qty={s['qty']}")
-    if shorts:
-        print("\n  SHORT:")
-        for s in shorts:
-            print(f"    {s['symbol']:>6} @ ${s['entry_price']}  momentum={s['momentum_20d']:.3f}  qty={s['qty']}")
     if sells:
         print("\n  SELL:")
         for s in sells:
-            print(f"    {s['symbol']:>6} @ ${s['entry_price']}  reason: {s['reason']}")
-    if covers:
-        print("\n  COVER:")
-        for s in covers:
             print(f"    {s['symbol']:>6} @ ${s['entry_price']}  reason: {s['reason']}")
 
     # Output
@@ -526,14 +424,11 @@ def main():
         "vix": vix,
         "equity": equity,
         "position_size_pct": long_size_pct,
-        "short_size_pct": short_size_pct,
         "max_positions": MAX_POSITIONS,
         "signals": signals,
         "summary": {
             "buy_count": len(buys),
-            "short_count": len(shorts),
             "sell_count": len(sells),
-            "cover_count": len(covers),
             "hold_count": len(holds),
             "filtered_count": len(filtered),
         },

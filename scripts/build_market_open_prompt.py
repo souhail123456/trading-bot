@@ -66,9 +66,7 @@ def format_signals_for_prompt(ss: dict) -> str:
     lines.append("")
 
     buys   = [s for s in ss["signals"] if s["action"] == "buy"]
-    shorts = [s for s in ss["signals"] if s["action"] == "short"]
     sells  = [s for s in ss["signals"] if s["action"] == "sell"]
-    covers = [s for s in ss["signals"] if s["action"] == "cover"]
     holds  = [s for s in ss["signals"] if s["action"] == "hold"]
 
     if buys:
@@ -82,27 +80,11 @@ def format_signals_for_prompt(ss: dict) -> str:
     else:
         lines.append("BUY SIGNALS: None — no new entries today.")
 
-    if shorts:
-        lines.append("")
-        lines.append("SHORT SIGNALS (entries — sell short with specified qty and stop_pct):")
-        for s in shorts:
-            lines.append(
-                f"  SHORT {s['symbol']} @ ~${s['entry_price']}  "
-                f"qty={s['qty']}  stop={s['stop_pct']}%  "
-                f"reason: {s['reason']}"
-            )
-
     if sells:
         lines.append("")
         lines.append("SELL SIGNALS (MANDATORY exits — close these positions NOW):")
         for s in sells:
             lines.append(f"  SELL {s['symbol']}  reason: {s['reason']}")
-
-    if covers:
-        lines.append("")
-        lines.append("COVER SIGNALS (MANDATORY — buy to cover these short positions NOW):")
-        for s in covers:
-            lines.append(f"  COVER {s['symbol']}  reason: {s['reason']}")
 
     if holds:
         lines.append("")
@@ -149,13 +131,13 @@ CRITICAL RULES — skip any trade that fails these:
 - Trades this week <= 5
 - Position cost <= 15% of equity
 - daytrade_count < 3
+- CASH GUARD: Never let cash go below $0. Never deploy more than 95% of equity.
+  The execution script will reject any buy that violates these limits.
 
 STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
 - You MUST follow the strategy signals in === STRATEGY SIGNALS ===.
 - BUY signals: these are mandatory entries. Place the trade with the specified qty and stop_pct.
-- SHORT signals: these are short-sell entries. Place the trade with side='sell' and specified qty and stop_pct.
 - SELL signals: these are mandatory exits. Close these long positions immediately.
-- COVER signals: these mean buy-to-cover to exit a short position. Place with side='buy'.
 - You MAY NOT make discretionary picks outside the signal list.
 - You MAY NOT buy a symbol that does not appear in the BUY SIGNALS list.
 - The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 8 total positions, (4) insufficient cash.

@@ -43,6 +43,9 @@ jobs:
       - name: Update TRADE-LOG summary
         run: python3 scripts/update_trade_log_summary.py
 
+      - name: Broker-sourced P&L reconciliation
+        run: python3 scripts/broker_pnl.py
+
       - name: Snapshot portfolio
         run: python3 scripts/snapshot_portfolio.py
 

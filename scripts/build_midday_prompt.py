@@ -132,6 +132,10 @@ P&L RULES (apply after strategy exit check):
 - Never tighten within 3% of current price
 - Never move a stop down
 
+CASH GUARD:
+- Never let cash go below $0. Never deploy more than 95% of equity.
+- The execution script will reject any sell that exceeds held shares (no accidental shorts).
+
 MARKET REGIME (from trading-admin):
 - If regime is CRISIS: tighten ALL stops to 5%, cut any position below -2%.
 - If regime is VOLATILE: tighten stops to 5% on all positions.
