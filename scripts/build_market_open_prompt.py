@@ -149,6 +149,8 @@ CRITICAL RULES — skip any trade that fails these:
 - Trades this week <= 5
 - Position cost <= 15% of equity
 - daytrade_count < 3
+- CASH GUARD: Never let cash go below $0. Never deploy more than 95% of equity.
+  The execution script will reject any buy that violates these limits.
 
 STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
 - You MUST follow the strategy signals in === STRATEGY SIGNALS ===.

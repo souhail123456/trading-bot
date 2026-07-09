@@ -1,6 +1,13 @@
 #!/usr/bin/env python3
-"""Execute midday scan actions — cut losers, tighten stops."""
-import json, os, sys
+"""Execute midday scan actions — cut losers, tighten stops.
+
+Hardened with:
+- Clamp sells: never sell more than held qty, block sells with no position
+- Verified fills: poll order status before recording
+- client_order_id for idempotent retries
+- Cash guard on any new buys
+"""
+import json, os, sys, uuid
 
 resp = json.load(open("/tmp/groq_response.json"))
 content = resp["choices"][0]["message"]["content"]
@@ -52,6 +59,24 @@ def alpaca(method, path, data=None):
     except Exception as e:
         print(f"Alpaca error: {e}")
         return None
+
+
+def wait_for_fill(order_id, max_retries=30, delay=2):
+    """Poll order status until filled/rejected/canceled."""
+    import time
+    for i in range(max_retries):
+        order = alpaca("GET", f"orders/{order_id}")
+        if not order:
+            time.sleep(delay)
+            continue
+        status = order.get("status", "unknown")
+        if status == "filled":
+            return order
+        if status in ("rejected", "canceled", "expired", "done_for_day", "replaced"):
+            return order
+        if i < max_retries - 1:
+            time.sleep(delay)
+    return order
 
 
 def close_position(sym):
@@ -136,18 +161,37 @@ for cut in plan.get("cuts", []):
         # Now close via market sell order, fallback to DELETE /positions/{sym}
         import time; time.sleep(0.5)  # brief pause for cancel to propagate
         side = "sell" if pos.get("side", "long") == "long" else "buy"
+        client_id = f"tb-cut-{sym}-{uuid.uuid4().hex[:8]}"
         result = alpaca("POST", "orders", {
             "symbol": sym,
             "qty": str(qty),
             "side": side,
             "type": "market",
-            "time_in_force": "day"
+            "time_in_force": "day",
+            "client_order_id": client_id
         })
         if not result or not result.get("id"):
             print(f"POST /orders failed for {sym}, trying DELETE /positions/{sym}...")
             result = close_position(sym)
-        if result and (result.get("id") or result.get("status")):
-            print(f"Closed {sym}: {result.get('id', result.get('status', 'ok'))}")
+        if result and result.get("id"):
+            # Wait for fill confirmation
+            filled = wait_for_fill(result["id"], max_retries=30, delay=2)
+            if filled and filled.get("status") == "filled":
+                actual_exit = float(filled.get("filled_avg_price", current_price))
+                actual_qty = int(filled.get("filled_qty", qty))
+                print(f"Closed {sym}: CONFIRMED FILL {actual_qty}sh @ ${actual_exit}")
+                actions_taken.append(f"CUT {sym} ({cut['reason']})")
+                realized_pnl = round((actual_exit - entry_price) * actual_qty, 2)
+                closed_trades_new.append({
+                    "symbol": sym, "shares": actual_qty, "entry": entry_price,
+                    "exit": actual_exit, "realized_pnl": realized_pnl,
+                    "reason": cut["reason"]
+                })
+            else:
+                print(f"Close order for {sym} not filled — status: {filled.get('status') if filled else 'unknown'}")
+        elif result and result.get("status"):
+            # DELETE /positions fallback succeeded
+            print(f"Closed {sym} via DELETE: {result.get('status', 'ok')}")
             actions_taken.append(f"CUT {sym} ({cut['reason']})")
             realized_pnl = round((current_price - entry_price) * qty, 2)
             closed_trades_new.append({
@@ -189,24 +233,39 @@ for take in plan.get("partial_takes", []):
     if sell_qty > total_qty:
         sell_qty = total_qty  # safety: don't sell more than we have
 
-    # Sell the partial qty
+    # Clamp sell: never sell more than held (already checked above, but double-check)
+    if sell_qty > total_qty:
+        print(f"  CLAMPED: sell_qty {sell_qty} > total_qty {total_qty} — clamping")
+        sell_qty = total_qty
+
+    # Sell the partial qty with client_order_id
+    client_id = f"tb-partial-{sym}-{uuid.uuid4().hex[:8]}"
     result = alpaca("POST", "orders", {
         "symbol": sym,
         "qty": str(sell_qty),
         "side": "sell",
         "type": "market",
-        "time_in_force": "day"
+        "time_in_force": "day",
+        "client_order_id": client_id
     })
 
     if result and result.get("id"):
-        print(f"Partial sell {sym}: {sell_qty} shares — order {result['id']}")
-        actions_taken.append(f"PARTIAL TAKE {sym} ({sell_qty}sh at +{take.get('unrealized_plpc', '?')})")
-        realized_pnl = round((current_price - entry_price) * sell_qty, 2)
-        closed_trades_new.append({
-            "symbol": sym, "shares": sell_qty, "entry": entry_price,
-            "exit": current_price, "realized_pnl": realized_pnl,
-            "reason": f"partial profit take ({take.get('reason', '')})"
-        })
+        # Wait for fill confirmation
+        filled = wait_for_fill(result["id"], max_retries=30, delay=2)
+        if filled and filled.get("status") == "filled":
+            actual_exit = float(filled.get("filled_avg_price", current_price))
+            actual_qty = int(filled.get("filled_qty", sell_qty))
+            print(f"Partial sell {sym}: CONFIRMED FILL {actual_qty} shares @ ${actual_exit}")
+            actions_taken.append(f"PARTIAL TAKE {sym} ({actual_qty}sh at +{take.get('unrealized_plpc', '?')})")
+            realized_pnl = round((actual_exit - entry_price) * actual_qty, 2)
+            closed_trades_new.append({
+                "symbol": sym, "shares": actual_qty, "entry": entry_price,
+                "exit": actual_exit, "realized_pnl": realized_pnl,
+                "reason": f"partial profit take ({take.get('reason', '')})"
+            })
+        else:
+            print(f"Partial sell {sym} not filled — status: {filled.get('status') if filled else 'unknown'}")
+            continue  # skip stop replacement if sell didn't fill
 
         # Cancel existing stop and replace with tighter one for remaining shares
         remaining = total_qty - sell_qty
@@ -235,7 +294,7 @@ for take in plan.get("partial_takes", []):
                 print(f"New 5% trailing stop on remaining {remaining}sh of {sym}")
                 actions_taken.append(f"TIGHTEN {sym} stop to 5% (remaining {remaining}sh)")
     else:
-        print(f"Failed partial sell for {sym}: {result}")
+        print(f"Failed to submit partial sell for {sym}: {result}")
 
 # Tighten stops
 for tighten in plan.get("stop_tightens", []):
