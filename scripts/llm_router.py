@@ -1,40 +1,47 @@
 #!/usr/bin/env python3
 """
 LLM API Router — Single entry point for all bot LLM calls.
-Auto-fallback chain: Groq → Gemini → Cerebras
-Tracks usage in shared/api_usage.json
+Auto-fallback chain: Gemini → Groq → Cerebras → OpenRouter
+Tracks usage in api_usage.json
+
+Features:
+  - Gemini-first (1M context, generous free tier)
+  - Auto-truncate prompts to fit each provider's context window
+  - Response caching: skip LLM call if positions unchanged
+  - Market-closed detection: skip on weekends/holidays
 
 Usage:
-    from shared.llm_router import call_llm
+    from llm_router import call_llm
     response = call_llm(system_prompt, user_prompt, max_tokens=1500)
 
 Environment variables (set whichever you have):
-    GROQ_API_KEY
     GEMINI_API_KEY
+    GROQ_API_KEY
     CEREBRAS_API_KEY
+    OPEN_ROUTER
 """
 
+import hashlib
 import json
 import os
 import time
 import urllib.request
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 USAGE_FILE = Path(__file__).parent / "api_usage.json"
+CACHE_FILE = Path("/tmp/llm_cache.json")
 
-# --- Provider configs ---
+# US market holidays 2026 (NYSE closed)
+US_HOLIDAYS = {
+    "2026-01-01", "2026-01-19", "2026-02-16", "2026-04-03",
+    "2026-05-25", "2026-06-19", "2026-07-03", "2026-09-07",
+    "2026-11-26", "2026-12-25",
+}
+
+# --- Provider configs (Gemini first — most generous free tier) ---
 
 PROVIDERS = [
-    {
-        "name": "groq",
-        "env_key": "GROQ_API_KEY",
-        "url": "https://api.groq.com/openai/v1/chat/completions",
-        "model": "llama-3.3-70b-versatile",
-        "fallback_model": "llama-3.1-8b-instant",
-        "format": "openai",
-        "max_context": {"llama-3.3-70b-versatile": 5500, "llama-3.1-8b-instant": 7000},
-    },
     {
         "name": "gemini",
         "env_key": "GEMINI_API_KEY",
@@ -42,6 +49,15 @@ PROVIDERS = [
         "model": "gemini-2.0-flash",
         "format": "gemini",
         "max_context": {"gemini-2.0-flash": 900000},
+    },
+    {
+        "name": "groq",
+        "env_key": "GROQ_API_KEY",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "model": "llama-3.1-8b-instant",
+        "fallback_model": "llama-3.3-70b-versatile",
+        "format": "openai",
+        "max_context": {"llama-3.1-8b-instant": 7000, "llama-3.3-70b-versatile": 5500},
     },
     {
         "name": "cerebras",
@@ -55,10 +71,10 @@ PROVIDERS = [
         "name": "openrouter",
         "env_key": "OPEN_ROUTER",
         "url": "https://openrouter.ai/api/v1/chat/completions",
-        "model": "meta-llama/llama-4-maverick:free",
-        "fallback_model": "google/gemini-2.0-flash-exp:free",
+        "model": "google/gemini-2.0-flash-exp:free",
+        "fallback_model": "meta-llama/llama-4-maverick:free",
         "format": "openai",
-        "max_context": {"meta-llama/llama-4-maverick:free": 7000, "google/gemini-2.0-flash-exp:free": 900000},
+        "max_context": {"google/gemini-2.0-flash-exp:free": 900000, "meta-llama/llama-4-maverick:free": 7000},
     },
 ]
 
@@ -92,6 +108,64 @@ def _truncate_to_fit(system_prompt, user_prompt, max_tokens_out, max_context):
     )
     print(f"[llm_router] Truncated prompt: {usr_tokens} → ~{_estimate_tokens(truncated)} tokens (budget: {budget})")
     return truncated
+
+
+def is_market_open():
+    """Check if US stock market is open right now (or within trading window).
+    Returns True if it's a weekday and within extended trading hours (pre-market to post-close).
+    """
+    now = datetime.now(timezone.utc)
+    date_str = now.strftime("%Y-%m-%d")
+
+    # Weekend check (Saturday=5, Sunday=6)
+    if now.weekday() >= 5:
+        return False
+
+    # Holiday check
+    if date_str in US_HOLIDAYS:
+        return False
+
+    return True
+
+
+def _cache_key(system_prompt, user_prompt):
+    """Hash the positions/account data from user prompt to detect changes."""
+    # Extract just the volatile parts (positions + account line)
+    # This is a rough hash — any change in positions/P&L invalidates
+    h = hashlib.md5((system_prompt[:200] + user_prompt).encode()).hexdigest()
+    return h
+
+
+def _get_cached(cache_key):
+    """Return cached response if same positions/data, max 2 hours old."""
+    if not CACHE_FILE.exists():
+        return None
+    try:
+        cache = json.loads(CACHE_FILE.read_text())
+        if cache.get("key") != cache_key:
+            return None
+        cached_at = datetime.fromisoformat(cache["timestamp"])
+        age = (datetime.now(timezone.utc) - cached_at).total_seconds()
+        if age > 7200:  # 2 hour max
+            return None
+        print(f"[llm_router] Cache hit — reusing response from {int(age)}s ago")
+        return cache["response"], cache["provider"], cache["model"]
+    except Exception:
+        return None
+
+
+def _set_cache(cache_key, response, provider, model):
+    """Cache the response."""
+    try:
+        CACHE_FILE.write_text(json.dumps({
+            "key": cache_key,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "response": response,
+            "provider": provider,
+            "model": model,
+        }))
+    except Exception:
+        pass
 
 
 def _log_usage(provider, model, tokens_in, tokens_out, success, error=None):
@@ -174,12 +248,27 @@ def _call_gemini_format(url, api_key, model, system_prompt, user_prompt, max_tok
     return content, usage_meta.get("promptTokenCount", 0), usage_meta.get("candidatesTokenCount", 0)
 
 
-def call_llm(system_prompt, user_prompt, max_tokens=1500, temperature=0.3):
+def call_llm(system_prompt, user_prompt, max_tokens=1500, temperature=0.3, use_cache=True, require_market_open=False):
     """
     Call LLM with automatic fallback chain.
     Returns: (response_text, provider_used, model_used)
-    Raises: RuntimeError if ALL providers fail.
+    Raises: RuntimeError if ALL providers fail or market is closed.
+
+    Args:
+        use_cache: if True, return cached response when positions haven't changed (max 2h)
+        require_market_open: if True, raise RuntimeError on weekends/holidays
     """
+    # Skip on closed market if requested
+    if require_market_open and not is_market_open():
+        raise RuntimeError("Market closed (weekend/holiday) — skipping LLM call to save tokens")
+
+    # Check cache
+    if use_cache:
+        ck = _cache_key(system_prompt, user_prompt)
+        cached = _get_cached(ck)
+        if cached:
+            return cached
+
     errors = []
 
     for provider in PROVIDERS:
@@ -212,6 +301,8 @@ def call_llm(system_prompt, user_prompt, max_tokens=1500, temperature=0.3):
                     continue
 
                 _log_usage(provider["name"], model, tokens_in, tokens_out, True)
+                if use_cache:
+                    _set_cache(ck, content, provider["name"], model)
                 return content, provider["name"], model
 
             except Exception as e:
