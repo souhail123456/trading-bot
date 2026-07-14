@@ -33,6 +33,7 @@ PROVIDERS = [
         "model": "llama-3.3-70b-versatile",
         "fallback_model": "llama-3.1-8b-instant",
         "format": "openai",
+        "max_context": {"llama-3.3-70b-versatile": 5500, "llama-3.1-8b-instant": 7000},
     },
     {
         "name": "gemini",
@@ -40,6 +41,7 @@ PROVIDERS = [
         "url": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}",
         "model": "gemini-2.0-flash",
         "format": "gemini",
+        "max_context": {"gemini-2.0-flash": 900000},
     },
     {
         "name": "cerebras",
@@ -47,6 +49,7 @@ PROVIDERS = [
         "url": "https://api.cerebras.ai/v1/chat/completions",
         "model": "llama3.1-70b",
         "format": "openai",
+        "max_context": {"llama3.1-70b": 7000},
     },
     {
         "name": "openrouter",
@@ -55,8 +58,40 @@ PROVIDERS = [
         "model": "meta-llama/llama-4-maverick:free",
         "fallback_model": "google/gemini-2.0-flash-exp:free",
         "format": "openai",
+        "max_context": {"meta-llama/llama-4-maverick:free": 7000, "google/gemini-2.0-flash-exp:free": 900000},
     },
 ]
+
+
+def _estimate_tokens(text):
+    """Rough token estimate: ~4 chars per token for English text."""
+    return len(text) // 4
+
+
+def _truncate_to_fit(system_prompt, user_prompt, max_tokens_out, max_context):
+    """Truncate user_prompt if total would exceed max_context (in tokens).
+    Preserves system_prompt fully. Cuts user_prompt from the middle,
+    keeping the first and last sections (instructions + recent data).
+    """
+    sys_tokens = _estimate_tokens(system_prompt)
+    usr_tokens = _estimate_tokens(user_prompt)
+    budget = max_context - sys_tokens - max_tokens_out - 100  # 100 token safety margin
+
+    if usr_tokens <= budget:
+        return user_prompt
+
+    # Keep first 40% and last 40% of user prompt, cut the middle
+    budget_chars = budget * 4
+    keep_start = int(budget_chars * 0.4)
+    keep_end = int(budget_chars * 0.4)
+
+    truncated = (
+        user_prompt[:keep_start]
+        + "\n\n...(truncated to fit context limit)...\n\n"
+        + user_prompt[-keep_end:]
+    )
+    print(f"[llm_router] Truncated prompt: {usr_tokens} → ~{_estimate_tokens(truncated)} tokens (budget: {budget})")
+    return truncated
 
 
 def _log_usage(provider, model, tokens_in, tokens_out, success, error=None):
@@ -158,15 +193,20 @@ def call_llm(system_prompt, user_prompt, max_tokens=1500, temperature=0.3):
 
         for model in models_to_try:
             try:
+                # Auto-truncate to fit provider's context window
+                ctx_limits = provider.get("max_context", {})
+                ctx_limit = ctx_limits.get(model, 8000)  # safe default
+                fitted_user = _truncate_to_fit(system_prompt, user_prompt, max_tokens, ctx_limit)
+
                 if provider["format"] == "openai":
                     content, tokens_in, tokens_out = _call_openai_format(
                         provider["url"], api_key, model,
-                        system_prompt, user_prompt, max_tokens, temperature
+                        system_prompt, fitted_user, max_tokens, temperature
                     )
                 elif provider["format"] == "gemini":
                     content, tokens_in, tokens_out = _call_gemini_format(
                         provider["url"], api_key, model,
-                        system_prompt, user_prompt, max_tokens, temperature
+                        system_prompt, fitted_user, max_tokens, temperature
                     )
                 else:
                     continue

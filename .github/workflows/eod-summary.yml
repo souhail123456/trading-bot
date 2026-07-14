@@ -28,10 +28,23 @@ jobs:
           echo "Account:" && python3 -c "import json; d=json.load(open('/tmp/account.json')); print(f'Equity: {d[\"equity\"]}, Cash: {d[\"cash\"]}')"
           echo "Positions:" && python3 -c "import sys,json; [print(f'{p[\"symbol\"]}: {p[\"qty\"]}sh, P&L {p[\"unrealized_pl\"]}') for p in json.load(open('/tmp/positions.json'))]"
 
-      - name: Build prompt and call Groq
+      - name: Build prompt and call LLM
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          OPEN_ROUTER: ${{ secrets.OPEN_ROUTER }}
         run: |
           python3 scripts/build_eod_prompt.py
-          bash scripts/call_groq.sh /tmp/prompt.json /tmp/groq_response.json
+          cd scripts && python3 -c "
+          import json, sys
+          sys.path.insert(0, '.')
+          from llm_router import call_llm
+          prompt = json.load(open('/tmp/prompt.json'))
+          system_msg = prompt['messages'][0]['content']
+          user_msg = prompt['messages'][1]['content']
+          response, provider, model = call_llm(system_msg, user_msg, prompt.get('max_tokens', 1500), prompt.get('temperature', 0.2))
+          print(f'LLM OK — {provider}/{model}')
+          json.dump({'choices': [{'message': {'content': response}}]}, open('/tmp/groq_response.json', 'w'))
+          "
           python3 scripts/parse_groq_response.py
 
       - name: Update TRADE-LOG
