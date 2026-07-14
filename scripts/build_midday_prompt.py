@@ -141,28 +141,39 @@ MARKET REGIME (from trading-admin):
 - If regime is VOLATILE: tighten stops to 5% on all positions.
 - If regime is RANGING/TRENDING: follow normal rules above."""
 
+pos_lines = []
+for p in positions:
+    pos_lines.append(
+        f"{p['symbol']}: {p['qty']}sh @ ${p['avg_entry_price']} | "
+        f"P&L: ${p.get('unrealized_pl','?')} ({p.get('unrealized_plpc','?')})"
+    )
+
+order_lines = []
+for o in orders[:12]:
+    order_lines.append(f"{o['symbol']}: {o['type']} {o['side']} {o['qty']}sh")
+
 user_msg = f"""Date: {date}
 
 === ACCOUNT ===
-{json.dumps(account, indent=2)}
+Equity: ${account.get('equity', '?')} | Cash: ${account.get('cash', '?')} | Buying Power: ${account.get('buying_power', '?')} | Daytrades: {account.get('daytrade_count', '?')}
 
-=== POSITIONS ===
-{json.dumps(positions, indent=2)}
+=== POSITIONS ({len(positions)}) ===
+{chr(10).join(pos_lines)}
 
-=== OPEN ORDERS (check for existing stops) ===
-{json.dumps(orders, indent=2)}
+=== OPEN ORDERS ({len(orders)}) ===
+{chr(10).join(order_lines)}
 
 === STRATEGY EXIT SIGNALS (check these FIRST) ===
 {exit_signals_text}
 
 === RECENT TRADE LOG ===
-{recent_trade_log(trade_log, 600)}
+{recent_trade_log(trade_log, 400)}
 
 === NEWS HEADLINES ===
-{market_news}
+{chr(10).join(market_news.strip().splitlines()[:10]) if market_news else 'None'}
 
 === STRATEGY RULES ===
-{compact_strategy(strategy)}
+{compact_strategy(strategy, 800)}
 
 === MARKET REGIME (from trading-admin) ===
 Regime: {shared_context.get('regime', 'UNKNOWN')}
