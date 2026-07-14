@@ -199,6 +199,17 @@ def compute_signals(
     if failed_sectors:
         print(f"  Failed sectors (2+ losses in 30d): {', '.join(sorted(failed_sectors))}", file=sys.stderr)
 
+    # News sentiment gate: block buys on bearish symbols
+    bearish_symbols = set()
+    if os.path.exists("/tmp/news_sentiment.json"):
+        try:
+            sentiment = json.load(open("/tmp/news_sentiment.json"))
+            bearish_symbols = set(sentiment.get("bearish_symbols", []))
+            if bearish_symbols:
+                print(f"  Bearish (news gate): {', '.join(sorted(bearish_symbols))}", file=sys.stderr)
+        except Exception:
+            pass
+
     # Build lookup sets for held positions by side
     held_long_symbols = {p["symbol"] for p in positions_held if p.get("side") == "long"}
     held_short_symbols = {p["symbol"] for p in positions_held if p.get("side") == "short"}
@@ -350,6 +361,23 @@ def compute_signals(
                         "symbol": symbol,
                         "action": "filtered",
                         "reason": f"Sector '{sym_sector}' has 2+ losses in 30 days — blocking new entries",
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
+                continue
+
+            # News sentiment gate: skip if bearish headlines
+            if symbol in bearish_symbols:
+                if golden_cross_entry or momentum_breakout:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "filtered",
+                        "reason": f"News sentiment BEARISH — blocking entry despite technical signal",
                         "entry_price": f"{price:.2f}",
                         "stop_pct": DEFAULT_STOP_PCT,
                         "price": price,

@@ -140,7 +140,8 @@ STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
 - SELL signals: these are mandatory exits. Close these long positions immediately.
 - You MAY NOT make discretionary picks outside the signal list.
 - You MAY NOT buy a symbol that does not appear in the BUY SIGNALS list.
-- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 5 total positions, (4) insufficient cash, (5) signal is "filtered" (cooldown/sector block).
+- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 5 total positions, (4) insufficient cash, (5) signal is "filtered" (cooldown/sector/news block).
+- If NEWS HEADLINES for a BUY signal symbol are clearly bearish (downgrade, crash, lawsuit, missed earnings), you MUST skip that buy even if it passed the signal filter. Explain why in reason.
 - If there are no BUY signals, action is HOLD (no new entries).
 
 PROFIT-TAKING AT OPEN (check existing positions):
