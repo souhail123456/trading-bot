@@ -23,16 +23,17 @@ runs per trading day plus two ad-hoc helpers.
 ## Strategy Hard Rules (quick reference)
 
 - NO OPTIONS — ever.
-- Max 5-6 open positions.
-- Max 20% per position.
+- Max 5 open positions.
+- Max 15% per position.
 - Max 3 new trades per week.
-- 75-85% capital deployed.
+- 75-85% capital deployed. NEVER exceed 95%.
 - 10% trailing stop on every position as a real GTC order.
 - Cut losers at -7% manually.
 - Tighten trail to 7% at +15%, to 5% at +20%.
 - Never within 3% of current price. Never move a stop down.
-- Follow sector momentum. Exit a sector after 2 failed trades.
-- Patience > activity.
+- Follow sector momentum. Exit a sector after 2 failed trades in 30 days.
+- Anti-churn: no re-entry within 10 days of a loss on that symbol.
+- Patience > activity — fewer, higher-conviction trades.
 
 ## API Wrappers
 

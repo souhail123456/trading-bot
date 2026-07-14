@@ -127,11 +127,11 @@ If action is HOLD, trades array should be empty.
 <message if trade placed, or "No trades at open — holding" if HOLD>
 
 CRITICAL RULES — skip any trade that fails these:
-- Total positions after trade <= 8
-- Trades this week <= 5
+- Total positions after trade <= 5
+- Trades this week <= 3
 - Position cost <= 15% of equity
 - daytrade_count < 3
-- CASH GUARD: Never let cash go below $0. Never deploy more than 95% of equity.
+- CASH GUARD: Never let cash go below 5% of equity. Never deploy more than 95%.
   The execution script will reject any buy that violates these limits.
 
 STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
@@ -140,12 +140,12 @@ STRATEGY SIGNAL RULES (HIGHEST PRIORITY — override everything else):
 - SELL signals: these are mandatory exits. Close these long positions immediately.
 - You MAY NOT make discretionary picks outside the signal list.
 - You MAY NOT buy a symbol that does not appear in the BUY SIGNALS list.
-- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 8 total positions, (4) insufficient cash.
+- The only reason to skip a BUY signal is: (1) regime is CRISIS, (2) position already held, (3) would exceed 5 total positions, (4) insufficient cash, (5) signal is "filtered" (cooldown/sector block).
 - If there are no BUY signals, action is HOLD (no new entries).
 
 PROFIT-TAKING AT OPEN (check existing positions):
-- If any held position has unrealized gain >= +12%: close it (add to trades with side="sell").
-- If any held position has unrealized gain >= +8% but < +12%: sell half (add to trades with side="sell", qty = half of held shares).
+- If any held position has unrealized gain >= +20%: close it (add to trades with side="sell").
+- If any held position has unrealized gain >= +12% but < +20%: sell half (add to trades with side="sell", qty = half of held shares).
 - These are in ADDITION to strategy signals, not instead of.
 
 MARKET REGIME RULES (from trading-admin):

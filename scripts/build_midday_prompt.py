@@ -119,15 +119,15 @@ STRATEGY EXIT RULES (HIGHEST PRIORITY):
 - Reason: price broke below SMA-200 or death cross (SMA-50 crossed below SMA-200).
 
 PROFIT-TAKING RULES (lock gains via partial exits):
-- If unrealized_plpc >= +0.08 (up 8%+): sell HALF the shares (round down), tighten remaining stop to 5%. Add to "partial_takes".
-- If unrealized_plpc >= +0.12 (up 12%+): close the FULL remaining position. Add to "cuts" with reason "profit target +12%".
+- If unrealized_plpc >= +0.12 (up 12%+): sell HALF the shares (round down), tighten remaining stop to 7%. Add to "partial_takes".
+- If unrealized_plpc >= +0.20 (up 20%+): close the FULL remaining position. Add to "cuts" with reason "profit target +20%".
 - partial_takes triggers a market sell for sell_qty shares only (not the full position).
-- After partial take, the remaining shares keep their trailing stop (tightened to 5%).
+- After partial take, the remaining shares keep their trailing stop (tightened to 7%).
 
 P&L RULES (apply after strategy exit check):
-- Cut any position with unrealized_plpc <= -0.04 → add to "cuts"
-- Cut if thesis is broken even if not at -4% → add to "cuts"
-- Tighten trail to 5% at +10%, to 3% at +15%
+- Cut any position with unrealized_plpc <= -0.07 → add to "cuts"
+- Cut if thesis is broken even if not at -7% → add to "cuts"
+- Tighten trail to 7% at +15%, to 5% at +20%
 - Cut any position that has been held for 5+ trading days and is in the red
 - Never tighten within 3% of current price
 - Never move a stop down

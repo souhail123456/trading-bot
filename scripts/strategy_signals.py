@@ -36,11 +36,20 @@ UNIVERSE = [
 SMA_FAST = 50
 SMA_MEDIUM = 20
 SMA_SLOW = 200
-MAX_POSITIONS = 7
+MAX_POSITIONS = 5        # hard cap — was 7, caused over-deployment
 POSITION_SIZE_PCT = 15   # % of equity per position
-# SHORT_SIZE_PCT = 10    # DISABLED — shorting removed (broken accounting, zero evidence of edge)
-# SHORT_STOP_PCT = "5"   # DISABLED
-DEFAULT_STOP_PCT = "7"   # trailing stop %
+DEFAULT_STOP_PCT = "10"  # wider trailing stop — 7% caused churn (28% WR, 65 trades in 2.5mo)
+
+# Anti-churn: block re-entry into a symbol for N days after a loss
+REENTRY_COOLDOWN_DAYS = 10
+
+# Sector failure tracking: exit sector after 2 consecutive failed trades
+SECTOR_MAP = {
+    "XLK": "tech", "AAPL": "tech", "MSFT": "tech", "GOOGL": "tech",
+    "AMZN": "tech", "NVDA": "tech", "META": "tech", "TSLA": "tech",
+    "XLF": "financials", "XLE": "energy", "XLV": "healthcare",
+    "XLI": "industrials", "SPY": "broad", "QQQ": "broad", "IWM": "broad",
+}
 
 ALPACA_DATA_BASE = "https://data.alpaca.markets/v2"
 
@@ -105,6 +114,66 @@ def sma(closes: list[float], period: int) -> float | None:
     return sum(closes[-period:]) / period
 
 
+def load_recent_losses():
+    """Load recent closed trades to enforce cooldown and sector failure rules.
+    Returns (cooldown_symbols: set, failed_sectors: set).
+    """
+    import re
+    cooldown_symbols = set()
+    sector_losses = {}  # sector -> list of recent loss dates
+
+    trade_log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "memory", "TRADE-LOG.md")
+    if not os.path.exists(trade_log_path):
+        return cooldown_symbols, set()
+
+    with open(trade_log_path) as f:
+        content = f.read()
+
+    m = re.search(r'closed_trades:\s*(\[.*?\])', content)
+    if not m:
+        return cooldown_symbols, set()
+
+    try:
+        closed = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        return cooldown_symbols, set()
+
+    now = datetime.now(timezone.utc)
+
+    for t in closed:
+        pnl = t.get("realized_pnl", 0)
+        sym = t.get("symbol", "")
+        date_str = t.get("date", "")
+        if pnl >= 0 or not date_str:
+            continue
+
+        try:
+            trade_date = datetime.strptime(date_str, "%Y-%m-%d").replace(tzinfo=timezone.utc)
+        except ValueError:
+            continue
+
+        days_ago = (now - trade_date).days
+
+        # Anti-churn cooldown
+        if days_ago <= REENTRY_COOLDOWN_DAYS:
+            cooldown_symbols.add(sym)
+
+        # Sector failure tracking (last 30 days)
+        if days_ago <= 30:
+            sector = SECTOR_MAP.get(sym, "other")
+            if sector not in sector_losses:
+                sector_losses[sector] = []
+            sector_losses[sector].append(date_str)
+
+    # A sector is "failed" if it has 2+ consecutive losses in the last 30 days
+    failed_sectors = set()
+    for sector, dates in sector_losses.items():
+        if len(dates) >= 2:
+            failed_sectors.add(sector)
+
+    return cooldown_symbols, failed_sectors
+
+
 # ---------------------------------------------------------------------------
 # Signal generation
 # ---------------------------------------------------------------------------
@@ -122,6 +191,13 @@ def compute_signals(
     signals = []
     crisis = regime.upper() == "CRISIS"
     volatile = regime.upper() == "VOLATILE"
+
+    # Anti-churn: load recent losses for cooldown and sector failure
+    cooldown_symbols, failed_sectors = load_recent_losses()
+    if cooldown_symbols:
+        print(f"  Cooldown active ({REENTRY_COOLDOWN_DAYS}d): {', '.join(sorted(cooldown_symbols))}", file=sys.stderr)
+    if failed_sectors:
+        print(f"  Failed sectors (2+ losses in 30d): {', '.join(sorted(failed_sectors))}", file=sys.stderr)
 
     # Build lookup sets for held positions by side
     held_long_symbols = {p["symbol"] for p in positions_held if p.get("side") == "long"}
@@ -248,6 +324,41 @@ def compute_signals(
             golden_cross_entry = in_trend and not crisis
             # Signal 2: Momentum breakout — price > 20-day high AND above SMA-50
             momentum_breakout = (price >= high_20d) and (price > fast) and not crisis
+
+            # Anti-churn: skip if recently lost on this symbol
+            if symbol in cooldown_symbols:
+                if golden_cross_entry or momentum_breakout:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "filtered",
+                        "reason": f"Cooldown: lost on {symbol} within last {REENTRY_COOLDOWN_DAYS} days — skipping re-entry",
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
+                continue
+
+            # Sector failure: skip if sector has 2+ consecutive losses
+            sym_sector = SECTOR_MAP.get(symbol, "other")
+            if sym_sector in failed_sectors:
+                if golden_cross_entry or momentum_breakout:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "filtered",
+                        "reason": f"Sector '{sym_sector}' has 2+ losses in 30 days — blocking new entries",
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
+                continue
 
             if golden_cross_entry or momentum_breakout:
                 if golden_cross_entry:
