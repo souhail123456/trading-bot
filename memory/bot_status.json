@@ -1,7 +1,7 @@
 {
   "stock_bot": {
-    "last_run": "2026-07-16T01:59:54.599199+08:00",
-    "run_type": "midday",
+    "last_run": "2026-07-16T04:05:04.094504+08:00",
+    "run_type": "afternoon",
     "trades_placed": 0,
     "action": "UNKNOWN",
     "status": "ok",
