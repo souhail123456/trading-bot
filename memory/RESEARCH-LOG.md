@@ -1727,3 +1727,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-20 — Pre-market Research
+
+### Account
+- Equity: $99,850.86
+- Cash: $53,872.59
+- Buying power: $344,229.52
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: $73.15 / $78.05
+- S&P 500 futures: +0.20%
+- VIX: $16.30
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology (+1.5%), Healthcare (+1.0%)
+
+### Trade Ideas
+1. MSFT — Technology sector momentum, entry $280.00, stop $252.00, target $310.00, R:R 2.5:1
+2. JNJ — Healthcare sector momentum, entry $170.00, stop $153.00, target $190.00, R:R 2.8:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
