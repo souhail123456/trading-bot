@@ -171,6 +171,47 @@ def load_recent_losses():
         if len(dates) >= 2:
             failed_sectors.add(sector)
 
+    # Secondary scan: catch intra-week cuts from trade log text
+    # (covers gaps before reconcile.py updates closed_trades)
+    import calendar
+    current_year = now.year
+    current_date = None
+    month_map = {v: k for k, v in enumerate(calendar.month_abbr) if k}
+
+    for line in content.split('\n'):
+        # Match date headers like "### Jul 21" or "## 2026-07-21"
+        date_match = re.match(r'#{2,3}\s+(?:(\w{3})\s+(\d{1,2})|(\d{4}-\d{2}-\d{2}))', line)
+        if date_match:
+            if date_match.group(3):
+                try:
+                    current_date = datetime.strptime(date_match.group(3), "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                except ValueError:
+                    pass
+            elif date_match.group(1) and date_match.group(2):
+                month_str = date_match.group(1)
+                day_str = date_match.group(2)
+                month_num = month_map.get(month_str)
+                if month_num:
+                    try:
+                        current_date = datetime(current_year, month_num, int(day_str), tzinfo=timezone.utc)
+                    except ValueError:
+                        pass
+            continue
+
+        if current_date is None:
+            continue
+
+        days_ago = (now - current_date).days
+        if days_ago > REENTRY_COOLDOWN_DAYS:
+            continue
+
+        # Match "cut SYMBOL" or "sold SYMBOL" or "selling SYMBOL" (case insensitive)
+        cut_matches = re.findall(r'(?:cut|sold|selling)\s+([A-Z]{1,5})', line, re.IGNORECASE)
+        for sym in cut_matches:
+            sym = sym.upper()
+            if sym in UNIVERSE:  # only track symbols we actually trade
+                cooldown_symbols.add(sym)
+
     return cooldown_symbols, failed_sectors
 
 
