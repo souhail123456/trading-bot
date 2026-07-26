@@ -1,0 +1,67 @@
+name: Sector Momentum (Strategy 5)
+
+"on":
+  schedule:
+    # 14:40 UTC — 35 min after market open, 5 min after asset_class_tf.
+    # Fires on calendar days 1-7 of each month; the "first trading day"
+    # guard step below skips any run that isn't the actual first trading
+    # day (handles month-start weekends/holidays).
+    - cron: '40 14 1-7 * *'
+  workflow_dispatch:
+
+jobs:
+  rebalance:
+    runs-on: ubuntu-latest
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip if US market holiday
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          HOLIDAYS="2026-01-01 2026-01-19 2026-02-16 2026-04-03 2026-05-25 2026-06-19 2026-07-03 2026-09-07 2026-11-26 2026-12-25"
+          if echo "$HOLIDAYS" | grep -qw "$TODAY"; then
+            echo "US market holiday ($TODAY) — skipping"
+            exit 1
+          fi
+
+      - name: First-trading-day-of-month guard
+        if: github.event_name == 'schedule'
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          MONTH_START=$(date -u +%Y-%m-01)
+          MONTH_END=$(date -u -d "$MONTH_START +6 days" +%Y-%m-%d 2>/dev/null || date -u -v+6d -jf "%Y-%m-%d" "$MONTH_START" +%Y-%m-%d)
+          FIRST_TRADING_DAY=$(curl -s -H "APCA-API-KEY-ID: $ALPACA_API_KEY" -H "APCA-API-SECRET-KEY: $ALPACA_SECRET_KEY" \
+            "https://paper-api.alpaca.markets/v2/calendar?start=${MONTH_START}&end=${MONTH_END}" | python3 -c "import json,sys; d=json.load(sys.stdin); print(d[0]['date'] if d else '')")
+          echo "Today: $TODAY | First trading day of month: $FIRST_TRADING_DAY"
+          if [ -z "$FIRST_TRADING_DAY" ]; then
+            echo "Could not determine first trading day from Alpaca calendar — proceeding anyway (fail open)"
+          elif [ "$TODAY" != "$FIRST_TRADING_DAY" ]; then
+            echo "Not the first trading day of the month — skipping"
+            exit 1
+          fi
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --quiet yfinance pandas
+
+      - name: Run sector momentum rebalance
+        run: python3 scripts/sector_momentum.py --allocation 0.4
+
+      - name: Commit and push
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "bot@trading-bot"
+          git add memory/sector_momentum_state.json memory/SECTOR-MOMENTUM-LOG.md
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Sector momentum rebalance $(date -u +%Y-%m-%d)"
+          git push
