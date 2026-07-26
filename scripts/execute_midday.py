@@ -100,6 +100,56 @@ def close_position(sym):
 actions_taken = []
 closed_trades_new = []
 
+# === RECONCILIATION: force-close positions with stale cut signals ===
+# Check TRADE-LOG.md for repeated failed cuts — if a symbol has had
+# "ATTEMPTED CUT" or multiple "cut" mentions over 2+ days but is still held, force close it
+trade_log_path = os.environ.get("TRADE_LOG", "memory/TRADE-LOG.md")
+if os.path.exists(trade_log_path):
+    with open(trade_log_path) as _f:
+        recent_log = _f.read()[-5000:]  # last ~5k chars covers recent days
+    positions_file_recon = "/tmp/positions.json"
+    held_recon = set()
+    if os.path.exists(positions_file_recon):
+        for _p in json.load(open(positions_file_recon)):
+            held_recon.add(_p["symbol"].upper())
+    for _sym in list(held_recon):
+        fail_count = len(re.findall(rf'ATTEMPTED CUT {re.escape(_sym)}', recent_log, re.IGNORECASE))
+        cut_mentions = len(re.findall(rf'\b(?:cut|cutting)\s+{re.escape(_sym)}\b', recent_log, re.IGNORECASE))
+        if fail_count >= 2 or cut_mentions >= 4:
+            print(f"RECON: {_sym} has {fail_count} failed cuts + {cut_mentions} cut mentions — FORCE CLOSING")
+            _pos = alpaca("GET", f"positions/{_sym}")
+            if _pos and int(_pos.get("qty", 0)) > 0:
+                _entry = float(_pos["avg_entry_price"])
+                _current = float(_pos["current_price"])
+                _qty = int(_pos["qty"])
+                _result = close_position(_sym)
+                if _result:
+                    print(f"  FORCED CLOSE {_sym}: {_qty}sh @ ~${_current}")
+                    actions_taken.append(f"CUT {_sym} (FORCED — {fail_count} prior failed attempts)")
+                    _pnl = round((_current - _entry) * _qty, 2)
+                    closed_trades_new.append({
+                        "symbol": _sym, "shares": _qty, "entry": _entry,
+                        "exit": _current, "realized_pnl": _pnl,
+                        "reason": f"forced close after {fail_count} failed cuts"
+                    })
+                else:
+                    print(f"  FORCED CLOSE FAILED for {_sym}")
+                    # Send Telegram alert for manual intervention
+                    _tg_token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+                    _tg_chat = os.environ.get("TELEGRAM_CHAT_ID", "")
+                    if _tg_token and _tg_chat:
+                        import urllib.request as _ur
+                        _msg = f"CRITICAL: {_sym} cut signal active {cut_mentions}+ days, all close attempts failed. Manual intervention needed."
+                        try:
+                            _ur.urlopen(_ur.Request(
+                                f"https://api.telegram.org/bot{_tg_token}/sendMessage",
+                                data=json.dumps({"chat_id": _tg_chat, "text": _msg}).encode(),
+                                headers={"Content-Type": "application/json"},
+                                method="POST"
+                            ), timeout=10)
+                        except Exception:
+                            pass
+
 # Safety net: detect "cut" mentions in trade_log_entry that aren't in the cuts array
 trade_log_text = plan.get("trade_log_entry", "").lower()
 cuts_symbols = {c["symbol"].upper() for c in plan.get("cuts", [])}
@@ -188,7 +238,20 @@ for cut in plan.get("cuts", []):
                     "reason": cut["reason"]
                 })
             else:
-                print(f"Close order for {sym} not filled — status: {filled.get('status') if filled else 'unknown'}")
+                fill_status = filled.get('status') if filled else 'unknown'
+                print(f"Close order for {sym} not filled — status: {fill_status}, trying DELETE fallback...")
+                fallback = close_position(sym)
+                if fallback:
+                    print(f"  DELETE fallback succeeded for {sym}")
+                    actions_taken.append(f"CUT {sym} ({cut['reason']})")
+                    realized_pnl = round((current_price - entry_price) * qty, 2)
+                    closed_trades_new.append({
+                        "symbol": sym, "shares": qty, "entry": entry_price,
+                        "exit": current_price, "realized_pnl": realized_pnl,
+                        "reason": cut["reason"]
+                    })
+                else:
+                    print(f"  DELETE fallback also failed for {sym}")
         elif result and result.get("status"):
             # DELETE /positions fallback succeeded
             print(f"Closed {sym} via DELETE: {result.get('status', 'ok')}")
@@ -325,9 +388,20 @@ for tighten in plan.get("stop_tightens", []):
             print(f"New {new_trail}% trailing stop: {stop_order['id']}")
             actions_taken.append(f"TIGHTEN {sym} stop {tighten['old_trail']}%->{new_trail}%")
 
-# Save trade log entry
+# Save trade log entry — only reflect what actually happened
 with open("/tmp/trade_log_entry.md", "w") as f:
     entry = plan.get("trade_log_entry", "")
+    cut_symbols_attempted = {c["symbol"].upper() for c in plan.get("cuts", [])}
+    cut_symbols_filled = {a.split()[1] for a in actions_taken if a.startswith("CUT ")}
+    failed_cuts = cut_symbols_attempted - cut_symbols_filled
+    if failed_cuts:
+        for sym in failed_cuts:
+            entry = re.sub(
+                rf'(?i)\b(cut|closed|exit(?:ed|ing)?)\s+{re.escape(sym)}\b',
+                f'ATTEMPTED CUT {sym} — FILL FAILED',
+                entry
+            )
+        entry += f"\n\n**WARNING:** Fill failed for: {', '.join(sorted(failed_cuts))}"
     f.write(entry)
 
 # Save closed trades for summary updater
