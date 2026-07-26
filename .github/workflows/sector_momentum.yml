@@ -9,6 +9,9 @@ name: Sector Momentum (Strategy 5)
     - cron: '40 14 1-7 * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   rebalance:
     runs-on: ubuntu-latest

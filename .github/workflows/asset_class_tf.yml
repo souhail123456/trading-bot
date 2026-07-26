@@ -8,7 +8,7 @@ name: Asset Class Trend-Following (Strategy 18)
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   rebalance:
@@ -57,3 +57,12 @@ jobs:
 
       - name: Run Asset Class Trend-Following rebalance
         run: python3 scripts/asset_class_tf.py --allocation 0.6
+
+      - name: Commit and push
+        run: |
+          git config user.name "trading-bot"
+          git config user.email "bot@trading-bot"
+          git add memory/asset_class_tf_state.json memory/ASSET-CLASS-TF-LOG.md
+          git diff --cached --quiet && echo "No changes" && exit 0
+          git commit -m "Asset class TF rebalance $(date -u +%Y-%m-%d)"
+          git push
