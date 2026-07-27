@@ -1866,3 +1866,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-27 — Pre-market Research
+
+### Account
+- Equity: $100,639.44
+- Cash: $23,767.02
+- Buying power: $310,310.86
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. XOM — Energy sector rebound, entry $89.00, stop $80.00, target $110.00, R:R 3:1
+2. JPM — Financial sector momentum, entry $145.00, stop $130.00, target $170.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
