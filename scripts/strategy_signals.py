@@ -29,8 +29,8 @@ UNIVERSE = [
     "SPY", "QQQ", "IWM",
     # Mega-cap stocks
     "AAPL", "MSFT", "GOOGL", "AMZN", "NVDA", "META", "TSLA",
-    # Sector ETFs
-    "XLK", "XLF", "XLE", "XLV", "XLI",
+    # Sector ETFs (XLI/XLV removed — chronic churners, 5+ buy/cut cycles each)
+    "XLK", "XLF", "XLE",
 ]
 
 SMA_FAST = 50
@@ -215,6 +215,65 @@ def load_recent_losses():
     return cooldown_symbols, failed_sectors
 
 
+def load_entry_dates():
+    """Parse TRADE-LOG.md for BUY dates to determine position age.
+    Returns dict of symbol -> datetime (most recent buy date for each symbol).
+    """
+    import re, calendar
+    entry_dates = {}
+
+    trade_log_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "memory", "TRADE-LOG.md")
+    if not os.path.exists(trade_log_path):
+        return entry_dates
+
+    with open(trade_log_path) as f:
+        content = f.read()
+
+    now = datetime.now(timezone.utc)
+    current_year = now.year
+    current_date = None
+    month_map = {v: k for k, v in enumerate(calendar.month_abbr) if k}
+
+    for line in content.split('\n'):
+        # Match date headers like "### Jul 21" or "## 2026-07-21"
+        date_match = re.match(r'#{2,3}\s+(?:(\w{3})\s+(\d{1,2})|(\d{4}-\d{2}-\d{2}))', line)
+        if date_match:
+            if date_match.group(3):
+                try:
+                    current_date = datetime.strptime(date_match.group(3), "%Y-%m-%d").replace(tzinfo=timezone.utc)
+                except ValueError:
+                    pass
+            elif date_match.group(1) and date_match.group(2):
+                month_str = date_match.group(1)
+                day_str = date_match.group(2)
+                month_num = month_map.get(month_str)
+                if month_num:
+                    try:
+                        current_date = datetime(current_year, month_num, int(day_str), tzinfo=timezone.utc)
+                    except ValueError:
+                        pass
+            continue
+
+        if current_date is None:
+            continue
+
+        # Match "BUY SYMBOL" or "bought SYMBOL" or "entered SYMBOL" (case insensitive)
+        buy_matches = re.findall(r'(?:BUY|bought|entered|buying)\s+(\d+sh\s+)?([A-Z]{1,5})', line, re.IGNORECASE)
+        for _, sym in buy_matches:
+            sym = sym.upper()
+            # Keep the most recent buy date for each symbol
+            if sym not in entry_dates or current_date > entry_dates[sym]:
+                entry_dates[sym] = current_date
+
+    return entry_dates
+
+
+# Minimum position age before allowing exits (trading days)
+MIN_POSITION_AGE_DAYS = 3
+# Hard stop that overrides position age protection
+HARD_STOP_PCT = 0.07  # -7%
+
+
 # ---------------------------------------------------------------------------
 # Signal generation
 # ---------------------------------------------------------------------------
@@ -232,6 +291,10 @@ def compute_signals(
     signals = []
     crisis = regime.upper() == "CRISIS"
     volatile = regime.upper() == "VOLATILE"
+
+    # Position age protection: load buy dates from trade log
+    entry_dates = load_entry_dates()
+    now = datetime.now(timezone.utc)
 
     # Anti-churn: load recent losses for cooldown and sector failure
     cooldown_symbols, failed_sectors = load_recent_losses()
@@ -298,6 +361,32 @@ def compute_signals(
         currently_held_short = symbol in held_short_symbols
 
         if currently_held_long:
+            # Position age protection: no exits for positions < 3 trading days old
+            # Exception: -7% hard stop (handled by trailing stop order, not here)
+            entry_dt = entry_dates.get(symbol)
+            position_age_days = (now - entry_dt).days if entry_dt else 999
+            if position_age_days < MIN_POSITION_AGE_DAYS:
+                entry_px = entry_price_map.get(symbol)
+                # Only override if NOT at hard stop level (-7%)
+                at_hard_stop = (entry_px is not None and price < entry_px * (1 - HARD_STOP_PCT))
+                if not at_hard_stop:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "hold",
+                        "reason": (
+                            f"Age protection: position only {position_age_days}d old "
+                            f"(min {MIN_POSITION_AGE_DAYS}d) — holding through noise"
+                        ),
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
+                    continue
+
             # Check long exit conditions
             if not above_slow or not golden_cross:
                 reason_parts = []
@@ -318,44 +407,20 @@ def compute_signals(
                     "sma_200": round(slow, 2),
                 })
             else:
-                # Time-based cut: if price < SMA-20 AND position is in loss → cut the drag
-                med = sma(closes, SMA_MEDIUM)
-                entry_px = entry_price_map.get(symbol)
-                in_loss = (entry_px is not None and price < entry_px) or (entry_px is None and momentum_20d < 0)
-                if med is not None and price < med and in_loss:
-                    loss_desc = (
-                        f"entry ${entry_px:.2f}" if entry_px is not None
-                        else f"momentum {momentum_20d*100:.1f}%"
-                    )
-                    signals.append({
-                        "symbol": symbol,
-                        "action": "sell",
-                        "reason": (
-                            f"Time-based cut: price ${price:.2f} below SMA-20 ${med:.2f} "
-                            f"while in loss ({loss_desc})"
-                        ),
-                        "entry_price": f"{price:.2f}",
-                        "stop_pct": DEFAULT_STOP_PCT,
-                        "price": price,
-                        "trend_strength": round(trend_strength, 4),
-                        "momentum_20d": round(momentum_20d, 4),
-                        "sma_50": round(fast, 2),
-                        "sma_200": round(slow, 2),
-                        "sma_20": round(med, 2),
-                    })
-                else:
-                    signals.append({
-                        "symbol": symbol,
-                        "action": "hold",
-                        "reason": f"Trend intact: price ${price:.2f} > SMA-200 ${slow:.2f}, SMA-50 ${fast:.2f} > SMA-200",
-                        "entry_price": f"{price:.2f}",
-                        "stop_pct": DEFAULT_STOP_PCT,
-                        "price": price,
-                        "trend_strength": round(trend_strength, 4),
-                        "momentum_20d": round(momentum_20d, 4),
-                        "sma_50": round(fast, 2),
-                        "sma_200": round(slow, 2),
-                    })
+                # SMA-20 time-based cut REMOVED — it was the #1 churner.
+                # SMA-200 death cross (above) is the real exit. 10% trailing stop handles downside.
+                signals.append({
+                    "symbol": symbol,
+                    "action": "hold",
+                    "reason": f"Trend intact: price ${price:.2f} > SMA-200 ${slow:.2f}, SMA-50 ${fast:.2f} > SMA-200",
+                    "entry_price": f"{price:.2f}",
+                    "stop_pct": DEFAULT_STOP_PCT,
+                    "price": price,
+                    "trend_strength": round(trend_strength, 4),
+                    "momentum_20d": round(momentum_20d, 4),
+                    "sma_50": round(fast, 2),
+                    "sma_200": round(slow, 2),
+                })
         elif currently_held_short:
             # Short positions exist from before — force cover to unwind
             signals.append({
@@ -419,6 +484,48 @@ def compute_signals(
                         "symbol": symbol,
                         "action": "filtered",
                         "reason": f"News sentiment BEARISH — blocking entry despite technical signal",
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
+                continue
+
+            # Minimum trend strength: price must be >= 3% above SMA-200
+            # Filters out marginal golden crosses that immediately churn
+            MIN_TREND_STRENGTH = 0.03
+            if trend_strength < MIN_TREND_STRENGTH:
+                if golden_cross_entry or momentum_breakout:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "filtered",
+                        "reason": (
+                            f"Weak trend: price only {trend_strength*100:.1f}% above SMA-200 "
+                            f"(need {MIN_TREND_STRENGTH*100:.0f}%+) — skipping marginal setup"
+                        ),
+                        "entry_price": f"{price:.2f}",
+                        "stop_pct": DEFAULT_STOP_PCT,
+                        "price": price,
+                        "trend_strength": round(trend_strength, 4),
+                        "momentum_20d": round(momentum_20d, 4),
+                        "sma_50": round(fast, 2),
+                        "sma_200": round(slow, 2),
+                    })
+                continue
+
+            # Momentum gate: require positive 20-day momentum (price above 20 days ago)
+            if momentum_20d <= 0:
+                if golden_cross_entry or momentum_breakout:
+                    signals.append({
+                        "symbol": symbol,
+                        "action": "filtered",
+                        "reason": (
+                            f"Negative momentum: {momentum_20d*100:.1f}% over 20d — "
+                            f"trend not accelerating, skipping entry"
+                        ),
                         "entry_price": f"{price:.2f}",
                         "stop_pct": DEFAULT_STOP_PCT,
                         "price": price,

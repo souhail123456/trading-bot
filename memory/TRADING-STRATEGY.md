@@ -21,8 +21,11 @@ Beat the S&P 500 over the challenge window. Stocks only — no options, ever.
 9. Follow sector momentum
 10. Exit a sector after 2 consecutive failed trades in 30 days
 11. Patience > activity — fewer, higher-conviction trades
-12. Time-based cut: if position is red after 5 trading days, cut it
+12. ~~Time-based cut~~ REMOVED — SMA-20 cut was the #1 churn source (85 sells vs 8 buys). SMA-200 death cross is the real exit signal.
 13. Anti-churn: do NOT re-enter a symbol within 10 days of a loss on it
+14. Minimum trend strength: only enter if price >= 3% above SMA-200 (filters marginal golden crosses)
+15. Positive momentum required: 20-day price change must be > 0 to enter
+16. Position age protection: no exits for positions < 3 trading days old (except -7% hard stop)
 
 ## Buy-Side Gate (ALL must pass or skip the trade)
 - Total positions after fill <= 5
@@ -43,10 +46,11 @@ Beat the S&P 500 over the challenge window. Stocks only — no options, ever.
 - Position red after 5 trading days: close immediately
 - Sector has 2 consecutive failed trades in 30 days: exit all positions in that sector
 
-## Profit-Taking Rules (partial exits to lock gains)
-- Up >= +12%: sell HALF the position (round down shares), tighten remaining stop to 7%
-- Up >= +20%: close the FULL remaining position
-- If already partially taken (shares < original entry), the +20% rule closes what's left
+## Profit-Taking Rules (partial exits to lock gains — AUTOMATED in midday scan)
+- Up >= +15%: sell HALF the position (round down shares), tighten remaining stop to 7%
+- Up >= +25%: close the FULL remaining position
+- If already partially taken (shares < original entry), the +25% rule closes what's left
+- These run mechanically in execute_midday.py — no LLM judgment needed
 
 ## Entry Checklist (document before placing)
 - What is the specific catalyst today?

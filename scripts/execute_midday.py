@@ -100,6 +100,133 @@ def close_position(sym):
 actions_taken = []
 closed_trades_new = []
 
+# === AUTOMATIC PROFIT-TAKING ===
+# Mechanically take profits regardless of LLM judgment:
+#   +15% unrealized: sell HALF the position
+#   +25% unrealized: close FULL remaining position
+print("=== Automatic profit-taking scan ===")
+positions_file_pt = "/tmp/positions.json"
+if os.path.exists(positions_file_pt):
+    try:
+        all_positions = json.load(open(positions_file_pt))
+    except Exception as e:
+        print(f"Could not load positions for profit-taking: {e}")
+        all_positions = []
+
+    for _pos in all_positions:
+        _sym = _pos["symbol"]
+        _qty = int(_pos.get("qty", 0))
+        _entry = float(_pos.get("avg_entry_price", 0))
+        _current = float(_pos.get("current_price", 0))
+        _side = _pos.get("side", "long")
+
+        if _side != "long" or _qty <= 0 or _entry <= 0:
+            continue
+
+        _unrealized_pct = (_current - _entry) / _entry
+
+        if _unrealized_pct >= 0.25:
+            # +25%: close FULL position
+            print(f"PROFIT TARGET {_sym}: +{_unrealized_pct*100:.1f}% — closing FULL position ({_qty}sh)")
+
+            # Cancel all open orders for this symbol first
+            _open_orders = alpaca("GET", f"orders?status=open&symbols={_sym}") or []
+            if isinstance(_open_orders, list):
+                for _o in _open_orders:
+                    alpaca("DELETE", f"orders/{_o['id']}")
+
+            import time as _time; _time.sleep(0.5)
+            _client_id = f"tb-profit25-{_sym}-{uuid.uuid4().hex[:8]}"
+            _result = alpaca("POST", "orders", {
+                "symbol": _sym,
+                "qty": str(_qty),
+                "side": "sell",
+                "type": "market",
+                "time_in_force": "day",
+                "client_order_id": _client_id
+            })
+            if _result and _result.get("id"):
+                _filled = wait_for_fill(_result["id"], max_retries=30, delay=2)
+                if _filled and _filled.get("status") == "filled":
+                    _exit_px = float(_filled.get("filled_avg_price", _current))
+                    _filled_qty = int(_filled.get("filled_qty", _qty))
+                    _pnl = round((_exit_px - _entry) * _filled_qty, 2)
+                    print(f"  CONFIRMED: sold {_filled_qty}sh {_sym} @ ${_exit_px:.2f} — P&L ${_pnl:+.2f}")
+                    actions_taken.append(f"PROFIT TARGET {_sym} +{_unrealized_pct*100:.0f}% — closed full ({_filled_qty}sh, P&L ${_pnl:+.2f})")
+                    closed_trades_new.append({
+                        "symbol": _sym, "shares": _filled_qty, "entry": _entry,
+                        "exit": _exit_px, "realized_pnl": _pnl,
+                        "reason": f"profit target hit at +{_unrealized_pct*100:.0f}%"
+                    })
+                    # Remove from cuts list if LLM also suggested cutting it
+                    plan["cuts"] = [c for c in plan.get("cuts", []) if c["symbol"] != _sym]
+                else:
+                    print(f"  Fill failed for profit close {_sym}")
+            else:
+                print(f"  Order failed for profit close {_sym}")
+
+        elif _unrealized_pct >= 0.15:
+            # +15%: sell HALF
+            _sell_qty = _qty // 2
+            if _sell_qty <= 0:
+                continue
+
+            print(f"PARTIAL PROFIT {_sym}: +{_unrealized_pct*100:.1f}% — selling HALF ({_sell_qty} of {_qty}sh)")
+
+            _client_id = f"tb-profit15-{_sym}-{uuid.uuid4().hex[:8]}"
+            _result = alpaca("POST", "orders", {
+                "symbol": _sym,
+                "qty": str(_sell_qty),
+                "side": "sell",
+                "type": "market",
+                "time_in_force": "day",
+                "client_order_id": _client_id
+            })
+            if _result and _result.get("id"):
+                _filled = wait_for_fill(_result["id"], max_retries=30, delay=2)
+                if _filled and _filled.get("status") == "filled":
+                    _exit_px = float(_filled.get("filled_avg_price", _current))
+                    _filled_qty = int(_filled.get("filled_qty", _sell_qty))
+                    _pnl = round((_exit_px - _entry) * _filled_qty, 2)
+                    _remaining = _qty - _filled_qty
+                    print(f"  CONFIRMED: sold {_filled_qty}sh {_sym} @ ${_exit_px:.2f} — P&L ${_pnl:+.2f}, {_remaining}sh remaining")
+                    actions_taken.append(f"PARTIAL PROFIT {_sym} +{_unrealized_pct*100:.0f}% — sold half ({_filled_qty}sh, P&L ${_pnl:+.2f})")
+                    closed_trades_new.append({
+                        "symbol": _sym, "shares": _filled_qty, "entry": _entry,
+                        "exit": _exit_px, "realized_pnl": _pnl,
+                        "reason": f"partial profit take at +{_unrealized_pct*100:.0f}%"
+                    })
+
+                    # Replace trailing stop with tighter 7% on remaining shares
+                    if _remaining > 0:
+                        _open_orders = alpaca("GET", f"orders?status=open&symbols={_sym}") or []
+                        if isinstance(_open_orders, list):
+                            for _o in _open_orders:
+                                if _o.get("type") in ("trailing_stop", "stop"):
+                                    alpaca("DELETE", f"orders/{_o['id']}")
+
+                        import time as _time; _time.sleep(0.5)
+                        _stop = alpaca("POST", "orders", {
+                            "symbol": _sym,
+                            "qty": str(_remaining),
+                            "side": "sell",
+                            "type": "trailing_stop",
+                            "trail_percent": "7",
+                            "time_in_force": "gtc"
+                        })
+                        if _stop and _stop.get("id"):
+                            print(f"  New 7% trailing stop on remaining {_remaining}sh of {_sym}")
+                            actions_taken.append(f"TIGHTEN {_sym} stop to 7% (remaining {_remaining}sh)")
+
+                    # Remove from partial_takes if LLM also suggested it
+                    plan["partial_takes"] = [t for t in plan.get("partial_takes", []) if t["symbol"] != _sym]
+                else:
+                    print(f"  Fill failed for partial profit {_sym}")
+            else:
+                print(f"  Order failed for partial profit {_sym}")
+
+print(f"=== Automatic profit-taking done ===")
+
 # === RECONCILIATION: force-close positions with stale cut signals ===
 # Check TRADE-LOG.md for repeated failed cuts — if a symbol has had
 # "ATTEMPTED CUT" or multiple "cut" mentions over 2+ days but is still held, force close it
