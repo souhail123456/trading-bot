@@ -1894,3 +1894,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-28 — Pre-market Research
+
+### Account
+- Equity: $100,494.34
+- Cash: $23,767.02
+- Buying power: $309,904.58
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. MSFT — Strong earnings report expected, entry $282.00, stop $260.00, target $320.00, R:R 2.5:1
+2. UNH — Healthcare sector momentum, entry $525.00, stop $485.00, target $600.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
