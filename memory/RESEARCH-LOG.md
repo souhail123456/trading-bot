@@ -1922,3 +1922,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-29 — Pre-market Research
+
+### Account
+- Equity: $100,060.17
+- Cash: $39,901.98
+- Buying power: $328,050.85
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. AAPL — Strong sector momentum, entry $340.00, stop $310.00, target $380.00, R:R 2.5:1
+2. JNJ — Healthcare sector momentum, entry $170.00, stop $155.00, target $200.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
