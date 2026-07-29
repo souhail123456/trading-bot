@@ -46,9 +46,9 @@ jobs:
           OPEN_ROUTER: ${{ secrets.OPEN_ROUTER }}
         run: |
           python3 scripts/build_weekly_review_prompt.py
-          cd scripts && python3 -c "
+          python3 -c "
           import json, sys
-          sys.path.insert(0, '.')
+          sys.path.insert(0, 'scripts')
           from llm_router import call_llm
           prompt = json.load(open('/tmp/prompt.json'))
           system_msg = prompt['messages'][0]['content']
