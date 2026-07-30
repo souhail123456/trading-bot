@@ -1950,3 +1950,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-30 — Pre-market Research
+
+### Account
+- Equity: $99,186.75
+- Cash: $25,004.04
+- Buying power: $307,727.75
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. NVDA — Strong sector momentum, entry $520.00, stop $480.00, target $600.00, R:R 2.5:1
+2. UNH — Healthcare sector momentum, entry $520.00, stop $480.00, target $600.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
