@@ -115,7 +115,7 @@ if os.path.exists(positions_file_pt):
 
     for _pos in all_positions:
         _sym = _pos["symbol"]
-        _qty = int(_pos.get("qty", 0))
+        _qty = int(float(_pos.get("qty", 0)))
         _entry = float(_pos.get("avg_entry_price", 0))
         _current = float(_pos.get("current_price", 0))
         _side = _pos.get("side", "long")
@@ -245,10 +245,10 @@ if os.path.exists(trade_log_path):
         if fail_count >= 2 or cut_mentions >= 4:
             print(f"RECON: {_sym} has {fail_count} failed cuts + {cut_mentions} cut mentions — FORCE CLOSING")
             _pos = alpaca("GET", f"positions/{_sym}")
-            if _pos and int(_pos.get("qty", 0)) > 0:
+            if _pos and int(float(_pos.get("qty", 0))) > 0:
                 _entry = float(_pos["avg_entry_price"])
                 _current = float(_pos["current_price"])
-                _qty = int(_pos["qty"])
+                _qty = int(float(_pos["qty"]))
                 _result = close_position(_sym)
                 if _result:
                     print(f"  FORCED CLOSE {_sym}: {_qty}sh @ ~${_current}")
@@ -314,7 +314,7 @@ for cut in plan.get("cuts", []):
     pos = alpaca("GET", f"positions/{sym}")
     entry_price = float(pos["avg_entry_price"]) if pos else 0
     current_price = float(pos["current_price"]) if pos else 0
-    qty = int(pos["qty"]) if pos else 0
+    qty = int(float(pos["qty"])) if pos else 0
 
     # Cancel ALL open orders for this symbol (trailing stops lock shares)
     if pos and qty > 0:
@@ -418,7 +418,7 @@ for take in plan.get("partial_takes", []):
 
     entry_price = float(pos["avg_entry_price"])
     current_price = float(pos["current_price"])
-    total_qty = int(pos["qty"])
+    total_qty = int(float(pos["qty"]))
 
     if sell_qty > total_qty:
         sell_qty = total_qty  # safety: don't sell more than we have

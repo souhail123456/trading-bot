@@ -124,7 +124,7 @@ skipped = []
 
 for trade in plan["trades"]:
     sym = trade["symbol"]
-    qty = int(trade["qty"])
+    qty = int(float(trade["qty"]))
     side = trade.get("side", "buy")
 
     print(f"\nProcessing: {side} {qty} {sym}")
@@ -136,7 +136,7 @@ for trade in plan["trades"]:
             print(f"  BLOCKED: No position found for {sym} — cannot sell what we don't hold")
             skipped.append({"symbol": sym, "reason": "no position held"})
             continue
-        held_qty = int(pos.get("qty", 0))
+        held_qty = int(float(pos.get("qty", 0)))
         if held_qty <= 0:
             print(f"  BLOCKED: Zero position for {sym} — would create short")
             skipped.append({"symbol": sym, "reason": "zero position"})
@@ -144,6 +144,14 @@ for trade in plan["trades"]:
         if qty > held_qty:
             print(f"  CLAMPED: Sell qty {qty} > held {held_qty} for {sym} — clamping to {held_qty}")
             qty = held_qty
+
+        # Cancel any open orders holding shares (e.g. trailing stops)
+        open_orders = alpaca("GET", "orders?status=open&symbols=" + sym)
+        if open_orders:
+            for oo in open_orders:
+                print(f"  Cancelling open order {oo['id']} ({oo.get('type','?')}) on {sym}")
+                alpaca("DELETE", f"orders/{oo['id']}")
+            time.sleep(1)
 
     # --- CASH GUARD (Task 12) ---
     if side == "buy":

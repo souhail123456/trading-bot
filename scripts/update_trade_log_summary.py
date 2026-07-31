@@ -19,7 +19,7 @@ open_pos = []
 for p in positions:
     open_pos.append({
         "symbol": p["symbol"],
-        "shares": int(p["qty"]),
+        "shares": int(float(p["qty"])),
         "entry": float(p["avg_entry_price"]),
         "side": "BUY" if p["side"] == "long" else "SELL",
         "unrealized_pnl": round(float(p["unrealized_pl"]), 2)
