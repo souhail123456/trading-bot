@@ -1978,3 +1978,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-07-31 — Pre-market Research
+
+### Account
+- Equity: $98,455.85
+- Cash: $13,132.74
+- Buying power: $291,435.66
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. JPM — Earnings report, entry $120.00, stop $110.00, target $140.00, R:R 2:1
+2. BAC — Earnings report, entry $30.00, stop $27.00, target $35.00, R:R 2:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
