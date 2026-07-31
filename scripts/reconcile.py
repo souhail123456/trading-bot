@@ -109,7 +109,7 @@ def main():
         sym = p["symbol"]
         broker_map[sym] = {
             "symbol": sym,
-            "shares": int(p["qty"]),
+            "shares": int(float(p["qty"])),
             "side": "BUY" if p["side"] == "long" else "SELL",
             "entry": float(p["avg_entry_price"]),
             "unrealized_pnl": round(float(p.get("unrealized_pl", 0)), 2),
@@ -169,7 +169,7 @@ def main():
     for p in broker_positions:
         open_pos.append({
             "symbol": p["symbol"],
-            "shares": int(p["qty"]),
+            "shares": int(float(p["qty"])),
             "entry": float(p["avg_entry_price"]),
             "side": "BUY" if p["side"] == "long" else "SELL",
             "unrealized_pnl": round(float(p.get("unrealized_pl", 0)), 2),
