@@ -661,10 +661,31 @@ def main():
             print(f"Warning: could not read account.json: {e}", file=sys.stderr)
 
     print(f"Equity: ${equity:,.0f}")
+
+    # Orphan detection: force-sell any position not in UNIVERSE
+    orphan_signals = []
+    universe_set = set(UNIVERSE)
+    for p in positions_held:
+        if p["symbol"] not in universe_set:
+            print(f"  ORPHAN detected: {p['symbol']} held but not in UNIVERSE — forcing sell")
+            orphan_signals.append({
+                "symbol": p["symbol"],
+                "action": "sell",
+                "reason": f"Orphan cleanup: {p['symbol']} removed from universe",
+                "entry_price": str(p.get("entry_price", "0")),
+                "stop_pct": DEFAULT_STOP_PCT,
+                "price": float(p.get("entry_price") or 0),
+                "trend_strength": 0,
+                "momentum_20d": 0,
+                "sma_50": 0,
+                "sma_200": 0,
+            })
+
     print(f"Scanning {len(UNIVERSE)} symbols...")
 
     # Compute signals
     signals = compute_signals(positions_held, equity, regime)
+    signals.extend(orphan_signals)
 
     # Rank and cap buys
     signals = rank_and_cap(signals, current_position_count)
