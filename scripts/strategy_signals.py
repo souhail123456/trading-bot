@@ -662,9 +662,10 @@ def main():
 
     print(f"Equity: ${equity:,.0f}")
 
-    # Orphan detection: force-sell any position not in UNIVERSE
+    # Orphan detection: force-sell any position not in ANY strategy's universe
+    STRATEGY_18_UNIVERSE = ["SPY", "EFA", "TLT", "VNQ", "DBC"]
     orphan_signals = []
-    universe_set = set(UNIVERSE)
+    universe_set = set(UNIVERSE) | set(STRATEGY_18_UNIVERSE)
     for p in positions_held:
         if p["symbol"] not in universe_set:
             print(f"  ORPHAN detected: {p['symbol']} held but not in UNIVERSE — forcing sell")
