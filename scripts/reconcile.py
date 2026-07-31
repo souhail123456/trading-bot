@@ -127,6 +127,7 @@ def main():
 
     # Find mismatches
     mismatches = []
+    dangerous_mismatches = []
     all_syms = set(list(broker_map.keys()) + list(internal_map.keys()))
 
     for sym in sorted(all_syms):
@@ -136,12 +137,18 @@ def main():
         if broker_pos and not internal_pos:
             mismatches.append(f"  MISSING IN LOG: {sym} ({broker_pos['shares']}sh @ ${broker_pos['entry']}) — exists at broker only")
         elif internal_pos and not broker_pos:
-            mismatches.append(f"  GHOST IN LOG: {sym} ({internal_pos['shares']}sh @ ${internal_pos['entry']}) — exists in log but NOT at broker")
+            msg = f"  GHOST IN LOG: {sym} ({internal_pos['shares']}sh @ ${internal_pos['entry']}) — exists in log but NOT at broker"
+            mismatches.append(msg)
+            dangerous_mismatches.append(msg)
         elif broker_pos and internal_pos:
             if broker_pos["shares"] != internal_pos["shares"]:
-                mismatches.append(f"  QTY MISMATCH: {sym} — broker={broker_pos['shares']}sh, log={internal_pos['shares']}sh")
+                msg = f"  QTY MISMATCH: {sym} — broker={broker_pos['shares']}sh, log={internal_pos['shares']}sh"
+                mismatches.append(msg)
+                dangerous_mismatches.append(msg)
             if broker_pos["side"] != internal_pos["side"]:
-                mismatches.append(f"  SIDE MISMATCH: {sym} — broker={broker_pos['side']}, log={internal_pos['side']}")
+                msg = f"  SIDE MISMATCH: {sym} — broker={broker_pos['side']}, log={internal_pos['side']}"
+                mismatches.append(msg)
+                dangerous_mismatches.append(msg)
 
     if not mismatches:
         print("Reconciliation OK — broker and TRADE-LOG.md match")
@@ -160,7 +167,10 @@ def main():
     alert += "\n".join(mismatches)
     alert += f"\n\nBroker positions: {len(broker_positions)}"
     alert += f"\nLog positions: {len(internal_positions)}"
-    alert += "\n\nOverwriting log with broker reality. Skipping new orders this cycle."
+    if dangerous_mismatches:
+        alert += "\n\nDangerous mismatch — skipping new orders this cycle."
+    else:
+        alert += "\n\nLog-only mismatch (auto-corrected) — orders will proceed."
     send_telegram(alert)
 
     # 4b. Overwrite TRADE-LOG.md SUMMARY with broker positions
@@ -210,11 +220,13 @@ last_updated: {now}
 
     print("TRADE-LOG.md SUMMARY overwritten with broker positions")
 
-    # 4c. Set skip flag
-    with open("/tmp/reconcile_skip", "w") as f:
-        f.write("mismatch_detected")
-
-    print("Skip flag set — new orders will be blocked this cycle")
+    # 4c. Set skip flag only for dangerous mismatches
+    if dangerous_mismatches:
+        with open("/tmp/reconcile_skip", "w") as f:
+            f.write("mismatch_detected")
+        print("Skip flag set — new orders will be blocked this cycle")
+    else:
+        print("Log-only mismatch (auto-corrected) — orders will proceed")
 
 
 if __name__ == "__main__":
