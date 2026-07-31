@@ -8,3 +8,12 @@ Skipped (external): SPY
 
 ---
 
+## 2026-07-31 — Rebalance
+Above SMA200: SPY, EFA, VNQ, DBC
+Below SMA200: TLT
+- BUY VNQ (119.026576394sh @ $98.96983)
+- BUY DBC (401.364224872sh @ $29.35)
+Skipped (external): SPY
+
+---
+
