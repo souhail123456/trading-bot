@@ -2006,3 +2006,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-08-03 — Pre-market Research
+
+### Account
+- Equity: $98,046.62
+- Cash: $18,549.40
+- Buying power: $296,789.82
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. MSFT — Earnings report, entry $280.00, stop $260.00, target $320.00, R:R 2:1
+2. JNJ — Earnings report, entry $170.00, stop $155.00, target $200.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
