@@ -35,3 +35,21 @@ Top 3: XLK, XLE, XLI
 
 ---
 
+## 2026-08-05 — Rebalance
+Top 3: XLK, XLE, XLV
+- #1 XLK (Technology): +44.56%
+- #2 XLE (Energy): +38.98%
+- #3 XLV (Health Care): +25.84%
+- #4 XLI (Industrials): +25.55%
+- #5 XLB (Materials): +21.05%
+- #6 XLF (Financials): +13.72%
+- #7 XLRE (Real Estate): +11.43%
+- #8 XLY (Consumer Discretionary): +9.02%
+- #9 XLP (Consumer Staples): +8.77%
+- #10 XLU (Utilities): +3.74%
+**Bought:** XLV 80sh @ $163.87
+**Sold:** XLI 0sh
+**Skipped:** XLE (in top 3 but already held externally (not opened by sector-momentum) — skipping buy to avoid double exposure)
+
+---
+
