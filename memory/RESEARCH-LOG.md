@@ -2062,3 +2062,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-08-05 — Pre-market Research
+
+### Account
+- Equity: $99,644.16
+- Cash: -$7,610.67
+- Buying power: $255,652.68
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. CVS — Earnings report, entry $85.00, stop $78.00, target $100.00, R:R 2.5:1
+2. BMY — Earnings report, entry $70.00, stop $63.00, target $85.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
