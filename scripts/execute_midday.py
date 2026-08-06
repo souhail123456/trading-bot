@@ -7,7 +7,7 @@ Hardened with:
 - client_order_id for idempotent retries
 - Cash guard on any new buys
 """
-import json, os, sys, uuid
+import json, os, re, sys, uuid
 
 resp = json.load(open("/tmp/groq_response.json"))
 content = resp["choices"][0]["message"]["content"]
@@ -288,7 +288,6 @@ if os.path.exists(positions_file):
     for p in json.load(open(positions_file)):
         held_symbols.add(p["symbol"].upper())
 
-import re
 for sym in held_symbols:
     # Only match explicit "cut MSFT", "close MSFT", "exit MSFT", "closed MSFT", "cutting MSFT"
     pattern = rf'\b(cut|cuts|cutting|close|closed|closing|exit|exiting)\s+{re.escape(sym)}\b'
