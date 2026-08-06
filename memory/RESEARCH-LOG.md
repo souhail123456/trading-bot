@@ -2090,3 +2090,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-08-06 — Pre-market Research
+
+### Account
+- Equity: $99,421.98
+- Cash: -$7,456.77
+- Buying power: $240,664.43
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. AMGN — Earnings report, entry $255.00, stop $235.00, target $295.00, R:R 2.5:1
+2. UNH — Earnings report, entry $525.00, stop $485.00, target $625.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
