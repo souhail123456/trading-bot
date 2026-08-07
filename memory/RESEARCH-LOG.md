@@ -2118,3 +2118,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-08-07 — Pre-market Research
+
+### Account
+- Equity: $99,360.04
+- Cash: $5,616.89
+- Buying power: $256,192.71
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. BIIB — Earnings report, entry $280.00, stop $245.00, target $350.00, R:R 2.5:1
+2. ABBV — Earnings report, entry $155.00, stop $135.00, target $190.00, R:R 2.5:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
