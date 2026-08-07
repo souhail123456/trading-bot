@@ -687,3 +687,47 @@ None this week
 - Consider adding new positions to diversify the portfolio.
 
 ### Overall Grade: C
+
+## Week ending 2026-08-07
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $99517.15 |
+| Ending portfolio | $99531.51 |
+| Week return | $14.36 (+0.14%) |
+| S&P 500 week | +2.07% |
+| Bot vs S&P | -1.93% |
+| Trades | 0 (W:0 / L:0 / open:6) |
+| Win rate | N/A |
+| Best trade | N/A |
+| Worst trade | N/A |
+| Profit factor | N/A |
+
+### Closed Trades
+None this week
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+| DBC | 29.35 | 28.87 | -192.65 | -    |
+| EFA | 105.92 | 108.46 | 284.68 | -    |
+| SPY | 736.00 | 772.97 | 702.50 | -    |
+| VNQ | 98.97 | 98.43 | -64.25 | -    |
+| XLF | 56.23 | 57.69 | 389.82 | -    |
+| XLK | 177.50 | 187.87 | 757.26 | -    |
+
+### What Worked
+- The bot maintained a stable portfolio despite market volatility.
+
+### What Didn't Work
+- The bot did not execute any new trades during the week, which may indicate a need to review and adjust trade entry criteria.
+
+### Key Lessons
+- The importance of timely trade execution and risk management in maintaining a stable portfolio.
+
+### Adjustments for Next Week
+- Review and adjust trade entry criteria to potentially increase trade execution.
+- Consider adding new positions to diversify the portfolio.
+
+### Overall Grade: C+
