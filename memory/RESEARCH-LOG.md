@@ -2174,3 +2174,31 @@ HOLD
 
 ### Decision
 HOLD
+
+## 2026-08-11 — Pre-market Research
+
+### Account
+- Equity: $99,773.05
+- Cash: $31,789.05
+- Buying power: $288,689.45
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: Not available
+- S&P 500 futures: Not available
+- VIX: Not available
+- Today's catalysts: Earnings reports
+- Earnings before open: Several major companies
+- Economic calendar: None
+- Sector momentum: Technology, Healthcare
+
+### Trade Ideas
+1. CVS — Earnings report, entry $85.00, stop $78.00, target $105.00, R:R 2.5:1
+2. CI — Earnings report, entry $275.00, stop $255.00, target $350.00, R:R 3:1
+
+### Risk Factors
+- Market volatility due to earnings reports
+- Sector rotation away from Energy
+
+### Decision
+HOLD
