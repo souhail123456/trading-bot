@@ -46,35 +46,43 @@ PROVIDERS = [
         "name": "gemini",
         "env_key": "GEMINI_API_KEY",
         "url": "https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent?key={api_key}",
-        "model": "gemini-2.0-flash",
+        # gemini-2.0-flash was shut down 2026-06-01; 2.5 series is current.
+        "model": "gemini-2.5-flash",
+        "fallback_model": "gemini-2.5-flash-lite",
         "format": "gemini",
-        "max_context": {"gemini-2.0-flash": 900000},
+        "max_context": {"gemini-2.5-flash": 900000, "gemini-2.5-flash-lite": 900000},
     },
     {
         "name": "groq",
         "env_key": "GROQ_API_KEY",
         "url": "https://api.groq.com/openai/v1/chat/completions",
-        "model": "llama-3.1-8b-instant",
-        "fallback_model": "llama-3.3-70b-versatile",
+        # llama-3.1-8b-instant shut down 2026-08-16, llama-3.3-70b-versatile
+        # deprecated; Groq's migration target is the gpt-oss open-weight models.
+        "model": "openai/gpt-oss-20b",
+        "fallback_model": "openai/gpt-oss-120b",
         "format": "openai",
-        "max_context": {"llama-3.1-8b-instant": 7000, "llama-3.3-70b-versatile": 5500},
+        "max_context": {"openai/gpt-oss-20b": 7000, "openai/gpt-oss-120b": 7000},
     },
     {
         "name": "cerebras",
         "env_key": "CEREBRAS_API_KEY",
         "url": "https://api.cerebras.ai/v1/chat/completions",
-        "model": "llama3.1-70b",
+        # Correct Cerebras IDs (old "llama3.1-70b" never existed as such).
+        # Free tier caps context at 8192 tokens across all models.
+        "model": "llama-3.3-70b",
+        "fallback_model": "llama3.1-8b",
         "format": "openai",
-        "max_context": {"llama3.1-70b": 7000},
+        "max_context": {"llama-3.3-70b": 7000, "llama3.1-8b": 7000},
     },
     {
         "name": "openrouter",
         "env_key": "OPEN_ROUTER",
         "url": "https://openrouter.ai/api/v1/chat/completions",
-        "model": "google/gemini-2.0-flash-exp:free",
-        "fallback_model": "meta-llama/llama-4-maverick:free",
+        # Free Gemini/DeepSeek slugs were removed from OpenRouter; gpt-oss free is current.
+        "model": "openai/gpt-oss-20b:free",
+        "fallback_model": "qwen/qwen3-coder:free",
         "format": "openai",
-        "max_context": {"google/gemini-2.0-flash-exp:free": 900000, "meta-llama/llama-4-maverick:free": 7000},
+        "max_context": {"openai/gpt-oss-20b:free": 7000, "qwen/qwen3-coder:free": 7000},
     },
 ]
 
@@ -310,10 +318,24 @@ def call_llm(system_prompt, user_prompt, max_tokens=1500, temperature=0.3, use_c
                 errors.append(f"{provider['name']}/{model}: {error_msg}")
                 _log_usage(provider["name"], model, 0, 0, False, error_msg)
 
-                # If rate limited or payload too large, try fallback model
-                if "429" in error_msg or "413" in error_msg or "rate_limit" in error_msg.lower():
+                # Try the provider's fallback model on rate-limit, payload-too-large,
+                # OR a dead/renamed primary (404 / model-not-found). A retired primary
+                # must not take the whole provider down with it. `continue` advances to
+                # the fallback model; if this was already the last model in the list, the
+                # inner loop ends and we fall through to the next provider.
+                err_low = error_msg.lower()
+                model_dead = (
+                    "404" in error_msg
+                    or "not found" in err_low
+                    or "not_found" in err_low
+                    or "does not exist" in err_low
+                    or "decommission" in err_low
+                    or "not supported" in err_low
+                    or "model_not_found" in err_low
+                )
+                if "429" in error_msg or "413" in error_msg or "rate_limit" in err_low or model_dead:
                     continue
-                # If other error, skip to next provider
+                # Any other error (auth, network) — skip to next provider.
                 else:
                     break
 
