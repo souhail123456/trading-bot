@@ -775,3 +775,11 @@ None this week
 - Consider adding new positions to diversify the portfolio.
 
 ### Overall Grade: C
+
+## Week ending 2026-08-21
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $100156.58 |
+| Ending portfolio | $99740.12 |
