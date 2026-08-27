@@ -63,10 +63,20 @@ def main():
     next_open = clock.get("next_open") if clock else "unknown"
     print(f"Market open right now: {market_open} (next_open: {next_open})")
 
+    # 1b. Cancel EVERY existing open order first. This makes the run idempotent:
+    # without it, re-running would leave stale/duplicate closing orders queued
+    # (2x sell per symbol), which at the open can reject or flip us short.
+    pre_orders, _ = alpaca("GET", "orders?status=open&limit=100")
+    pre_orders = pre_orders or []
+    if pre_orders:
+        print(f"\nCancelling {len(pre_orders)} pre-existing open order(s) first...")
+        alpaca("DELETE", "orders", expect_json=False)
+        time.sleep(3)
+
     if not before:
         print("Account already flat — nothing to close (idempotent no-op).")
     else:
-        # 2. Close ALL positions and cancel any resting orders (trailing stops etc.)
+        # 2. Close ALL positions (cancel_orders=true also clears resting orders)
         print("\nCalling DELETE /v2/positions?cancel_orders=true (close_all_positions)...")
         result, status = alpaca("DELETE", "positions?cancel_orders=true")
         print(f"HTTP status: {status}")
@@ -127,7 +137,7 @@ def main():
 
     # Positions still open. That is only OK if the market was closed AND every
     # remaining position has a queued closing order that will flatten it at open.
-    if not market_open and len(open_orders) >= len(after):
+    if not market_open and len(open_orders) == len(after):
         print("\nSUCCESS (queued): market closed; all positions have closing "
               "orders queued and will flatten at the next open "
               f"({next_open}). Re-run this workflow after the open to VERIFY flat.")
