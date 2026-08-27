@@ -1,0 +1,22 @@
+name: Flatten to Cash
+
+# Manual-only. Closes ALL open Alpaca positions (and cancels open orders),
+# leaving the account 100% cash. No schedule — runs only when triggered by hand.
+# Idempotent: safe to run when already flat.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  flatten:
+    runs-on: ubuntu-latest
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Flatten all positions to cash
+        run: python3 scripts/flatten.py
