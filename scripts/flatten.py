@@ -55,10 +55,18 @@ def main():
         print(f"  {p.get('symbol')}: qty={p.get('qty')} "
               f"mkt_value={p.get('market_value')} unrealized_pl={p.get('unrealized_pl')}")
 
+    # Market clock: close_all submits MARKET orders, which only fill when the
+    # regular session is open. After hours the orders are accepted and queued
+    # to fill at the next open — that is expected, not a failure.
+    clock, _ = alpaca("GET", "clock")
+    market_open = bool(clock.get("is_open")) if clock else False
+    next_open = clock.get("next_open") if clock else "unknown"
+    print(f"Market open right now: {market_open} (next_open: {next_open})")
+
     if not before:
         print("Account already flat — nothing to close (idempotent no-op).")
     else:
-        # 2. Close ALL positions and cancel open orders
+        # 2. Close ALL positions and cancel any resting orders (trailing stops etc.)
         print("\nCalling DELETE /v2/positions?cancel_orders=true (close_all_positions)...")
         result, status = alpaca("DELETE", "positions?cancel_orders=true")
         print(f"HTTP status: {status}")
@@ -66,43 +74,68 @@ def main():
             print("ERROR: close-all request failed — see error above")
             sys.exit(1)
         # result is a list of {symbol, status, body}
+        ok = True
         for item in result:
             sym = item.get("symbol", "?")
             st = item.get("status", "?")
             print(f"  close {sym}: status={st}")
+            if int(st) >= 300:
+                ok = False
+        if not ok:
+            print("ERROR: one or more close orders were rejected by the broker")
+            sys.exit(1)
 
-        # 3. Give fills a moment, then poll until flat (market orders on paper fill fast)
-        print("\nWaiting for positions to close...")
-        remaining = before
-        for i in range(15):
-            time.sleep(4)
-            remaining, _ = alpaca("GET", "positions")
-            if remaining is None:
-                remaining = []
-            print(f"  poll {i+1}/15: {len(remaining)} position(s) remaining")
-            if not remaining:
-                break
+        # 3. If the market is open, market orders fill within seconds — poll to
+        #    confirm the account actually reaches flat. If closed, skip polling.
+        if market_open:
+            print("\nMarket is open — waiting for positions to close...")
+            for i in range(15):
+                time.sleep(4)
+                remaining, _ = alpaca("GET", "positions")
+                remaining = remaining or []
+                print(f"  poll {i+1}/15: {len(remaining)} position(s) remaining")
+                if not remaining:
+                    break
+        else:
+            print("\nMarket is CLOSED — close orders accepted and QUEUED to fill "
+                  "at the next open. Not polling for fills.")
 
     # 4. Verify final state
     after, _ = alpaca("GET", "positions")
     after = after or []
+    open_orders, _ = alpaca("GET", "orders?status=open&limit=100")
+    open_orders = open_orders or []
     account, _ = alpaca("GET", "account")
     cash = account.get("cash") if account else "unknown"
     equity = account.get("equity") if account else "unknown"
 
     print("\n===== FLATTEN RESULT =====")
-    print(f"Positions closed: {len(before)}")
+    print(f"Positions closed / submitted: {len(before)}")
     print(f"Open positions NOW: {len(after)}")
-    if after:
-        for p in after:
-            print(f"  STILL OPEN: {p.get('symbol')} qty={p.get('qty')}")
+    for p in after:
+        print(f"  position: {p.get('symbol')} qty={p.get('qty')}")
+    print(f"Queued closing orders: {len(open_orders)}")
+    for o in open_orders:
+        print(f"  order: {o.get('side')} {o.get('qty')} {o.get('symbol')} "
+              f"[{o.get('type')}] status={o.get('status')}")
     print(f"Account cash:   {cash}")
     print(f"Account equity: {equity}")
 
-    if after:
-        print("\nWARNING: account is NOT fully flat — some positions remain (see above).")
-        sys.exit(1)
-    print("\nSUCCESS: account is 100% flat (0 open positions).")
+    if not after:
+        print("\nSUCCESS: account is 100% flat (0 open positions).")
+        return
+
+    # Positions still open. That is only OK if the market was closed AND every
+    # remaining position has a queued closing order that will flatten it at open.
+    if not market_open and len(open_orders) >= len(after):
+        print("\nSUCCESS (queued): market closed; all positions have closing "
+              "orders queued and will flatten at the next open "
+              f"({next_open}). Re-run this workflow after the open to VERIFY flat.")
+        return
+
+    print("\nWARNING: account is NOT fully flat and orders are not fully queued "
+          "(see above). Re-run after the market opens.")
+    sys.exit(1)
 
 
 if __name__ == "__main__":
