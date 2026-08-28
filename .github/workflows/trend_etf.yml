@@ -1,0 +1,66 @@
+name: Trend ETF (SPY/QQQ/GLD)
+
+# The ONLY active trading strategy for the reactivated bot: validated long-only
+# trend-following on SPY / QQQ / GLD (Close>SMA200 + MACD>0, GLD also ADX>25;
+# SMA-recross exit; 2xATR protective stop; 1% risk sizing with buying-power cap).
+#
+# Alpaca as source of truth (no local ledger). Paper account. Reversible:
+# disable this workflow to stop it  ->  gh workflow disable "Trend ETF (SPY/QQQ/GLD)"
+#
+# The older strategy workflows (market-open, midday, afternoon, asset_class_tf,
+# sector_momentum) stay DISABLED and are intentionally NOT re-enabled here.
+
+"on":
+  schedule:
+    # 14:00 UTC = 30 min after US market open (09:30 ET), weekdays.
+    # Runs once daily on daily bars; the holiday guard skips market holidays.
+    - cron: '0 14 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: "Dry run (compute signals, place no orders)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  trade:
+    runs-on: ubuntu-latest
+    env:
+      ALPACA_API_KEY: ${{ secrets.ALPACA_API_KEY }}
+      ALPACA_SECRET_KEY: ${{ secrets.ALPACA_SECRET_KEY }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Skip if US market holiday
+        run: |
+          TODAY=$(date -u +%Y-%m-%d)
+          HOLIDAYS="2026-01-01 2026-01-19 2026-02-16 2026-04-03 2026-05-25 2026-06-19 2026-07-03 2026-09-07 2026-11-26 2026-12-25"
+          if echo "$HOLIDAYS" | grep -qw "$TODAY"; then
+            echo "US market holiday ($TODAY) — skipping"
+            echo "SKIP=1" >> "$GITHUB_ENV"
+          fi
+
+      - name: Set up Python
+        if: env.SKIP != '1'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        if: env.SKIP != '1'
+        run: pip install --quiet yfinance pandas
+
+      - name: Run Trend ETF strategy
+        if: env.SKIP != '1'
+        run: |
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            python3 scripts/trend_etf.py --dry-run
+          else
+            python3 scripts/trend_etf.py
+          fi
