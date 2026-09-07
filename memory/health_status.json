@@ -1,26 +1,26 @@
 {
-  "checked_at": "2026-08-31T08:56:21.002850+08:00",
+  "checked_at": "2026-09-07T08:23:15.328013+08:00",
   "repo": "trading-bot",
   "services": {
     "alpaca": {
       "status": "ok",
-      "latency_ms": 56
+      "latency_ms": 202
     },
     "groq": {
       "status": "ok",
-      "latency_ms": 136
+      "latency_ms": 157
     },
     "gemini": {
       "status": "ok",
-      "latency_ms": 113
+      "latency_ms": 107
     },
     "cerebras": {
       "status": "ok",
-      "latency_ms": 59
+      "latency_ms": 142
     },
     "telegram": {
       "status": "ok",
-      "latency_ms": 296
+      "latency_ms": 470
     }
   }
 }
