@@ -2367,3 +2367,5 @@ HOLD
 - Equity: $98807.2
 - Cash: $98807.2
 - Buying power
+
+
