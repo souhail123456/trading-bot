@@ -2450,3 +2450,20 @@ HOLD
 - Equity: $97405
 - Cash: $8836.07
 - Buying
+
+## 2026-09-28 — Pre-market Research
+
+### Account
+- Equity: $97,133.24
+- Cash: $8,836.07
+- Buying power: $282,576.34
+- Daytrade count: 0
+
+### Market Context
+- WTI / Brent: 92.47 / 97.74
+- S&P 500 futures: 7695.36 (-0.62%)
+- VIX: 15.83 (+6.46%)
+- Today's catalysts: Fed minutes, QQQ & SPY earnings
+- Earnings before open: QQQ, SPY
+- Economic calendar: Fed minutes, CPI data
+- Sector momentum: Healthcare +0.
