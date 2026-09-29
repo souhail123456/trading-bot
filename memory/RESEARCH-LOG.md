@@ -2467,3 +2467,9 @@ HOLD
 - Earnings before open: QQQ, SPY
 - Economic calendar: Fed minutes, CPI data
 - Sector momentum: Healthcare +0.
+
+## 2026-09-29 — Pre-market Research
+
+### Account
+- Equity: $96816.11
+- Cash: $8836.07
