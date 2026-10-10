@@ -831,3 +831,11 @@ None this week
 |--------|-------|
 | Starting portfolio | $97133.24 |
 | Ending portfolio | $97246.47
+
+## Week ending 2026-10-09
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $97246.47 |
+| Ending portfolio | $96905.18 |
