@@ -863,3 +863,43 @@ None this week
 |--------|-------|
 | Starting portfolio | $94545.76 |
 | Ending portfolio | $94545.76 |
+
+## Week ending 2026-11-06
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $94545.76 |
+| Ending portfolio | $94545.76 |
+| Week return | +$0.00 (+0.00%) |
+| S&P 500 week | -2.18% |
+| Bot vs S&P | +2.18% |
+| Trades | 0 (W:0 / L:0 / open:0) |
+| Win rate | N/A |
+| Best trade | N/A |
+| Worst trade | N/A |
+| Profit factor | N/A |
+
+### Closed Trades
+None this week
+
+### Open Positions at Week End
+| Ticker | Entry | Close | Unrealized | Stop |
+|--------|-------|-------|------------|------|
+
+### What Worked
+- Remaining 100% cash prevented losses in a down-trending market.
+- Adherence to the strategy's patience rule.
+
+### What Didn't Work
+- No new opportunities met the strict buy-side gates, leading to zero trading activity.
+
+### Key Lessons
+- Capital preservation is paramount, especially during market downturns.
+- Strict adherence to entry criteria, even when it means no trades, can be beneficial.
+
+### Adjustments for Next Week
+- Continue monitoring market conditions for high-conviction opportunities that meet all buy-side gates.
+- Review if current market conditions warrant any temporary adjustments to entry criteria to find suitable trades without compromising risk management.
+
+### Overall Grade: A
