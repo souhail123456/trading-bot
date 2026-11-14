@@ -903,3 +903,11 @@ None this week
 - Review if current market conditions warrant any temporary adjustments to entry criteria to find suitable trades without compromising risk management.
 
 ### Overall Grade: A
+
+## Week ending 2026-11-14
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $94545.76 |
+| Ending portfolio | $94545.7
