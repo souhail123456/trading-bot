@@ -919,3 +919,16 @@ None this week
 |--------|-------|
 | Starting portfolio | $94545.76 |
 | Ending portfolio | $94545.76 |
+
+## Week ending 2026-11-27
+
+### Stats
+| Metric | Value |
+|--------|-------|
+| Starting portfolio | $94545.76 |
+| Ending portfolio | $94545.76 |
+| Week return | +$0.00 (+0.00%) |
+| S&P 500 week | +5.60% |
+| Bot vs S&P | -5.60% |
+| Trades | 0 (W:0 / L:0 / open:0) |
+| Win rate | N
